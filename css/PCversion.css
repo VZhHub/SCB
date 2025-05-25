@@ -21,16 +21,16 @@ body {
 	background-color: #191d25;
 	border-radius: 4px;
 }
+.minorText {
+	color: #bbb;
+	font-size: .9rem;
+	padding-bottom: 2px;
+}
 button {
 	border: none;
 }
 button:hover, #filterWindow label:hover {
 	cursor: pointer;
-}
-.smallTitle {
-	color: #bbb;
-	font-size: .9rem;
-	padding-bottom: 2px;
 }
 header, main {
 	background-color: #171717;
@@ -49,7 +49,7 @@ header, main {
 	z-index: 1;
 }
 
-
+/* Heading */
 header {
 	display: grid;
 	grid-template-columns: 25px min-content auto;
@@ -63,6 +63,8 @@ header h1 {
 	font: 1.7rem Catwalzhari;
 	white-space: nowrap;
 }
+
+/* Creeping-line */
 aside {
 	position: fixed;
 	bottom: 10px;
@@ -87,7 +89,7 @@ aside {
 	color: #fff;
 }
 
-
+/* Quick search */
 #searchForm {
 	display: flex;
 	justify-content: end;
@@ -112,17 +114,17 @@ aside {
 }
 #searchSection {
 	display: none;
+	position: fixed;
 	grid-template-rows: min-content min-content min-content;
 	grid-template-columns: auto min-content;
 	gap: 7px 0;
 	align-items: center;
-	position: fixed;
-	z-index: 1;
 	top: 50px;
 	left: 50%;
 	transform: translateX(-50%);
 	width: 50vw;
 	padding: 5px;
+	z-index: 1;
 }
 #searchLabel {
 	grid-area: 1/1;
@@ -130,7 +132,6 @@ aside {
 	padding: 5px 0 10px 7px;
 	font-size: 1.2rem;
 }
-
 #inputContainer {
 	display: grid;
 	grid-template-columns: auto max-content;
@@ -194,7 +195,7 @@ aside {
 	color: #bbb;
 }
 
-
+/* Main field */
 main {
 	display: grid;
 	grid-auto-columns: 50%;
@@ -251,8 +252,7 @@ main {
 	grid-area: 3/3;
 }
 
-
-
+/* Two-big-buttons */
 #mainMenu {
 	grid-area: 1/2;
 }
@@ -375,13 +375,7 @@ main {
 #customizationOptions>li>menu {
 	display: none;
 	width: 95%;
-	//justify-content: center;
 	margin: auto;
-	//position: relative;
-	//top: -2px;
-	//border: 2px solid #5b6c87;
-	//background-color: #191d25;
-	//border-radius: 0 0 4px 4px;
 	border-top: none;
 	margin-top: 3px;
 }
@@ -398,17 +392,9 @@ main {
 	color: white;
 }
 #customizationOptions>li>menu>li>button:hover {
-	//text-decoration: underline white 2px;
-	//color: lightcyan;
-	//font-weight: bold;
-	//box-shadow: 0 0 2px 2px red;
 	letter-spacing: 1px;
 	border: 2px solid orangered;
-	//border-left: 3px solid white;
-	//border-right: 3px solid white;
-	//border-bottom: 2px solid white;
 	border-radius: 4px;
-	//background-image: linear-gradient(transparent 30%, #0b91c8, transparent 70%);
 }
 #customizationOptions>li>menu>li>button:active {
 	background-color: #12151a;
@@ -448,7 +434,7 @@ main {
 }
 
 
-
+/* Characters menu */
 #myBuildsContainer {
 	display: block;
 	grid-area: 1/2/3/3;
@@ -476,7 +462,6 @@ main {
 }
 #noBuildsYet, .buildDescr {
 	padding: 5px;
-	//font-family: "Futura Bold";
 }
 .buildDescr:hover {
 	border-color: orangered;
@@ -490,7 +475,7 @@ main {
 	overflow-y: scroll;
 	max-height: 50vh;
 }
-@supports (scrollbar-width: none) {
+/*@supports (scrollbar-width: none) {
 	#newBuildsContainer {
 		scrollbar-width: none;
 	}
@@ -513,7 +498,7 @@ main {
 	#searchResult {
 		scrollbar-width: none;
 	}
-}
+}*/
 #noBuildsYet {
 	display: flex;
 	justify-content: center;
@@ -557,26 +542,23 @@ main {
 }
 .myBuild {
 	position: relative;
+	margin-right: 5px;
 }
 .buildDescr {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 	position: relative;
 	color: #fff;
 	margin-bottom: 5px;
 }
-.buildDescr div:first-child {
-	display: flex;
-	flex-direction: column;
-}
-.buildDescr div:first-child p:first-child {
-	order: 2;
+.buildDescr div:first-child p:last-child {
 	font-size: 1.1rem;
+	width: 250px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .buildDescr:last-of-type {
 	margin-bottom: 0;
 }
+/* Char menu options */
 .options {
 	display: none;
 	position: absolute;
@@ -614,10 +596,8 @@ main {
 	right: 8px;
 	border-color: red transparent transparent transparent;
 }
+/* СДЕЛАЙ ЧТО-ТО С !important */
 .optionsButton {
-	//display: flex;
-	//justify-content: center;
-	//align-items: center;
 	width: min-content !important;
 	height: min-content !important;
 	position: absolute;
@@ -651,7 +631,7 @@ main {
 	border-radius: 4px;
 }
 
-
+/* Rename and delete menu */
 #renameBuildContainer, #deleteBuildContainer, #buildSubmenuContainer {
 	display: none;
 	position: fixed;
@@ -664,7 +644,7 @@ main {
 #renameBuildWindow, #deleteBuild {
 	display: grid;
 	box-shadow: 2px 2px 15px;
-	gap: 10px 20px;
+	gap: 10px 10px;
 	padding: 10px 15px;
 	border-radius: 7px;
 	height: min-content;
@@ -674,14 +654,15 @@ main {
 	transform: translateX(-50%);
 }
 #deleteBuild {
-	grid-template-columns: auto min-content min-content;
-	gap: 15px 5px;
+	gap: 20px 5px;
+	max-width: 40vw;
 }
 #deleteBuild p {
 	grid-area: 1/span 3;
 	color: #fff;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
 	max-height: 30vh;
 }
 #deleteBuild button {
@@ -734,7 +715,7 @@ main {
 	grid-area: 3/3;
 }
 #renameBuildWindow label {
-	grid-area: 1/1/1/2;
+	grid-area: 1/1;
 	color: #fff;
 }
 #renameYourBuild {
@@ -838,42 +819,27 @@ main {
 	display: none;
 	position: fixed;
 	grid-template-rows: min-content min-content auto;
-	//gap: 10px 0;
-	//justify-content: space-between;
-	//align-items: center;
 	top: 50px;
 	left: 50%;
 	transform: translateX(-50%);
 	color: #fff;
 	padding: 5px;
 	height: 80vh;
-	//max-height: 80vh;
 	width: 60%;
 	z-index: 1;
 }
 #itemsWindow>div:first-child {
 	display: grid;
 	width: 100%;
-	//margin-right: 10px;
 	gap: 5px 0;
-	//grid-area: 1;
-	//height: min-content;
 	grid-template-columns: 2fr 1fr 1fr 1fr;
-	//padding-right: 16px;
-	//padding-bottom: 10px;
-	//border-bottom: 3px solid grey;
 }
 #itemsWindow>div:nth-child(3) {
 	display: grid;
 	width: 100%;
-	//margin-right: 10px;
 	gap: 5px 0;
-	//grid-area: 3;
 	grid-template-columns: 50% 55px 1fr 1fr 1fr;
-	//height: min-content;
 	padding-right: 16px;
-	//padding-bottom: 10px;
-	//border-bottom: 3px solid grey;
 }
 #itemsWindow>div>hr {
 	grid-area: 3/span 5;
@@ -891,8 +857,6 @@ main {
 	margin: 7px 7px 0 0;
 	justify-self: end;
 	background-color: transparent;
-	animation: animateClose 2s linear infinite;
-	animation-play-state: paused;
 	border-radius: 4px;
 }
 #closeSearch {
@@ -902,19 +866,13 @@ main {
 #itemsWindow>div>button {
 	margin: 0;
 }
-@keyframes animateClose {
-	to {transform: rotateZ(360deg);}
-}
 #itemsWindow>div>button>img, #closeSearch>img {
 	display: block;
 }
 #itemsWindow>div>button:hover, #closeSearch:hover {
-	//animation-play-state: running;
-	//background-image: radial-gradient(red, transparent);
 	background-color: red;
 }
 #itemsWindow>div>button:active, #closeSearch:active {
-	//box-shadow: 0 0 3px 3px red;
 	background-color: darkred;
 }
 #itemsWindow>div>p:first-of-type  {
@@ -965,7 +923,6 @@ main {
 .itemsContainer {
 	display: none;
 	grid-template-columns: 55px 50% 1fr 1fr 1fr;
-	//gap: 0 5px;
 	word-break: break-all;
 	margin-right: 5px;
 	margin-bottom: 15px;
@@ -974,7 +931,6 @@ main {
 .itemsContainer button {
 	height: min-content;
 	justify-self: end;
-	//margin-left: 10px;
 	margin-bottom: 10px;
 	border-radius: 4px;
 	width: 45px;
@@ -992,12 +948,6 @@ main {
 	margin-bottom: 5px;
 	align-self: center;
 }
-.itemsContainer>div {
-	//border: 1px solid grey;
-	//border-radius: 4px;
-	//padding: 2px;
-	//margin-bottom: 5px;
-}
 .itemName {
 	font-variant: small-caps;
 }
@@ -1013,11 +963,9 @@ main {
 #itemsList {
 	display: flex;
 	flex-direction: column;
-	//grid-area: 4;
-	//height: 60vh;
 	overflow-y: scroll;
-	//grid-area: 3/span 3;
 }
+
 /* Filter Window */
 #filterWindow {
 	display: none;
@@ -1026,13 +974,10 @@ main {
 	height: 80vh;
 	overflow-y: auto;
 	padding: 0 5px 10px 5px;
-	//grid-area: 2;
-	//margin-top: 5px;
 	background-color: #983232;
 	position: absolute;
 	top: -2px;
 	left: -209px;
-	//transform: translate(-50%, -50%);
 	border-radius: 4px 0 0 4px;
 }
 #filterWindow fieldset, #filterWindow label, #filterWindow input {

@@ -229,7 +229,7 @@ function youForgotRace() {
 	}
 }
 function saveYourBuild() {
-	let a = myVars.y, b = myVars.x,	node = document.querySelector(".myBuildsTemplate").content.cloneNode(true), optionsButton = node.children[0].children[1], miniOptions = node.children[0].children[2], buildName = node.children[0].children[0].children[0].children[0], myBuild = node.children[0].children[0], rename = miniOptions.children[0], deleteBuild = miniOptions.children[1];
+	let a = myVars.y, b = myVars.x,	node = document.querySelector(".myBuildsTemplate").content.cloneNode(true), optionsButton = node.children[0].children[1], miniOptions = node.children[0].children[2], buildName = node.children[0].children[0].children[0].children[1], myBuild = node.children[0].children[0], rename = miniOptions.children[0], deleteBuild = miniOptions.children[1];
 	if (b.value !== "" && a.value !== "empty") {
 		myVars.ah.appendChild(node);
 		showEl(myVars.ag, "block");
@@ -263,7 +263,7 @@ function saveYourBuild() {
 function selectBuild(event) {
 	event.stopPropagation();
 	if(Array.from(document.querySelectorAll(".options")).every((e) => {return e.style.display === "" || e.style.display === "none";})) {
-		myVars.ae.textContent = yourBuilds[yourBuilds.indexOf(this.children[0].children[0].textContent)];
+		myVars.ae.textContent = yourBuilds[yourBuilds.indexOf(this.children[0].children[1].textContent)];
 	}
 	closeMiniOptions();
 }
@@ -316,7 +316,7 @@ function stopPropagation(event) {
 	event.stopPropagation();
 }
 function openRenameBuild(event) {
-	let d = event.target.parentElement.parentElement.children[0].children[0].children[0];
+	let d = event.target.parentElement.parentElement.children[0].children[0].children[1];
 	saveRenamed.sendedName = d.textContent;
 	saveRenamed.buildName = d;
 	closeMiniOptions();
@@ -347,7 +347,7 @@ function openDeleteBuild(event) {
 	showEl(myVars.j, "block");
 	closeMiniOptions()
 	deleteBuildYes.element = event.target.parentElement.parentElement;
-	deleteBuildYes.buildName = event.target.parentElement.parentElement.children[0].children[0].children[0].textContent;
+	deleteBuildYes.buildName = event.target.parentElement.parentElement.children[0].children[0].children[1].textContent;
 	document.querySelector("#deleteBuild p span").textContent = deleteBuildYes.buildName;
 }
 function closeDeleteBuild() {
@@ -357,9 +357,9 @@ function closeDeleteBuild() {
 function deleteBuildYes() {
 	let a = myVars.ae, b = deleteBuildYes.element.previousElementSibling, c = deleteBuildYes.element.nextElementSibling;
 	if (b !== null) {
-		a.textContent = yourBuilds[yourBuilds.indexOf(b.children[0].children[0].children[0].textContent)];
+		a.textContent = yourBuilds[yourBuilds.indexOf(b.children[0].children[0].children[1].textContent)];
 		} else if (c !== null) {
-		a.textContent = yourBuilds[yourBuilds.indexOf(c.children[0].children[0].children[0].textContent)];
+		a.textContent = yourBuilds[yourBuilds.indexOf(c.children[0].children[0].children[1].textContent)];
 		} else {
 		showEl(myVars.af, "flex");
 		myVars.ae.textContent = "Unknown Adventurer";
