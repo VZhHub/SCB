@@ -1,0 +1,26 @@
+@charset "UTF-8";
+/*
+@import url('https://fonts.googleapis.com/css2?family=Arbutus&family=Danfo&family=Ewert&family=Uncial+Antiqua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arbutus&family=Danfo&family=Ewert&family=Metamorphous&family=Uncial+Antiqua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Arbutus&family=Danfo&family=Ewert&family=Metamorphous&family=Uncial+Antiqua&display=swap');
+*/
+@font-face {
+	font-family: "Balgruf";
+	src: url("../fonts/Balgruf.ttf");
+}
+@font-face {
+	font-family: "Catwalzhari";
+	src: url("../fonts/Catwalzhari.ttf");
+}
+@font-face {
+	font-family: "Futura";
+	src: url("../fonts/Futura.otf");
+}
+@font-face {
+	font-family: "Futura Bold";
+	src: url("../fonts/Futura_Bold.ttf");
+}
+@font-face {
+	font-family: "Futura Medium";
+	src: url("../fonts/Futura_Medium.woff");
+}

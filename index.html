@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="keywords" content="Skyrim, calculator, builder, planner, perks, skills, weapons, armor">
+		<meta name="description" content="Skyrim character builder and equipment calculator">
+		<meta name="author" content="Vladislav Zharov">
+		<meta name="theme-color" content="#000">
+		
+		<meta property="og:title" content="Skyrim Character Builder">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="<!-- /images/preview.jpg -->">
+		<meta property="og:url" content="<!-- https://rim-armor.com -->">
+		
+		
+		<link type="text/css" rel="stylesheet" href="./css/PCversion.css" media="screen and (min-width: 720px)">
+		<link type="text/css" rel="stylesheet" href="./css/fonts.css">
+		<!-- С этой таблицы стилей начинать, если отдельные таблицы -->
+		<link type="image/x-icon" rel="icon" href="./images/favicon2.ico" sizes="16x16">
+		<title>SCB - Skyrim Character Builder</title>
+		<style>
+		</style>
+		<script defer src="./js/animation.js"></script>
+		<script defer src="./js/main.js"></script>
+		<script defer src="./js/customizationMenu.js"></script>
+	</head>
+	
+	<body>
+		<noscript>Your browser does not support JavaScript!</noscript>
+		<div id="blackout"></div>
+		<header>
+			<img src="./images/dovahkiinLogoFFF.png" id="dovahkiin" alt="Dovahkiin" title="Dovahkiin" height="35" width="25">
+			<h1>SKYRIM CHARACTER BUILDER</h1>
+			<!--<img src="./images/alduinLogoDDD.png" id="alduin" alt="Alduin" title="Alduin" height="35" width="35">-->
+			<form id="searchForm" role="search">
+				<button class="decoration" type="button" id="searchBtn">
+					<img src="./images/magnifier.svg" alt="Magnifier" title="Magnifier" width="18" height="18">QUICK SEARCH
+				</button>
+				<div id="searchSection" class="decoration">
+					<button id="closeSearch" type="button"><img src="./images/close2.svg" alt="Close" title="Close" width="25" height="25"></button>
+					<label for="searchBar" id="searchLabel">QUICK SEARCH</label>
+					<div id="inputContainer">
+						<input type="search" id="searchBar" class="decoration" placeholder="How can I serve you, my Thane?" autocomplete="off">
+						<div id="magnifier">
+							<img src="./images/magnifier2.svg" alt="Magnifier" title="Magnifier" width="18" height="18">
+						</div>
+						<div id="deleteText">
+							<img src="./images/smallClose2.svg" alt="Delete" title="Delete" width="14" height="14">
+						</div>
+					</div>
+					<!-- ОБРАТИ ВНИМАНИЕ НА resultTemplate !!! -->
+					<template class="searchTemplate">
+						<div class="resultTemplate">
+							<img class="swordIcon" src="./images/sword.svg" alt="sword" width="14" height="14">
+							<p class="itemName"></p>
+							<p class="itemAdded">Equiped!</p>
+						</div>
+					</template>
+					<output id="searchResult"></output>
+				</div>
+			</form>
+		</header>
+		
+		
+		
+		<main>
+			<!--<div id="blackout"></div>-->
+			<div id="buildName" class="decoration">
+				<div id="leftCol">
+					<p class="smallTitle">Build name</p>
+					<p id="yourBuildName">Unknown Adventurer</p>
+				</div>
+				<div id="rightCol">
+					<p id="characterRace" class="smallTitle"></p>
+					<p id="characterLevel"></p>
+				</div>
+			</div>
+			
+			<section id="statistics" class="decoration">
+				<!--<div id="example">
+					<p style="color:white">Wooden Sword</p>
+					<img src="./images/woodenSword.png" width="200" height="200">
+				</div>-->
+				<div id="equipedItemsImgContainer">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div id="backSlot"></div>
+					<div></div>
+				</div>
+			</section>
+			
+			<div id="mainMenu">
+				<menu id="mainBtns">
+					<li id="manageBuild">
+						<button type="button" id="manageBuildBtn">BUILDS</button>
+						<div id="warning">Create a Build first!</div>
+					</li>
+					<li id="customizeBuild">
+						<button id="customizeBuildBtn" type="button">CUSTOMIZATION</button>
+					</li>
+				</menu>
+			</div>
+			<div id="myBuildsContainer" class="template">
+				<div id="myBuildsMenu" class="decoration">
+					<div id="noBuildsYet" class="decoration">No builds yet...</div>
+					<div id="newBuildsContainer"></div>
+					<template class="myBuildsTemplate">
+						<div class="myBuild">
+							<div class="buildDescr decoration">
+								<div>
+									<p>No builds yet...</p>
+									<p class="smallTitle">Level: 1</p>
+								</div>
+							</div>
+							<button type="button" class="optionsButton">
+								<!--<img src="./images/threeDots.svg" alt="Options" title="Options" width="14" height="30">-->
+								<img class="burgerMenu" src="./images/burger2.svg" alt="Options" title="Options" width="20" height="20">
+							</button>
+							<div class="options">
+								<p>Rename</p>
+								<p>Delete</p>
+							</div>
+						</div>
+					</template>
+					<menu>
+						<li class="closeMenu" id="closeMyBuilds">
+							<button id="closeMyBuildsBtn" type="button">Close</button>
+						</li>
+						<li class="submenuTitle">
+							<p>MY BUILDS</p>
+						</li>
+						<li class="back" id="addNewBuild">
+							<button id="addNewBuildBtn" type="button"><img src="./images/add.svg" alt="New Build" title="New Build" width="14" height="14"></button>
+						</li>
+					</menu>
+				</div>
+			</div>
+			<div id="buildSubmenuContainer">
+				<div id="closeBlock"></div>
+				<div id="buildSubmenu" class="decoration">
+					<label id="nameYourBuildLabel" for="nameYourBuild">Name your build</label>
+					<input id="nameYourBuild" type="text" autocomplete="off">
+					<label id="racesLabel" for="races">Choose race</label>
+					<select id="races">
+						<option id="empty" selected value="empty">---</option>
+						<option id="Argonian" value="Argonian">Argonian</option>
+						<option id="Breton" value="Breton">Breton</option>
+						<option id="DarElf" value="Dark Elf">Dark Elf</option>
+						<option id="HighElf" value="High Elf">High Elf</option>
+						<option id="Imperial" value="Imperial">Imperial</option>
+						<option id="Khajiit" value="Khajiit">Khajiit</option>
+						<option id="Nord" value="Nord">Nord</option>
+						<option id="Orc" value="Orc">Orc</option>
+						<option id="Redguard" value="Redguard">Redguard</option>
+						<option id="WoodElf" value="Wood Elf">Wood Elf</option>
+					</select>
+					<button id="cancelBuild" type="button">Cancel</button>
+					<button id="saveBuild" type="button">SAVE</button>
+				</div>
+			</div>
+			
+			<div id="renameBuildContainer">
+				<div id="renameBuildWindow" class="decoration">
+					<label for="renameYourBuild">Rename your build</label>
+					<input id="renameYourBuild" type="text" autocomplete="off">
+					<button type="button">Cancel</button>
+					<button type="button">Save</button>
+				</div>
+			</div>
+			<div id="deleteBuildContainer">
+				<div id="deleteBuild" class="decoration">
+					<p>Do you want to delete <span>Ebony Warrior ttttttttttt</span>?</p>
+					<button type="button">No</button>
+					<button type="button">Yes</button>
+				</div>
+			</div>
+			
+			<div id="customizationContainer" class="decoration">
+				<menu id="customizationHeader">
+					<li class="submenuTitle">
+						<p>CUSTOMIZATION</p>
+					</li>
+					<li class="closeMenu" id="closeCustomize">
+						<button id="closeCustomizeBtn" type="button">Close</button>
+					</li>
+					<!--<li class="back" id="backCustomize">
+						<button id="backCustomizeBtn" type="button">Back</button>
+					</li>-->
+				</menu>
+				<menu id="customizationOptions">
+					<li>
+						<button type="button">Armor</button>
+						<menu id="armor">
+							<li>
+								<button type="button">Light</button>
+							</li>
+							<li>
+								<button type="button">Heavy</button>
+							</li>
+						</menu>
+					</li>
+					<li>
+						<button type="button">Weapons</button>
+						<menu id="weapons">
+							<li>
+								<button type="button">Swords</button>
+							</li>
+							<li>
+								<button type="button">Axes</button>
+							</li>
+							<li>
+								<button type="button">Maces</button>
+							</li>
+							<li>
+								<button type="button">Greatswords</button>
+							</li>
+							<li>
+								<button type="button">Battleaxes</button>
+							</li>
+							<li>
+								<button type="button">Warhammers</button>
+							</li>
+							<li>
+								<button type="button">Bows</button>
+							</li>
+							<li>
+								<button type="button">Crossbows</button>
+							</li>
+							<li>
+								<button type="button">Daggers</button>
+							</li>
+							<li>
+								<button type="button">Others</button>
+							</li>
+							<!--<li class="closeMenu">
+								<button type="button" onclick="closeSubmenus()">Close</button>
+								</li>
+								<li class="submenuTitle">
+								<p>WEAPONS</p>
+								</li>
+								<li class="back">
+								<button type="button" onclick="openWeapons()">Back</button>
+							</li>-->
+						</menu>
+					</li>
+					<li>
+						<button type="button">Shields</button>
+						<menu id="shields">
+							<li>
+								<button type="button">Light</button>
+							</li>
+							<li>
+								<button type="button">Heavy</button>
+							</li>
+						</menu>
+					</li>
+					<li>
+						<button type="button">Staves</button>
+						<menu id="staves">
+							<li>
+								<button type="button">Uncraftable</button>
+							</li>
+							<li>
+								<button type="button">Craftable</button>
+							</li>
+						</menu>
+					</li>
+					<li>
+						<button type="button">Jewelry</button>
+						<menu id="jewelry">
+							<li>
+								<button type="button">Rings</button>
+							</li>
+							<li>
+								<button type="button">Amulets</button>
+							</li>
+							<li>
+								<button type="button">Circlets</button>
+							</li>
+						</menu>
+					</li>
+					<li>
+						<button type="button">Clothing</button>
+						<menu id="clothing">
+							<li>
+								<button type="button">Backpacks</button>
+							</li>
+							<li>
+								<button type="button">Clothes</button>
+							</li>
+						</menu>
+					</li>
+					<li>
+						<button type="button">Skills & Perks</button>
+					</li>
+					<li>
+						<button type="button">Boons</button>
+					</li>
+					<li>
+						<button type="button">Dragon Shouts</button>
+					</li>
+				</menu>
+			</div>
+			<!--После закрытия, например мечей, список скролится вверх, а не остаётся на месте закрытия.
+				При этом выбранные элементы добавляются в самый верх списка, вне зависимости от алфавитного порядка списка, но в алфавитном
+			порядке между собой-->
+			<div id="itemsWindow" class="decoration">
+				<div>
+					<p class="submenuTitle"></p>
+					<div id="filter">
+						<img src="./images/filter.svg" alt="Filter" title="Filter" width="15" height="15">
+						<span>Filter</span>
+					</div>
+					<button type="button"><img src="./images/close2.svg" alt="Close" title="Close" width="25" height="25"></button>
+				</div>
+				<form id="filterWindow" name="filterWindow" class="decoration">
+					<fieldset id="artifact" name="artifact">
+						<legend>Artifact</legend>
+						<label><input type="checkbox" id="isArtifact" name="isArtifact" value="isArtifact">Artifact</label>
+						<label><input type="checkbox" id="notArtifact" name="notArtifact" value="notArtifact">Not artifact</label>
+					</fieldset>
+					<fieldset id="bodyPart" name="bodyPart">
+						<legend>Body part</legend>
+						<label><input type="checkbox" id="armsPiece" name="armsPiece" value="Arms">Arms</label>
+						<label><input type="checkbox" id="backPiece" name="backPiece" value="Back">Back</label>
+						<label><input type="checkbox" id="bodyPiece" name="bodyPiece" value="Body">Body</label>
+						<label><input type="checkbox" id="fingerPiece" name="fingerPiece" value="Finger">Finger</label>
+						<label><input type="checkbox" id="headPiece" name="headPiece" value="Head">Head</label>
+						<label><input type="checkbox" id="legsPiece" name="legsPiece" value="Legs">Legs</label>
+						<label><input type="checkbox" id="neckPiece" name="neckPiece" value="Neck">Neck</label>
+					</fieldset>
+					<fieldset id="canEnch" name="canEnch">
+						<legend>Can be enchanted</legend>
+						<label><input type="checkbox" id="canBeEnch" name="canBeEnch" value="canBeEnch">Can be enchanted</label>
+						<label><input type="checkbox" id="cannotBeEnch" name="cannotBeEnch" value="cannotBeEnch">Cannot be enchanted</label>
+					</fieldset>
+					<fieldset id="canWearHelm" name="canWearHelm">
+						<legend>Can wear with helmet</legend>
+						<label><input type="checkbox" id="canHelm" name="canHelm" value="canHelm">Can wear</label>
+						<label><input type="checkbox" id="cannotHelm" name="cannotHelm" value="cannotHelm">Cannot wear</label>
+					</fieldset>
+					<fieldset id="enchanted" name="enchanted">
+						<legend>Enchantment</legend>
+						<label><input type="checkbox" id="isEnchanted" name="isEnchanted" value="isEnchanted">Enchanted</label>
+						<label><input type="checkbox" id="notEnchanted" name="notEnchanted" value="notEnchanted">Not enchanted</label>
+					</fieldset>
+					<fieldset id="magicSchool" name="magicSchool">
+						<legend>Magic school</legend>
+						<label><input type="checkbox" id="alteration" name="alteration" value="Alteration">Alteration</label>
+						<label><input type="checkbox" id="conjuration" name="conjuration" value="Conjuration">Conjuration</label>
+						<label><input type="checkbox" id="destruction" name="destruction" value="Destruction">Destruction</label>
+						<label><input type="checkbox" id="illusion" name="illusion" value="Illusion">Illusion</label>
+						<label><input type="checkbox" id="restoration" name="restoration" value="Restoration">Restoration</label>
+					</fieldset>
+					<fieldset id="smithingPerks" name="smithingPerks">
+						<legend>Smithing perks</legend>
+						<label><input type="checkbox" id="steelPerk" name="steelPerk" value="Steel">Steel</label>
+						<label><input type="checkbox" id="elvenPerk" name="elvenPerk" value="Elven">Elven</label>
+						<label><input type="checkbox" id="advancedPerk" name="advancedPerk" value="Advanced">Advanced</label>
+						<label><input type="checkbox" id="glassPerk" name="glassPerk" value="Glass">Glass</label>
+						<label><input type="checkbox" id="dragonPerk" name="dragonPerk" value="Dragon">Dragon</label>
+						<label><input type="checkbox" id="arcanePerk" name="arcanePerk" value="Arcane">Arcane</label>
+						<label><input type="checkbox" id="dwarvenPerk" name="dwarvenPerk" value="Dwarven">Dwarven</label>
+						<label><input type="checkbox" id="orcishPerk" name="orcishPerk" value="Orcish">Orcish</label>
+						<label><input type="checkbox" id="ebonyPerk" name="ebonyPerk" value="Ebony">Ebony</label>
+						<label><input type="checkbox" id="daedricPerk" name="daedricPerk" value="Daedric">Daedric</label>
+						<label><input type="checkbox" id="nonePerk" name="nonePerk" value="None">None</label>
+					</fieldset>
+					<fieldset id="tempering" name="tempering">
+						<legend>Tempering</legend>
+						<label><input type="checkbox" id="cannotTemper" name="cannotTemper" value="cannotTemper">Cannot be tempered</label>
+						<label><input type="checkbox" id="canTemper" name="canTemper" value="canTemper">Can be tempered</label>
+					</fieldset>
+				</form>
+				<div>
+					<div id="sortByName">
+						<div>
+							<span>Name</span><span></span>
+						</div>
+					</div>
+					<div id="sortByWeight">
+						<div>
+							<span>Weight</span><span></span>
+						</div>
+					</div>
+					<div id="sortByRating">
+						<div>
+							<span>Damage</span><span></span>
+						</div>
+					</div>
+					<hr>
+				</div>
+				<template class="itemsTemplate">
+					<div class="itemsContainer">
+						<img width="50" height="50">
+						<div>
+							<h2 class="itemName"></h2>
+							<p class="description smallTitle"></p>
+						</div>
+						<p class="itemRating"></p>
+						<p class="itemWeight"></p>
+						<button type="button">Equip</button>
+						<!--<p class="itemAdded">Add</p>-->
+					</div>
+				</template>
+				<div id="itemsList"></div>
+				
+			</div>
+			
+			
+		</main>
+		
+		<aside>
+			<!--<template id="skyrimLogo">
+				<img src="./images/skyrimLogoWhiteS.png" alt="Skyrim Logo" title="Skytim Logo" width="15" height="27">
+			</template>-->
+			<blockquote id="quotesContainer">
+				<p id="quote"></p>
+			</blockquote>
+		</aside>
+		
+		
+		<script src="./js/allItems.js"></script>
+		<!--<script src="./js/blackout.js"></script>-->
+		<!--<script src="./js/openMenuPC.js"></script>
+		<script src="./js/searchMenuPC.js"></script>-->
+		<!--<script src="./js/armor/lightArmor.js"></script>-->
+		<!--<script async src="./js/weapons.js"></script>-->
+		<!--<script src="./js/showHide.js"></script>-->
+		<!--<script>
+			document.querySelector("#example img").style.display = "none";
+			document.querySelector("#example p").onmouseover = () => {
+				document.querySelector("#example img").style.display = "block";
+			};
+			document.querySelector("#example p").onmouseleave = () => {
+				document.querySelector("#example img").style.display = "none";
+			};
+		</script>-->
+	</body>
+</html>
