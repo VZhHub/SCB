@@ -291,6 +291,7 @@ function closeMiniOptions() {
 function checkNumberOfBuilds() {
 	return myVars.ah.childElementCount;
 }
+// ВОТ ЭТО ПИЗДЕЦ, С ЭТИМ НАДО ЧТО-ТО ДЕЛАТЬ
 function changeContainerOverflow() {
 	if(checkNumberOfBuilds() < 2) {
 		myVars.ah.style.overflowY = "visible";
@@ -308,6 +309,7 @@ function miniOptionsPosition(x) {
 	}
 }
 
+// Добавь в input или ещё куда-то имя, которое собираешься поменять, чтобы человек видел
 function closeRenameBuild() {
 	hideEl(myVars.t);
 	hideEl(myVars.j);
