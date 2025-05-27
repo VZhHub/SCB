@@ -30,29 +30,29 @@
 		<noscript>Your browser does not support JavaScript!</noscript>
 		<div id="blackout"></div>
 		<header>
-			<img src="./images/dovahkiinLogoFFF.png" id="dovahkiin" alt="Dovahkiin" title="Dovahkiin" height="35" width="25">
+			<img src="./images/dovahkiinLogoFFF.png" id="dovahkiin" alt="Dovahkiin" title="Dovahkiin" style="width:25px;height:35px;">
 			<h1>SKYRIM CHARACTER BUILDER</h1>
 			<!--<img src="./images/alduinLogoDDD.png" id="alduin" alt="Alduin" title="Alduin" height="35" width="35">-->
 			<form id="searchForm" role="search">
 				<button class="decoration" type="button" id="searchBtn">
-					<img src="./images/magnifier.svg" alt="Magnifier" title="Magnifier" width="18" height="18">QUICK SEARCH
+					<img src="./images/magnifier.svg" alt="Magnifier" title="Magnifier" style="width:18px;height:18px;">QUICK SEARCH
 				</button>
 				<div id="searchSection" class="decoration">
-					<button id="closeSearch" type="button"><img src="./images/close2.svg" alt="Close" title="Close" width="25" height="25"></button>
+					<button id="closeSearch" type="button"><img src="./images/close2.svg" alt="Close" title="Close" style="width:25px;height:25px;"></button>
 					<label for="searchBar" id="searchLabel">QUICK SEARCH</label>
 					<div id="inputContainer">
 						<input type="search" id="searchBar" class="decoration" placeholder="How can I serve you, my Thane?" autocomplete="off">
 						<div id="magnifier">
-							<img src="./images/magnifier2.svg" alt="Magnifier" title="Magnifier" width="18" height="18">
+							<img src="./images/magnifier2.svg" alt="Magnifier" title="Magnifier" style="width:18px;height:18px;">
 						</div>
 						<div id="deleteText">
-							<img src="./images/smallClose2.svg" alt="Delete" title="Delete" width="14" height="14">
+							<img src="./images/smallClose2.svg" alt="Delete" title="Delete" style="width:14px;height:14px;">
 						</div>
 					</div>
 					<!-- ОБРАТИ ВНИМАНИЕ НА resultTemplate !!! -->
 					<template class="searchTemplate">
 						<div class="resultTemplate">
-							<img class="swordIcon" src="./images/sword.svg" alt="sword" width="14" height="14">
+							<img class="swordIcon" src="./images/sword.svg" alt="sword" style="width:14px;height:14px;">
 							<p class="itemName"></p>
 							<p class="itemAdded">Equiped!</p>
 						</div>
@@ -119,7 +119,7 @@
 							</div>
 							<button type="button" class="optionsButton">
 								<!--<img src="./images/threeDots.svg" alt="Options" title="Options" width="14" height="30">-->
-								<img class="burgerMenu" src="./images/burger2.svg" alt="Options" title="Options" width="20" height="20">
+								<img class="burgerMenu" src="./images/burger2.svg" alt="Options" title="Options" style="width:20px;height:20px;">
 							</button>
 							<div class="options">
 								<p>Rename</p>
@@ -135,7 +135,7 @@
 							<p>MY BUILDS</p>
 						</li>
 						<li class="back" id="addNewBuild">
-							<button id="addNewBuildBtn" type="button"><img src="./images/add.svg" alt="New Build" title="New Build" width="14" height="14"></button>
+							<button id="addNewBuildBtn" type="button"><img src="./images/add.svg" alt="New Build" title="New Build" style="width:14px;height:14px;"></button>
 						</li>
 					</menu>
 				</div>
@@ -313,10 +313,10 @@
 				<div>
 					<p class="submenuTitle"></p>
 					<div id="filter">
-						<img src="./images/filter.svg" alt="Filter" title="Filter" width="15" height="15">
+						<img src="./images/filter.svg" alt="Filter" title="Filter" style="width:15px;height:15px;">
 						<span>Filter</span>
 					</div>
-					<button type="button"><img src="./images/close2.svg" alt="Close" title="Close" width="25" height="25"></button>
+					<button type="button"><img src="./images/close2.svg" alt="Close" title="Close" style="width:25px;height:25px;"></button>
 				</div>
 				<form id="filterWindow" name="filterWindow" class="decoration">
 					<fieldset id="artifact" name="artifact">
@@ -397,7 +397,7 @@
 				</div>
 				<template class="itemsTemplate">
 					<div class="itemsContainer">
-						<img width="50" height="50">
+						<img style="width:50px;height:50px;">
 						<div>
 							<h2 class="itemName"></h2>
 							<p class="description minorText"></p>
