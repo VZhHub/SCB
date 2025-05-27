@@ -656,7 +656,7 @@ main {
 }
 #renameBuildWindow, #deleteBuild {
 	display: grid;
-	box-shadow: 2px 2px 15px;
+	box-shadow: 2px 2px 15px #000;
 	gap: 10px 10px;
 	padding: 10px 15px;
 	border-radius: 7px;
@@ -693,6 +693,9 @@ main {
 #deleteBuild button:last-of-type:hover {
 	background-color: green;
 }
+#deleteBuild button:last-of-type:active {
+	background-color: darkgreen;
+}
 #deleteBuild button:first-of-type {
 	grid-area: 2/2;
 	background-color: lightgray;
@@ -701,6 +704,9 @@ main {
 #deleteBuild button:first-of-type:hover {
 	background-color: #fd4444;
 	color: #fff;
+}
+#deleteBuild button:first-of-type:active {
+	background-color: #b50202;
 }
 #renameBuildWindow button {
 	padding: 2px 6px;
@@ -718,8 +724,14 @@ main {
 	background-color: #fd4444;
 	color: #fff;
 }
+#renameBuildWindow button:first-of-type:active {
+	background-color: #b50202;
+}
 #renameBuildWindow button:last-of-type:hover {
 	background-color: green;
+}
+#renameBuildWindow button:last-of-type:active {
+	background-color: darkgreen;
 }
 #renameBuildWindow button:nth-child(3) {
 	grid-area: 3/2;
@@ -798,6 +810,7 @@ main {
 #cancelBuild {
 	grid-area: 5/1;
 	background-color: lightgray;
+	color: #000;
 }
 #cancelBuild:hover {
 	background-color: #fd4444;
