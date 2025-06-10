@@ -1,444 +1,385 @@
-const myVars = {
-	a: document.querySelector("#searchSection"),
-	b: document.querySelector("#searchResult"),
+"use strict";
+const dom = {
+	searchResult: document.querySelector("#searchResult"),
+	// get c использовал для мобилок, пока не удалять
 	get c() {return window.getComputedStyle(this.a).getPropertyValue("display");},
-	d: document.querySelector("#searchBar"),
-	e: document.querySelector("#searchTemplate"),
-	f: document.querySelector("#deleteText"),
-	g: document.querySelector("#magnifier"),
-	h: document.querySelector("#searchBtn"),
-	i: document.querySelector("#closeSearch"),
-	j: document.querySelector("#blackout"),
-	k: document.querySelector("#inputContainer"),
-	l: document.querySelector("#customizeBuildBtn"),
-	m: document.querySelector("#manageBuildBtn"),
-	n: document.querySelector("#closeMyBuildsBtn"),
-	o: document.querySelector("#closeBlock"),
-	p: document.querySelector("#cancelBuild"),
-	r: document.querySelector("#saveBuild"),
-	s: document.querySelector("#addNewBuildBtn"),
-	t: document.querySelector("#renameBuildContainer"),
-	u: document.querySelector("#renameBuildWindow"),
-	v: document.querySelector("#deleteBuildContainer"),
-	w: document.querySelector("#deleteBuild"),
-	x: document.querySelector("#nameYourBuild"),
-	y: document.querySelector("#races"),
-	z: document.querySelector("#renameYourBuild"),
-	aa: document.querySelector("#warning"),
-	ab: document.querySelector("#buildSubmenuContainer"),
-	ac: document.querySelector("#nameYourBuildLabel"),
-	ad: document.querySelector("#racesLabel"),
-	ae: document.querySelector("#yourBuildName"),
-	af: document.querySelector("#noBuildsYet"),
-	ag: document.querySelector("#rightCol"),
-	ah: document.querySelector("#newBuildsContainer"),
-	ai: document.querySelector("#myBuildsContainer"),
-	aj: document.querySelector("#customizationContainer"),
-	ak: document.querySelector("#closeCustomizeBtn"),
+	searchInput: document.querySelector("#searchInput"),
+	searchTemplate: document.querySelector("#searchTemplate"),
+	clearInput: document.querySelector("#clearInput"),
+	magnifier: document.querySelector("#magnifier"),
+	searchBtn: document.querySelector("#searchBtn"),
+	// overlay используется в другом файле, осторожно
+	overlay: document.querySelector("#overlay"),
+	customizeBuildsBtn: document.querySelector("#customizeBuildsBtn"),
+	manageBuildsBtn: document.querySelector("#manageBuildsBtn"),
+	closeBuildsBtn: document.querySelector("#closeBuildsBtn"),
+	saveBuild: document.querySelector("#saveBuild"),
+	addNewBuildBtn: document.querySelector("#addNewBuildBtn"),
+	renameBuildContainer: document.querySelector("#renameBuildContainer"),
+	renameBuildWindow: document.querySelector("#renameBuildWindow"),
+	deleteBuildContainer: document.querySelector("#deleteBuildContainer"),
+	nameYourBuild: document.querySelector("#nameYourBuild"),
+	races: document.querySelector("#races"),
+	renameYourBuild: document.querySelector("#renameYourBuild"),
+	warning: document.querySelector("#warning"),
+	buildSubmenuContainer: document.querySelector("#buildSubmenuContainer"),
+	yourBuildName: document.querySelector("#yourBuildName"),
+	noBuildsYet: document.querySelector("#noBuildsYet"),
+	newBuildsContainer: document.querySelector("#newBuildsContainer"),
+	buildsContainer: document.querySelector(".builds-container"),
+	customizationContainer: document.querySelector(".customization-container"),
+	createBuildContainer: document.querySelector("#createBuildContainer"),
+	closeCustomizeBtn: document.querySelector("#closeCustomizeBtn"),
+	clearForm: document.querySelectorAll("[data-clear-form]"),
+	openModal: document.querySelectorAll("[data-open-modal]"),
+	closeModal: document.querySelectorAll("[data-close-modal]"),
+	deleteBuildYes: document.querySelector("#deleteBuildContainer button:last-of-type"),
+	myBuildsTemplate: document.querySelector("#myBuildsTemplate"),
+	buildName: document.querySelector("#buildName"),
+	buildRace: document.querySelector("#buildRace"),
+	buildLevel: document.querySelector("#buildLevel"),
+	deleteBuildName: document.querySelector("#deleteBuild span"),
+	itemsTypesContainer: document.querySelectorAll("#customizationMenu>div>div"),
+	customizationMenu: document.querySelector("#customizationMenu"),
+	header: document.querySelector("header"),
+	main: document.querySelector("main"),
+	statistics: document.querySelector("#statistics"),
 };
+// Некоторые функции используют очистку или фокус - можно соединить
 
-// ----------ГОТОВО, НЕ ТРОЖЬ!----------
-// ----------ГОТОВО, НЕ ТРОЖЬ!----------
-if (window.matchMedia("(pointer:fine)").matches) {
-	myVars.h.addEventListener("click", searchSwitch);
-	myVars.i.addEventListener("click", searchSwitch);
-	myVars.f.addEventListener("click", clearSearch);
-} else {
-	myVars.h.addEventListener("touchstart", searchSwitch);
-	myVars.i.addEventListener("touchstart", searchSwitch);
-	myVars.f.addEventListener("touchstart", clearSearch);
-}
-myVars.d.addEventListener("input", findSomething);
-myVars.d.addEventListener("focus", () => myVars.k.style.borderColor = "orange");
-myVars.d.addEventListener("blur", () => myVars.k.style.borderColor = "#5b6c87");
-function searchSwitch() {
-	clear(myVars.b);
-	switch(myVars.c) {
-		case "grid":
-		hideEl(myVars.a);
-		clearSearch();
-		hideEl(myVars.j);
-		break;
-		case "none":
-		showEl(myVars.a, "grid");
-		myVars.d.focus();
-		showEl(myVars.j, "block");
-		break;
-	}
-}
+// СТАРЫЙ ВАРИАНТ ПОИСКА ПРЕДМЕТОВ - пока не удалять
+/*
+dom.searchInput.addEventListener("input", findSomething);
 function findSomething() {
-	clear(myVars.b);
-	if (myVars.d.value.toUpperCase() === "") {
-		showEl(myVars.g, "grid");
-		hideEl(myVars.f);
+	clear(dom.searchResult);
+	if (dom.searchInput.value.toUpperCase() === "") {
+		showEl(dom.magnifier, "grid");
+		hideEl(dom.clearInput);
 		return false;
 	}
-	hideEl(myVars.g);
-	showEl(myVars.f, "grid");
-	let guess = myVars.d.value.toUpperCase().match(/\S+/g);
+	hideEl(dom.magnifier);
+	showEl(dom.clearInput, "grid");
+	let guess = dom.searchInput.value.toUpperCase().match(/\S+/g);
 	for(let i of lightArmorSortedMap.keys()) {
 		if(guess.every((e) => i.toUpperCase().includes(e))) {
-			let node = myVars.e.content.cloneNode(true);
+			let node = dom.searchTemplate.content.cloneNode(true);
 			node.children[0].children[1].innerText = lightArmorSortedMap.get(i).name;
-			myVars.b.appendChild(node);
+			dom.searchResult.appendChild(node);
 		}
 	}
-}
-function clearSearch() {
-	myVars.d.value = "";
-	findSomething();
-}
+}*/
+
+// ОЧИСТКА РЕЗУЛЬТАТОВ ПОИСКА
+/*
 function clear(x) {
 	while (x.firstChild) {
 		x.removeChild(x.firstChild);
 	}
-}
-// ----------ГОТОВО, НЕ ТРОЖЬ!----------
-// ----------ГОТОВО, НЕ ТРОЖЬ!----------
+}*/
 
+// НЕ ЗАБУДЬ ПРО TOUCHSTART
 
-
-
-let yourBuilds = [];
 if (window.matchMedia("(pointer:fine)").matches) {
-	myVars.l.addEventListener("click", isThereAnyBuild);
-	myVars.l.addEventListener("click", createBuildFirst);
-	myVars.j.addEventListener("click", blackoutFunc);
-	myVars.m.addEventListener("click", showMyBuilds);
-	myVars.n.addEventListener("click", showMyBuilds);
-	myVars.o.addEventListener("click", closeCreateCharMenu);
-	myVars.p.addEventListener("click", closeCreateCharMenu);
-	myVars.r.addEventListener("click", saveYourBuild);
-	myVars.s.addEventListener("click", openCreateCharMenu);
-	myVars.t.addEventListener("click", closeRenameBuild);
-	myVars.u.addEventListener("click", stopPropagation);
-	myVars.u.children[3].addEventListener("click", saveRenamed);
-	myVars.u.children[2].addEventListener("click", closeRenameBuild);
-	myVars.v.addEventListener("click", closeDeleteBuild);
-	myVars.w.addEventListener("click", stopPropagation);
-	document.querySelector("#deleteBuildContainer button:first-of-type").addEventListener("click", closeDeleteBuild);
-	document.querySelector("#deleteBuildContainer button:last-of-type").addEventListener("click", deleteBuildYes);
-	myVars.ak.addEventListener("click", switchCustomizations);
-	} else {
-	myVars.l.addEventListener("touchstart", isThereAnyBuild);
-	myVars.l.addEventListener("touchstart", createBuildFirst);
-	myVars.j.addEventListener("touchstart", blackoutFunc);
-	myVars.m.addEventListener("touchstart", showMyBuilds);
-	myVars.o.addEventListener("touchstart", closeCreateCharMenu);
-	myVars.p.addEventListener("touchstart", closeCreateCharMenu);
-	myVars.r.addEventListener("touchstart", saveYourBuild);
-	myVars.n.addEventListener("touchstart", showMyBuilds);
-	myVars.s.addEventListener("touchstart", openCreateCharMenu);
-	myVars.t.addEventListener("touchstart", closeRenameBuild);
-	myVars.u.addEventListener("touchstart", stopPropagation);
-	myVars.u.children[3].addEventListener("touchstart", saveRenamed);
-	myVars.u.children[2].addEventListener("touchstart", closeRenameBuild);
-	myVars.v.addEventListener("touchstart", closeDeleteBuild);
-	myVars.w.addEventListener("touchstart", stopPropagation);
-	document.querySelector("#deleteBuildContainer button:first-of-type").addEventListener("touchstart", closeDeleteBuild);
-	document.querySelector("#deleteBuildContainer button:last-of-type").addEventListener("touchstart", deleteBuildYes);
-	myVars.ak.addEventListener("touchstart", switchCustomizations);
+	dom.saveBuild.addEventListener("click", saveYourBuild);
+	dom.renameBuildWindow.children[3].addEventListener("click", saveRenamed);
+	dom.deleteBuildYes.addEventListener("click", deleteBuildYes);
+	dom.clearForm.forEach(e => {
+		e.addEventListener("click", () => clearForms(e));
+	});
+	dom.openModal.forEach(button => {
+		button.addEventListener("click", () => openModal(button));
+	});
+	dom.closeModal.forEach(button => {
+		button.addEventListener("click", () => closeModal(button));
+	});
+	dom.closeCustomizeBtn.addEventListener("click", toggleCustomizations);
+	dom.searchBtn.addEventListener("click", () => dom.searchInput.focus());
+	dom.addNewBuildBtn.addEventListener("click", openCreateCharMenu);
+	dom.manageBuildsBtn.addEventListener("click", toggleBuilds);
+	dom.closeBuildsBtn.addEventListener("click", toggleBuilds);
+	dom.customizeBuildsBtn.addEventListener("click", isThereAnyBuild);
+	dom.customizeBuildsBtn.addEventListener("click", createBuildFirst);
+} else {
+	dom.saveBuild.addEventListener("touchstart", saveYourBuild);
+	dom.renameBuildWindow.children[3].addEventListener("touchstart", saveRenamed);
+	dom.deleteBuildYes.addEventListener("touchstart", deleteBuildYes);
+	dom.clearForm.forEach(e => {
+		e.addEventListener("touchstart", () => clearForms(e));
+	});
+	dom.openModal.forEach(button => {
+		button.addEventListener("touchstart", () => openModal(button));
+	});
+	dom.closeModal.forEach(button => {
+		button.addEventListener("touchstart", () => closeModal(button));
+	});
+	dom.closeCustomizeBtn.addEventListener("touchstart", toggleCustomizations);
+	dom.searchBtn.addEventListener("touchstart", () => dom.searchInput.focus());
+	dom.addNewBuildBtn.addEventListener("touchstart", openCreateCharMenu);
+	dom.manageBuildsBtn.addEventListener("touchstart", toggleBuilds);
+	dom.closeBuildsBtn.addEventListener("touchstart", toggleBuilds);
+	dom.customizeBuildsBtn.addEventListener("touchstart", isThereAnyBuild);
+	dom.customizeBuildsBtn.addEventListener("touchstart", createBuildFirst);
 }
-myVars.x.addEventListener("focus", nameBorderColor);
-myVars.x.addEventListener("blur", nameBorderColor);
-myVars.y.addEventListener("focus", racesBorderColor);
-myVars.y.addEventListener("blur", racesBorderColor);
-myVars.z.addEventListener("focus", (event) => {clearTimeout(saveRenamed.timerID); event.target.placeholder = "";});
+
+// MAIN BUTTONS
+function toggleBuilds() {
+	clearTimeout(createBuildFirst.timerID);
+	dom.warning.classList.add("hidden");
+	dom.buildsContainer.classList.toggle("builds-container--slide-out-right");
+	//dom.header.classList.toggle("moveLeft");
+	//dom.main.classList.toggle("moveLeft");
+	dom.statistics.classList.toggle("moveLeft");
+	dom.customizeBuildsBtn.disabled = !dom.customizeBuildsBtn.disabled;
+	document.querySelectorAll(".toggleOptions").forEach(el => el.classList.remove("toggleOptions"));
+}
+function isThereAnyBuild() {
+	clearTimeout(createBuildFirst.timerID);
+	if (buildsCount) {
+		toggleCustomizations();
+	}
+}
+function createBuildFirst() {
+	if (!buildsCount) {
+		dom.warning.classList.remove("hidden");
+		createBuildFirst.timerID = setTimeout(() => dom.warning.classList.add("hidden"), 2000);
+	}
+}
+//-----------------------------------
+
+
+const state = {
+	opened: [],
+};
+const events = ["click", "keydown"];
+// В deleteBuildYes добавить очистку yourBuilds
+const yourBuilds = [];
+let buildsCount = 0;
+function createNode() {}
+// SAVE BUILD
+function saveYourBuild(event) {
+	let a = dom.races,
+	b = dom.nameYourBuild,
+	node = dom.myBuildsTemplate.content.cloneNode(true),
+	optionsButton = node.querySelector(".optionsButton"),
+	miniOptions = node.querySelector(".options"),
+	characterName = node.querySelector(".characterName"),
+	characterRace = node.querySelector(".characterRace"),
+	buildInfo = node.querySelector(".buildInfo"),
+	myBuild = node.querySelector(".myBuild"),
+	rename = miniOptions.children[0],
+	deleteBuild = miniOptions.children[1];
+	if (b.value && a.value) {
+		dom.newBuildsContainer.insertBefore(node, dom.newBuildsContainer.children[0]);
+		dom.noBuildsYet.classList.add("hidden");
+		yourBuilds.push(b.value);
+		buildsCount++;
+		//dom.yourBuildName.textContent = b.value; // Надо делать классом вместе с characterName
+		characterName.textContent = b.value;
+		characterRace.textContent = a.value;
+		dom.buildName.textContent = b.value;
+		dom.buildRace.textContent = a.value;
+		//document.getElementById("yourCharacterLevel").textContent = "Level: 1"; // Не удалять, готово!!!
+		if (window.matchMedia("(pointer:fine)").matches) {
+			optionsButton.addEventListener("click", openMiniOptions);
+			rename.addEventListener("click", () => openModal(rename));
+			rename.addEventListener("click", openRenameBuild);
+			buildInfo.addEventListener("click", () => selectBuild(buildInfo));
+			deleteBuild.addEventListener("click", () => openModal(deleteBuild));
+			deleteBuild.addEventListener("click", openDeleteBuild);
+			} else {
+			optionsButton.addEventListener("touchstart", openMiniOptions);
+			rename.addEventListener("touchstart", () => openModal(rename));
+			rename.addEventListener("touchstart", openRenameBuild);
+			buildInfo.addEventListener("touchstart", () => selectBuild(buildInfo));
+			deleteBuild.addEventListener("touchstart", () => openModal(deleteBuild));
+			deleteBuild.addEventListener("touchstart", openDeleteBuild);
+		}
+		selectBuild(buildInfo);
+		return true;
+	} else {
+		validateInput(dom.nameYourBuild, dom.races);
+		event.stopImmediatePropagation();
+		return false;
+	}
+}
+
+// TOGGLE MODALS
+function openModal(button) {
+	const selectors = button?.dataset.openModal?.split(" ") ?? [];
+	for (let selector of selectors) {
+		const el = document.querySelector(selector);
+		if (el) el.classList.remove("hidden");
+	}
+}
+function closeModal(button = null) {
+	if (button != null) {
+		const selectors = button?.dataset.closeModal?.split(" ") ?? [];
+		for (let selector of selectors) {
+			const el = document.querySelector(selector);
+			if (el) el.classList.add("hidden");
+		}
+	} else {
+		const overlay = dom.overlay?.dataset.closeModal?.split(" ").map(e => document.querySelector(e)) ?? [];
+		for (let el of overlay) {
+			if (el) el.classList.add("hidden");
+		}
+	}
+	removeValidation(button);
+}
+//-----------------------------------
 
 
 // ТОЛЬКО ДЛЯ МОБИЛЬНЫХ!
 /*visualViewport.onresize = function() {
-	let a = myVars.ab, b = myVars.t;
+	let a = dom.buildSubmenuContainer, b = dom.renameBuildContainer;
 	a.style.height = visualViewport.height + "px";
 	b.style.height = visualViewport.height + "px";
 }*/
+//--------------------------------------------------------
 
-function showMyBuilds() {
-	let a = myVars.ai;
-	hideEl(myVars.aa);
-	if(a.style.transform === "scaleY(1)") {
-		a.style.transform = "scaleY(0)";
-		} else {
-		a.style.transform = "scaleY(1)";
-	}
-}
+
+
+// CREATE CHARACTER MENU
 function openCreateCharMenu() {
-	myVars.j.style.zIndex = "3";
-	showEl(myVars.ab, "grid");
-	showEl(myVars.j, "block");
-	myVars.x.focus();
-	myVars.y.value = "empty";
+	dom.nameYourBuild.focus();
+	document.querySelectorAll(".toggleOptions").forEach(el => el.classList.remove("toggleOptions"));
 }
-function closeCreateCharMenu() {
-	myVars.j.style.zIndex = "1";
-	myVars.x.style.borderColor = "#5b6c87";
-	myVars.x.value = "";
-	myVars.x.removeAttribute("disabled");
-	myVars.y.value = "empty";
-	myVars.y.style.borderColor = "#5b6c87";
-	myVars.y.removeAttribute("disabled");
-	myVars.ac.textContent = "Name your build";
-	myVars.ac.style.color = "#fff";
-	myVars.ad.textContent = "Choose race";
-	myVars.ad.style.color = "#fff";
-	hideEl(myVars.ab);
-	hideEl(myVars.j);
-	clearTimeout(youForgotName.timerID);
-	clearTimeout(youForgotRace.timerID);
-}
-function nameBorderColor() {
-	let a = myVars.x;
-	a.style.borderColor === "orange" ? a.style.borderColor = "#5b6c87" : a.style.borderColor = "orange";
-}
-function racesBorderColor() {
-	let a = myVars.y;
-	a.style.borderColor === "orange" ? a.style.borderColor = "#5b6c87" : a.style.borderColor = "orange";
-}
+//-------------------------------------------------
 
-
-function youForgotName() {
-	let a = myVars.ac, b = myVars.x
-	if (b.value === "") {
-		a.textContent = "Name your build!";
-		a.style.color = "red";
-		b.style.borderColor = "orange";
-		b.disabled = true;
-		clearTimeout(youForgotName.timerID1);
-		youForgotName.timerID = setTimeout(() => {
-			a.textContent = "Name your build";
-			a.style.color = "#fff";
-			b.style.borderColor = "#5b6c87";
-			b.disabled = false;
-		}, 800);
-	}
-}
-function youForgotRace() {
-	let a = myVars.ad, b = myVars.y;
-	if (b.value === "empty") {
-		a.textContent = "Choose race!";
-		a.style.color = "red";
-		b.style.borderColor = "orange";
-		b.disabled = true;
-		clearTimeout(youForgotRace.timerID2);
-		youForgotRace.timerID = setTimeout(() => {
-			a.textContent = "Choose race";
-			a.style.color = "#fff";
-			b.style.borderColor = "#5b6c87";
-			b.disabled = false;
-		}, 800);
-	}
-}
-function saveYourBuild() {
-	let a = myVars.y, b = myVars.x,	node = document.querySelector(".myBuildsTemplate").content.cloneNode(true), optionsButton = node.children[0].children[1], miniOptions = node.children[0].children[2], buildName = node.children[0].children[0].children[0].children[1], myBuild = node.children[0].children[0], rename = miniOptions.children[0], deleteBuild = miniOptions.children[1];
-	if (b.value !== "" && a.value !== "empty") {
-		myVars.ah.appendChild(node);
-		showEl(myVars.ag, "block");
-		hideEl(myVars.af);
-		yourBuilds.push(b.value);
-		myVars.ae.textContent = b.value;
-		buildName.textContent = b.value;
-		document.getElementById("characterRace").textContent = a.value;
-		document.getElementById("characterLevel").textContent = "Level 1";
-		if (window.matchMedia("(pointer:fine)").matches) {
-			optionsButton.addEventListener("click", openMiniOptions);
-			miniOptions.addEventListener("click", stopPropagation);
-			rename.addEventListener("click", openRenameBuild);
-			myBuild.addEventListener("click", selectBuild);
-			deleteBuild.addEventListener("click", openDeleteBuild);
-			} else {
-			optionsButton.addEventListener("touchstart", openMiniOptions);
-			miniOptions.addEventListener("touchstart", stopPropagation);
-			rename.addEventListener("touchstart", openRenameBuild);
-			myBuild.addEventListener("touchstart", selectBuild);
-			deleteBuild.addEventListener("touchstart", openDeleteBuild);
-		}
-		changeContainerOverflow();
-		closeCreateCharMenu();
-		} else {
-		youForgotName();
-		youForgotRace();
-	}
-}
-
-function selectBuild(event) {
-	event.stopPropagation();
-	if(Array.from(document.querySelectorAll(".options")).every((e) => {return e.style.display === "" || e.style.display === "none";})) {
-		myVars.ae.textContent = yourBuilds[yourBuilds.indexOf(this.children[0].children[1].textContent)];
-	}
-	closeMiniOptions();
-}
-function openMiniOptions(event) {
-	event.stopPropagation();
-	if(this.nextElementSibling.style.display === "block") {
-		this.nextElementSibling.style.display = "none";
-		} else {
-		closeMiniOptions();
-		this.nextElementSibling.style.display = "block";
-		miniOptionsPosition(this);
-		if (window.matchMedia("(pointer:fine)").matches) {
-			document.addEventListener("click", closeMiniOptions);
-			} else {
-			document.addEventListener("touchstart", closeMiniOptions);
+// elements-decor FOR CREATING CHAR
+// Возможно можно как removeValidation
+function validateInput(...args) {
+	for (let arg of args) {
+		if (!arg.value) {
+			arg.classList.add("checkValidity");
+			arg.reportValidity();
 		}
 	}
 }
-function closeMiniOptions() {
-	let miniOpt = document.querySelectorAll(".options");
-	for(let i of miniOpt) i.style.display = "none";
-	document.removeEventListener("click", closeMiniOptions);
-	document.removeEventListener("touchstart", closeMiniOptions);
-}
-function checkNumberOfBuilds() {
-	return myVars.ah.childElementCount;
-}
-// ВОТ ЭТО ПИЗДЕЦ, С ЭТИМ НАДО ЧТО-ТО ДЕЛАТЬ
-function changeContainerOverflow() {
-	if(checkNumberOfBuilds() < 2) {
-		myVars.ah.style.overflowY = "visible";
-		myVars.ai.style.overflow = "visible";
-		} else {
-		myVars.ah.style.overflowY = "scroll";
-		myVars.ai.style.overflow = "hidden";
+function removeValidation(arg = null) {
+	const selectors = arg?.dataset.removeValidation?.split(" ") ?? [];
+	if (arg != null) {
+		for (let selector of selectors) {
+			const el = document.querySelector(selector);
+			el.classList.remove("checkValidity");
+		}
+	} else {
+		const overlay = dom.overlay?.dataset.removeValidation?.split(" ") ?? [];
+		overlay.forEach(e => {
+			document.querySelector(e).classList.remove("checkValidity");
+		});
 	}
 }
-function miniOptionsPosition(x) {
-	if(x.getBoundingClientRect().top - myVars.ah.getBoundingClientRect().top < myVars.ah.getBoundingClientRect().bottom - x.getBoundingClientRect().bottom) {
-		x.nextElementSibling.setAttribute("class", "options optionsBottom upArrow");
-		} else {
-		x.nextElementSibling.setAttribute("class", "options optionsTop downArrow");
+function clearForms(arg) {
+	const selectors = arg.dataset.clearForm?.split(" ") ?? [];
+	for (let selector of selectors) {
+		const el = document.querySelector(selector);
+		el.value = "";
 	}
 }
+//-------------------------------------------
 
-// Добавь в input или ещё куда-то имя, которое собираешься поменять, чтобы человек видел
-function closeRenameBuild() {
-	hideEl(myVars.t);
-	hideEl(myVars.j);
+// SELECT BUILD
+function selectedBuild(x) {
+	document.querySelectorAll(".buildInfo").forEach(e => {
+		e.classList.remove("selected-build");
+	});
+	x.classList.add("selected-build");
 }
-function stopPropagation(event) {
-	event.stopPropagation();
+function selectBuild(arg) {
+	selectedBuild(arg);
+	selectBuild.selectedBuild = arg.parentElement;
+	const charName = arg.querySelector(".characterName").textContent;
+	const charRace = arg.querySelector(".characterRace").textContent;
+	const charLevel = arg.querySelector(".characterLevel").textContent;
+	dom.buildName.textContent = charName;
+	dom.buildRace.textContent = charRace;
+	dom.buildLevel.textContent = charLevel;
+	document.querySelectorAll(".toggleOptions").forEach(el => el.classList.remove("toggleOptions"));
 }
-function openRenameBuild(event) {
-	let d = event.target.parentElement.parentElement.children[0].children[0].children[1];
-	saveRenamed.sendedName = d.textContent;
-	saveRenamed.buildName = d;
-	closeMiniOptions();
-	showEl(myVars.t, "flex");
-	showEl(myVars.j, "block");
-	myVars.z.value = "";
-	myVars.z.focus();
+//---------------------------------------------
+
+// MINI OPTIONS
+function openMiniOptions() {
+	const buildName = this.parentElement.querySelector(".characterName");
+	openMiniOptions.buildToDelete = this.parentElement;
+	openMiniOptions.buildName = buildName;
+	const el = this.parentElement.lastElementChild;
+	const isOpen = el.classList.contains("toggleOptions");
+	document.querySelectorAll(".toggleOptions").forEach(el => el.classList.remove("toggleOptions"));
+	if (!isOpen) el.classList.add("toggleOptions");
 }
-function saveRenamed() {
-	let a = myVars.z;
-	clearTimeout(saveRenamed.timerID);
-	if (a.value !== "") {
-		yourBuilds[yourBuilds.indexOf(saveRenamed.sendedName)] = a.value;
-		myVars.ae.textContent = a.value;
-		saveRenamed.buildName.textContent = a.value;
-		closeRenameBuild();
-		} else {
-		a.placeholder = "Name can't be empty";
-		saveRenamed.timerID = setTimeout(() => {a.placeholder = ""}, 800);
+function openRenameBuild() {
+	dom.renameYourBuild.value = openMiniOptions.buildName.textContent;
+	dom.renameYourBuild.focus();
+}
+function saveRenamed(event) {
+	const newName = dom.renameYourBuild.value;
+	if (!newName) {
+		validateInput(dom.renameYourBuild);
+		event.stopImmediatePropagation();
+		return false;
+	} else {
+		openMiniOptions.buildName.textContent = newName;
+		dom.buildName.textContent = newName;
+		return true;
 	}
 }
-
-
-
-
-function openDeleteBuild(event) {
-	showEl(myVars.v, "flex");
-	showEl(myVars.j, "block");
-	closeMiniOptions()
-	deleteBuildYes.element = event.target.parentElement.parentElement;
-	deleteBuildYes.buildName = event.target.parentElement.parentElement.children[0].children[0].children[1].textContent;
-	document.querySelector("#deleteBuild p span").textContent = deleteBuildYes.buildName;
-}
-function closeDeleteBuild() {
-	hideEl(myVars.v);
-	hideEl(myVars.j);
+function openDeleteBuild() {
+	dom.deleteBuildName.textContent = openMiniOptions.buildName.textContent;
 }
 function deleteBuildYes() {
-	let a = myVars.ae, b = deleteBuildYes.element.previousElementSibling, c = deleteBuildYes.element.nextElementSibling;
-	if (b !== null) {
-		a.textContent = yourBuilds[yourBuilds.indexOf(b.children[0].children[0].children[1].textContent)];
-		} else if (c !== null) {
-		a.textContent = yourBuilds[yourBuilds.indexOf(c.children[0].children[0].children[1].textContent)];
-		} else {
-		showEl(myVars.af, "flex");
-		myVars.ae.textContent = "Unknown Adventurer";
-		hideEl(myVars.ag);
+	const selectedEl = selectBuild.selectedBuild, miniOptions = openMiniOptions.buildToDelete;
+	if (selectedEl === miniOptions) {
+		if (miniOptions.previousElementSibling?.firstElementChild) {
+			selectBuild(miniOptions.previousElementSibling.firstElementChild);
+		} else if (miniOptions.nextElementSibling?.firstElementChild) {
+			selectBuild(miniOptions.nextElementSibling.firstElementChild);
+		}
 	}
-	deleteBuildYes.element.remove();
-	closeDeleteBuild();
-	yourBuilds.splice(yourBuilds.indexOf(deleteBuildYes.buildName), 1);
-	changeContainerOverflow();
+	openMiniOptions.buildToDelete.remove();
+	buildsCount--;
+	if (!dom.newBuildsContainer.childElementCount) dom.noBuildsYet.classList.remove("hidden");
+	return true;
 }
 // ФУНКЦИИ УДАЛЕНИЯ, ДОБАВЛЕНИЯ И ПЕРЕИМЕНОВАНИЯ НИЧЕГО НЕ ДЕЛАЮТ С РАСОЙ И УРОВНЕМ!!!!
 
 
-function createBuildFirst() {
-	if(yourBuilds.length === 0) {
-		showEl(myVars.aa, "block");
-		createBuildFirst.timerID = setTimeout(() => hideEl(myVars.aa), 2000);
-	}
-}
-function switchCustomizations() {
-	let a = myVars.aj;
-	if(a.style.transform === "scaleY(1)") {
-		a.style.transform = "scaleY(0)";
-		} else {
-		a.style.transform = "scaleY(1)";
-	}
-	for (i of document.querySelectorAll("#customizationOptions>li>menu")) {
-		i.style.display = "none";
+function toggleCustomizations() {
+	dom.customizationContainer.classList.toggle("customization-container--slide-out-right");
+	dom.customizationMenu.scrollTop = 0;
+	//dom.header.classList.toggle("moveLeft");
+	//dom.main.classList.toggle("moveLeft");
+	dom.statistics.classList.toggle("moveLeft");
+	dom.manageBuildsBtn.disabled = !dom.manageBuildsBtn.disabled;
+	for (let i of dom.itemsTypesContainer) {
+		i.classList.add("hidden");
 		i.parentElement.style.order = "";
 	}
 }
-function isThereAnyBuild() {
-	clearTimeout(createBuildFirst.timerID);
-	if(yourBuilds.length > 0) {
-		switchCustomizations();
-		//showEl(myVars.j, "block");
-	}
-}
-//--------------------------------------
-//--------------------------------------
-function hideEl(a) {
-	a.style.display = "none";
-}
-function showEl(a, b) {
-	a.style.display = b;
-}
-//--------------------------------------
-function blackoutFunc() {
-	//let a = document.getElementById("myBuildsContainer"), c = document.getElementById("customizeSubmenu");
-	//if (a.style.display === "block") myBuilds();
-	//if (c.style.display === "block" || c.style.display === "none") closeSubmenus();
-	let a = document.getElementById("myBuildsContainer"), b = document.getElementById("searchSection"), c = document.getElementById("buildSubmenuContainer"), d = document.getElementById("itemsWindow");
-	if (a.style.display === "block") myBuilds();
-	if (b.style.display === "grid") searchSwitch();
-	//if (c.style.display === "grid") buildSwitch();
-	if (myVars.ab.style.display === "grid") {
-		myVars.y.blur();
-		myVars.x.blur();
-		closeCreateCharMenu();
-	}
-	if (myVars.t.style.display === "flex") closeRenameBuild();
-	if (myVars.v.style.display === "flex") closeDeleteBuild();
-	if (d.style.display !== "none") backToCategory();
-}
-addEventListener("keydown", (e) => {
+//---------------------------------------------------------------
+
+
+window.addEventListener("keydown", e => {
 	if (e.key === "Escape") {
-		blackoutFunc();
+		closeModal();
 	}
 });
-addEventListener("keydown", (e) => {
+function isVisible(el) {
+	return !el.classList.contains("hidden");
+}
+document.addEventListener("keydown", e => {
 	if (e.key === "Enter") {
-		if (myVars.ab.style.display === "grid") {
-			myVars.y.blur();
-			myVars.x.blur();
-			saveYourBuild();
+		switch (true) {
+			case isVisible(dom.createBuildContainer):
+				saveYourBuild(e) && closeModal();
+				break;
+			case isVisible(dom.renameBuildContainer):
+				saveRenamed(e) && closeModal();
+				break;
+			case isVisible(dom.deleteBuildContainer):
+				deleteBuildYes() && closeModal();
+				break;
 		}
-		if (myVars.t.style.display === "flex") saveRenamed();
-		if (myVars.v.style.display === "flex") deleteBuildYes();
 	}
 });

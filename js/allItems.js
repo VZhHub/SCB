@@ -380,7 +380,7 @@ class Weapons extends CommonValues {
 	}
 }
 
-
+// Making unsorted collections
 Staves.makeStaff(objStaves);
 Clothing.makeCloth(objClothing);
 Jewelry.makeJewelry(objJewelry);

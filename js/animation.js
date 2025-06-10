@@ -1,3 +1,4 @@
+"use strict";
 const quotes = ["I used to be an adventurer like you. Then I took an arrow in the knee...",
 "Let me guess... Someone stole your sweetroll.", "M'aiq wishes you well."];
 animateQuotes();
