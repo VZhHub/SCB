@@ -305,6 +305,7 @@ function decideToReplaceItem(decision, slotName, isHooded) {
 function unequipItem(slotName, hideSlot = false, menuIsOpen) {
 	const menuSlot = itemMenuEquipSlots[slotName];
 	const item = slotContent[slotName].equippedItem;
+	unequipAetherialCrown(slotContent.Head.equippedItem.name);
 	menuSlot.img.removeChild(menuSlot.img.firstChild); 
 	if (slotName === "Both") {
 		slot.Left.removeChild(slot.Left.lastChild);
@@ -358,6 +359,7 @@ function bundleFunc(result, item, name) {
 	setSlotContent(result, item);
 	adjustSlot(result, true);
 	toggleEquippedCardsPanel();
+	equipAetherialCrown(name);
 	// нужно добавить описание и исправить функции ниже
 	/*makeDescription(result); 
 	calcTotalValues(properties.category, properties.type, 1, name);

@@ -1,0 +1,64 @@
+@charset "UTF-8";
+.boons {
+	position: fixed;
+	width: 850px;
+	padding: 5px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+}
+.boons__header {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	margin-bottom: 15px;
+}
+.boons__header h2 {
+	width: 200px;
+}
+.boons__fieldset, .boons__label, .boons__checkbox {
+	all: revert;
+}
+.boons__fieldset {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 0 10px;
+	border: 2px solid #4c658c;
+	border-radius: 4px;
+	margin-bottom: 15px;
+}
+.boons__legend {
+	font-variant-caps: all-small-caps;
+	padding: 0 5px;
+	letter-spacing: 1px;
+	font-size: 1.7rem;
+}
+.boons__label {
+	display: flex;
+	font-size: 1.5rem;
+}
+.boons__label:hover {
+	cursor: pointer;
+	color: gold;
+}
+.boons__checkbox {
+	margin-right: 5px;
+}
+.boons__checkbox:hover {
+	cursor: pointer;
+}
+.boons__checkbox:focus {
+	outline: transparent;
+}
+.boons__p {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background: #000;
+	padding: 5px;
+	margin-top: 10px;
+	font-size: 1.5rem;
+	height: 100px;
+}

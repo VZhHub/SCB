@@ -18,6 +18,7 @@
 		<link type="text/css" rel="stylesheet" href="./css/PCversion.css">
 		<link type="text/css" rel="stylesheet" href="./css/skills_perks.css">
 		<link type="text/css" rel="stylesheet" href="./css/items_window.css">
+		<link type="text/css" rel="stylesheet" href="./css/boons.css">
 		
 		<!-- С этой таблицы стилей начинать, если отдельные таблицы -->
 		<link type="image/x-icon" rel="icon" href="./images/favicon2.ico" sizes="16x16">
@@ -37,6 +38,7 @@
 		<!--<script defer src="./js/equip_items_old.js"></script>-->
 		<script defer src="./js/find_item.js"></script>
 		<script defer src="./js/equip_items.js"></script>
+		<script defer src="./js/boons.js"></script>
 		<!--<script type="module" src="./js/globals.js"></script>
 			<script type="module" src="./js/for_import.js"></script>
 			<script type="module" src="./js/items_constructor.js"></script>
@@ -49,13 +51,61 @@
 	
 	<body>
 		<noscript>Your browser does not support JavaScript!</noscript>
+		<div class="boons decoration hidden">
+			<div class="boons__header">
+				<h2 class="submenu-title">BOONS</h2>
+				<button class="close-window" type="button" data-close-modal=".boons #overlay" aria-label="Close window">
+					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+				</button>
+			</div>
+			<div class="boons__options">
+				<fieldset class="boons__fieldset">
+					<legend class="boons__legend">Standing Stones</legend>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Apprentice Stone" autocomplete="off">The Apprentice Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Atronach Stone" autocomplete="off">The Atronach Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Lady Stone" autocomplete="off">The Lady Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Lord Stone" autocomplete="off">The Lord Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Mage Stone" autocomplete="off">The Mage Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Ritual Stone" autocomplete="off">The Ritual Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Serpent Stone" autocomplete="off">The Serpent Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Shadow Stone" autocomplete="off">The Shadow Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Steed Stone" autocomplete="off">The Steed Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Thief Stone" autocomplete="off">The Thief Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Tower Stone" autocomplete="off">The Tower Stone</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Warrior Stone" autocomplete="off">The Warrior Stone</label>
+				</fieldset>
+				<fieldset class="boons__fieldset">
+					<legend class="boons__legend">Blessings</legend>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Agent of Dibella" autocomplete="off">Agent of Dibella</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Agent of Mara" autocomplete="off">Agent of Mara</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Ancient Knowledge" autocomplete="off">Ancient Knowledge</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Companion's Insight" autocomplete="off">Companion's Insight</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragon Infusion" autocomplete="off">Dragon Infusion</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Flame" autocomplete="off">Dragonborn Flame</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Force" autocomplete="off">Dragonborn Force</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Frost" autocomplete="off">Dragonborn Frost</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Eternal Spirit" autocomplete="off">Eternal Spirit</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Fire Within" autocomplete="off">The Fire Within</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Force Without Effort" autocomplete="off">Force Without Effort</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Lover's Insight" autocomplete="off">Lover's Insight</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Prowler's Profit" autocomplete="off">Prowler's Profit</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Sailor's Repose" autocomplete="off">Sailor's Repose</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Scholar's Insight" autocomplete="off">Scholar's Insight</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Might" autocomplete="off">Seeker of Might</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Shadows" autocomplete="off">Seeker of Shadows</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Sorcery" autocomplete="off">Seeker of Sorcery</label>
+					<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Sinderion's Serendipity" autocomplete="off">Sinderion's Serendipity</label>
+				</fieldset>
+			</div>
+			<p class="boons__p decoration"></p>
+		</div>
 		<div class="skills decoration hidden">
-			<header class="skills__header">
+			<div class="skills__header">
 				<h2 class="submenu-title">Skills & Perks:<span class="skill-tree-race"></span></h2>
 				<button class="close-window" type="button" data-close-modal=".skills #overlay">
 					<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
 				</button>
-			</header>
+			</div>
 			<div class="skills__icons-wrapper">
 				<div class="icons icons--mage" role="group" aria-label="Mage skill trees">
 					<button type="button" class="icons__skill-icon icons__skill-icon--selected decoration" data-skill-icon="Illusion"><img src="./images/skills/illusion.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Illusion">Illusion</span><span class="chosen-perks-number" data-chosen-perks="Illusion">0</span></button>
@@ -1198,13 +1248,13 @@
 				</div>
 			</section>
 			<div class="builds-container decoration">
-				<header class="header header--builds">
+				<div class="header header--builds">
 					<h2 class="submenu-title">MY BUILDS</h2>
 					<button id="closeBuildsBtn" class="closeBtn" type="button">Close</button>
 					<button id="addNewBuildBtn" type="button" data-open-modal="#overlay #createBuildContainer" data-clear-form="#nameYourBuild #races">
 						<svg alt="Create build" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path fill="#fff" fill-rule="evenodd" d="M28 12h-8V4a4 4 0 1 0-8 0v8H4a4 4 0 1 0 0 8h8v8a4 4 0 1 0 8 0v-8h8a4 4 0 1 0 0-8"/></svg>
 					</button>
-				</header>
+				</div>
 				<p id="noBuildsYet" class="decoration">No Builds...</p>
 				<div id="newBuildsContainer"></div>
 				<template id="myBuildsTemplate">
@@ -1272,10 +1322,10 @@
 				</div>
 			</div>
 			<div class="customization-container decoration">
-				<header id="customizationHeader" class="header">
+				<div id="customizationHeader" class="header">
 					<h2 class="submenu-title">CUSTOMIZATION</h2>
 					<button id="closeCustomizeBtn" class="closeBtn" type="button">Close</button>
-				</header>
+				</div>
 				<div id="customizationMenu">
 					<div>
 						<button type="button" class="category-button--items decoration">Armor</button>
@@ -1334,7 +1384,7 @@
 						<button type="button" class="category-button--skills decoration" data-open-modal=".skills #overlay">Skills & Perks</button>
 					</div>
 					<div>
-						<button type="button" class="decoration">Boons</button>
+						<button type="button" class="category-button--boons decoration" data-open-modal=".boons #overlay">Boons</button>
 					</div>
 				</div>
 			</div>
@@ -1402,7 +1452,7 @@
 						</div>
 					</div>
 					<div class="items-window__items decoration">
-						<header class="items-window__header">
+						<div class="items-window__header">
 							<h2 class="items-window__title submenu-title"></h2>
 							<button class="items-window__filter-button" data-filter-open="false">
 								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" alt="Filter" stroke="#fff" stroke-width="3" viewBox="0 0 64 64"><path d="M50.69 32h5.63M7.68 32h31.01M26.54 15.97h29.78M7.68 15.97h6.88M35 48.03h21.32M7.68 48.03H23"/><circle cx="20.55" cy="15.66" r="6"/><circle cx="44.69" cy="32" r="6"/><circle cx="29" cy="48.03" r="6"/></svg>
@@ -1416,7 +1466,7 @@
 							<button class="close-window" type="button" data-close-modal="#overlay .items-window" data-open-modal=".items-window__sort-button--by-other">
 								<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
 							</button>
-						</header>
+						</div>
 						<div class="items-window__sorting-panel">
 							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-name">
 								<button class="items-window__sort-button items-window__sort-button--by-name" data-sorting-selected="true" data-sorting-order="desc" data-sort-button-type="name">
@@ -1701,6 +1751,6 @@
 				</div>
 			</div>
 		</aside>
-		<div id="overlay" class="hidden" data-close-modal="#overlay #searchWindow #createBuildContainer #renameBuildContainer #deleteBuildContainer .skills" data-remove-validation="#renameYourBuild #nameYourBuild #races"></div>
+		<div id="overlay" class="hidden" data-close-modal="#overlay #searchWindow #createBuildContainer #renameBuildContainer #deleteBuildContainer .skills .boons" data-remove-validation="#renameYourBuild #nameYourBuild #races"></div>
 	</body>
 </html>
