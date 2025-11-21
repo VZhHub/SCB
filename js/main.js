@@ -1,17 +1,11 @@
 "use strict";
 const dom = {
-	searchResult: document.querySelector("#searchResult"),
 	// get c использовал для мобилок, пока не удалять
 	get c() {return window.getComputedStyle(this.a).getPropertyValue("display");},
-	searchInput: document.querySelector("#searchInput"),
-	searchTemplate: document.querySelector("#searchTemplate"),
-	clearInput: document.querySelector("#clearInput"),
-	magnifier: document.querySelector("#magnifier"),
-	searchBtn: document.querySelector("#searchBtn"),
 	// overlay используется в другом файле, осторожно
 	overlay: document.querySelector("#overlay"),
-	customizeBuildsBtn: document.querySelector("#customizeBuildsBtn"),
-	manageBuildsBtn: document.querySelector("#manageBuildsBtn"),
+	mainButtonsCustomization: document.querySelector(".main-buttons__customization"),
+	mainButtonsBuilds: document.querySelector(".main-buttons__builds"),
 	closeBuildsBtn: document.querySelector("#closeBuildsBtn"),
 	saveBuild: document.querySelector("#saveBuild"),
 	addNewBuildBtn: document.querySelector("#addNewBuildBtn"),
@@ -21,7 +15,7 @@ const dom = {
 	nameYourBuild: document.querySelector("#nameYourBuild"),
 	races: document.querySelector("#races"),
 	renameYourBuild: document.querySelector("#renameYourBuild"),
-	warning: document.querySelector("#warning"),
+	warning: document.querySelector(".warning"),
 	buildSubmenuContainer: document.querySelector("#buildSubmenuContainer"),
 	yourBuildName: document.querySelector("#yourBuildName"),
 	noBuildsYet: document.querySelector("#noBuildsYet"),
@@ -45,37 +39,6 @@ const dom = {
 	main: document.querySelector("main"),
 	statistics: document.querySelector("#statistics"),
 };
-// Некоторые функции используют очистку или фокус - можно соединить
-
-// СТАРЫЙ ВАРИАНТ ПОИСКА ПРЕДМЕТОВ - пока не удалять
-/*
-dom.searchInput.addEventListener("input", findSomething);
-function findSomething() {
-	clear(dom.searchResult);
-	if (dom.searchInput.value.toUpperCase() === "") {
-		showEl(dom.magnifier, "grid");
-		hideEl(dom.clearInput);
-		return false;
-	}
-	hideEl(dom.magnifier);
-	showEl(dom.clearInput, "grid");
-	let guess = dom.searchInput.value.toUpperCase().match(/\S+/g);
-	for(let i of lightArmorSortedMap.keys()) {
-		if(guess.every((e) => i.toUpperCase().includes(e))) {
-			let node = dom.searchTemplate.content.cloneNode(true);
-			node.children[0].children[1].innerText = lightArmorSortedMap.get(i).name;
-			dom.searchResult.appendChild(node);
-		}
-	}
-}*/
-
-// ОЧИСТКА РЕЗУЛЬТАТОВ ПОИСКА
-/*
-function clear(x) {
-	while (x.firstChild) {
-		x.removeChild(x.firstChild);
-	}
-}*/
 
 // НЕ ЗАБУДЬ ПРО TOUCHSTART
 
@@ -93,44 +56,95 @@ if (window.matchMedia("(pointer:fine)").matches) {
 		button.addEventListener("click", () => closeModal(button));
 	});
 	dom.closeCustomizeBtn.addEventListener("click", toggleCustomizations);
-	dom.searchBtn.addEventListener("click", () => dom.searchInput.focus());
 	dom.addNewBuildBtn.addEventListener("click", openCreateCharMenu);
-	dom.manageBuildsBtn.addEventListener("click", toggleBuilds);
+	dom.mainButtonsBuilds.addEventListener("click", toggleBuilds);
 	dom.closeBuildsBtn.addEventListener("click", toggleBuilds);
-	dom.customizeBuildsBtn.addEventListener("click", isThereAnyBuild);
-	dom.customizeBuildsBtn.addEventListener("click", createBuildFirst);
-} else {
-	dom.saveBuild.addEventListener("touchstart", saveYourBuild);
-	dom.renameBuildWindow.children[3].addEventListener("touchstart", saveRenamed);
-	dom.deleteBuildYes.addEventListener("touchstart", deleteBuildYes);
-	dom.clearForm.forEach(e => {
-		e.addEventListener("touchstart", () => clearForms(e));
-	});
-	dom.openModal.forEach(button => {
-		button.addEventListener("touchstart", () => openModal(button));
-	});
-	dom.closeModal.forEach(button => {
-		button.addEventListener("touchstart", () => closeModal(button));
-	});
-	dom.closeCustomizeBtn.addEventListener("touchstart", toggleCustomizations);
-	dom.searchBtn.addEventListener("touchstart", () => dom.searchInput.focus());
-	dom.addNewBuildBtn.addEventListener("touchstart", openCreateCharMenu);
-	dom.manageBuildsBtn.addEventListener("touchstart", toggleBuilds);
-	dom.closeBuildsBtn.addEventListener("touchstart", toggleBuilds);
-	dom.customizeBuildsBtn.addEventListener("touchstart", isThereAnyBuild);
-	dom.customizeBuildsBtn.addEventListener("touchstart", createBuildFirst);
+	dom.mainButtonsCustomization.addEventListener("click", isThereAnyBuild);
+	dom.mainButtonsCustomization.addEventListener("click", createBuildFirst);
 }
 
 // MAIN BUTTONS
+const menuState = {
+	builds: false,
+	customization: false,
+};
+function unblockCustomizationButton() {
+	dom.mainButtonsCustomization.disabled = !dom.mainButtonsCustomization.disabled;
+	dom.buildsContainer.removeEventListener("transitionend", unblockCustomizationButton);
+}
+function toggleBuildHelper() {
+	dom.customizationContainer.classList.add("customization-container--slide-right");
+	dom.customizationContainer.classList.remove("customization-container--slide-left");
+	dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
+	dom.mainButtonsCustomization.disabled = !dom.mainButtonsCustomization.disabled;
+	dom.buildsContainer.removeEventListener("transitionend", toggleBuildHelper);
+}
+function toggleBuild() {
+	menuState.builds = !menuState.builds;
+	dom.buildsContainer.classList.toggle("builds-container--slide-left");
+	dom.buildsContainer.classList.remove("builds-container--slide-right");
+	dom.mainButtonsBuilds.classList.toggle("manageBuildsBtn--selected");
+	dom.mainButtonsCustomization.classList.remove("customizeBuildsBtn--selected");
+	if (!menuState.customization) {
+		dom.mainButtonsCustomization.disabled = !dom.mainButtonsCustomization.disabled;
+		dom.buildsContainer.addEventListener("transitionend", unblockCustomizationButton);
+	}
+	if (menuState.customization) {
+		dom.customizationContainer.classList.remove("customization-container--on-top");
+		dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
+		dom.mainButtonsCustomization.disabled = !dom.mainButtonsCustomization.disabled;
+		dom.buildsContainer.addEventListener("transitionend", toggleBuildHelper);
+		menuState.customization = !menuState.customization;
+	}
+	dom.buildsContainer.classList.add("builds-container--on-top");
+	if (menuState.customization !== menuState.builds) dom.statistics.classList.add("moveLeft");
+	if (!menuState.customization && !menuState.builds) dom.statistics.classList.remove("moveLeft");
+}
+function unblockBuildsButton() {
+	dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
+	dom.customizationContainer.removeEventListener("transitionend", unblockBuildsButton);
+}
+function customizationMenuHelper() {
+	dom.buildsContainer.classList.add("builds-container--slide-right");
+	dom.buildsContainer.classList.remove("builds-container--slide-left");
+	dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
+	dom.mainButtonsCustomization.disabled = !dom.mainButtonsCustomization.disabled;
+	dom.customizationContainer.removeEventListener("transitionend", customizationMenuHelper);
+}
+function toggleCustomizationMenu() {
+	menuState.customization = !menuState.customization;
+	dom.customizationContainer.classList.toggle("customization-container--slide-left");
+	dom.customizationContainer.classList.remove("customization-container--slide-right");
+	dom.mainButtonsCustomization.classList.toggle("customizeBuildsBtn--selected");
+	dom.mainButtonsBuilds.classList.remove("manageBuildsBtn--selected");
+	if (!menuState.builds) {
+		dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
+		dom.customizationContainer.addEventListener("transitionend", unblockBuildsButton);
+	}
+	if (menuState.builds) {
+		dom.buildsContainer.classList.remove("builds-container--on-top");
+		dom.mainButtonsCustomization.disabled = !dom.mainButtonsCustomization.disabled;
+		dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
+		dom.customizationContainer.addEventListener("transitionend", customizationMenuHelper);
+		menuState.builds = !menuState.builds;
+	}
+	dom.customizationContainer.classList.add("customization-container--on-top");
+	if (menuState.customization !== menuState.builds) dom.statistics.classList.add("moveLeft");
+	if (!menuState.customization && !menuState.builds) dom.statistics.classList.remove("moveLeft");
+}
 function toggleBuilds() {
 	clearTimeout(createBuildFirst.timerID);
 	dom.warning.classList.add("hidden");
-	dom.buildsContainer.classList.toggle("builds-container--slide-out-right");
-	//dom.header.classList.toggle("moveLeft");
-	//dom.main.classList.toggle("moveLeft");
-	dom.statistics.classList.toggle("moveLeft");
-	dom.customizeBuildsBtn.disabled = !dom.customizeBuildsBtn.disabled;
+	toggleBuild();
 	document.querySelectorAll(".toggleOptions").forEach(el => el.classList.remove("toggleOptions"));
+}
+function toggleCustomizations() {
+	toggleCustomizationMenu();
+	dom.customizationMenu.scrollTop = 0;
+	for (let i of dom.itemsTypesContainer) {
+		i.classList.add("hidden");
+		i.parentElement.style.order = "";
+	}
 }
 function isThereAnyBuild() {
 	clearTimeout(createBuildFirst.timerID);
@@ -344,19 +358,6 @@ function deleteBuildYes() {
 }
 // ФУНКЦИИ УДАЛЕНИЯ, ДОБАВЛЕНИЯ И ПЕРЕИМЕНОВАНИЯ НИЧЕГО НЕ ДЕЛАЮТ С РАСОЙ И УРОВНЕМ!!!!
 
-
-function toggleCustomizations() {
-	dom.customizationContainer.classList.toggle("customization-container--slide-out-right");
-	dom.customizationMenu.scrollTop = 0;
-	//dom.header.classList.toggle("moveLeft");
-	//dom.main.classList.toggle("moveLeft");
-	dom.statistics.classList.toggle("moveLeft");
-	dom.manageBuildsBtn.disabled = !dom.manageBuildsBtn.disabled;
-	for (let i of dom.itemsTypesContainer) {
-		i.classList.add("hidden");
-		i.parentElement.style.order = "";
-	}
-}
 //---------------------------------------------------------------
 
 

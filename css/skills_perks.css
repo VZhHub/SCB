@@ -1,0 +1,241 @@
+@charset "UTF-8";
+.skills {
+	//display: flex;
+	display: grid;
+	grid-template-columns: auto auto;
+	position: fixed;
+	//align-items: center;
+	//justify-content: space-between;
+	gap: 10px 20px;
+	//flex-wrap: wrap;
+	//width: 1400px; 
+	//height: 800px;
+	height: min-content;
+	padding: 10px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 100;
+}
+.skills__header {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	grid-area: 1/1/2/3;
+}
+.skills__header .submenu-title {
+	min-width: 370px;
+	height: auto;
+	font-size: 1.9rem;
+}
+.skill-tree-race {
+	font-size: 1.9rem;
+	font-family: "Futura Bold";
+	color: var(--color-menu-heading);
+}
+.skills__icons-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 5px 0;
+	height: 100%;
+	justify-content: space-between;
+	grid-area: 2/1/3/2;
+}
+.skills__tree-wrapper {
+	display: grid;
+	//flex-direction: column;
+	//justify-content: space-between;
+	height: 100%;
+	width: 800px;
+	padding: 10px;
+	//background-color: var(--color-background);
+	background-color: #000;
+	border-radius: 4px;
+	grid-area: 2/2;
+}
+.icons {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	grid-template-rows: auto auto;
+	gap: 5px 5px;
+}
+.icons--warrior .icons__skill-icon {
+	background-color: #49020278;
+}
+.icons--mage .icons__skill-icon {
+	background-color: #0c0c5685;
+}
+.icons--thief .icons__skill-icon {
+	background-color: #09560996;
+}
+.icons__skill-icon {
+	display: grid;
+	grid-template-columns: auto auto;
+	//gap: 0 10px;
+	padding: 5px;
+	//justify-content: center;
+	//align-items: center;
+	width: 210px;
+	//width: max-content;
+	//height: 120px;
+	opacity: .5;
+	transition: opacity .15s ease-in-out;
+}
+.icons__skill-icon img {
+	grid-area: 1/1/3/2;
+}
+.icons__skill-icon:hover {
+	opacity: 1;
+}
+.icons__skill-icon--selected {
+	opacity: 1;
+}
+.icon-name {
+	grid-area: 1/2;
+	font-size: 1.5rem;
+	text-align: start;
+	justify-self: end;
+	white-space: nowrap;
+}
+.icon-name--selected {
+	color: yellow;
+}
+.chosen-perks-number {
+	justify-self: end;
+	align-self: end;
+	font-size: 2.5rem;
+}
+.tree-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.tree-header h2 {
+	font-size: 2.3rem;
+}
+.tree-header dl {
+	display: grid;
+	grid-template-columns: auto auto;
+	column-gap: 10px;
+	width: max-content;
+}
+.tree-header dt, .tree-header dd, .tree-header span, .tree-header p {
+	font-size: 1.5rem;
+}
+.tree-header__buttons {
+	display: grid;
+	grid-template-columns: max-content min-content min-content;
+	align-items: center;
+	justify-self: end;
+	width: min-content;
+	height: min-content;
+	gap: 5px;
+}
+.tree-header__p {
+	grid-area: 1/1/3/2;
+	margin-right: 20px;
+}
+.tree-header__button {
+	width: 50px;
+	color: #fff;
+	font-size: 1.5rem;
+}
+.tree-header__button--add {
+	border-radius: 50% 50% 0 0;
+}
+.tree-header__button--subtract {
+	border-radius: 0 0 50% 50%;
+}
+.tree-header__clear-button {
+	height: min-content;
+	font-size: 1.5rem;
+	font-family: "Futura";
+	letter-spacing: 1px;
+	width: 140px;
+}
+.tree-header__clear-button:hover {
+	border-color: orangered;
+}
+.tree-header__clear-button:active {
+	border-color: red;
+	background-color: #12151a;
+}
+.perk-info {
+	display: grid;
+	//grid-template-columns: auto auto;
+}
+.perk-info div {
+	display: flex;
+	align-items: center;
+	gap: 0 20px;
+}
+.perk-info div :not(h3) {
+	//color: #bbb;
+}
+.perk-info__perk-name {
+	font-size: 2rem;
+	//margin-right: 10px;
+}
+.perk-info__perk-rank, .perk-info__perk-rank-current, .perk-info__perk-rank-max {
+	font-size: 1.8rem;
+}
+.perk-info__perk-description, .perk-info__perk-requirement, .perk-info__perk-skill, .perk-info__next-rank, .perk-info__next-rank-description, .perk-info__next-skill {
+	color: #bbb;
+	font-size: 1.5rem;
+}
+.perk-info__next-rank-description {
+	margin-right: 20px;
+}
+.skill-tree {
+	justify-self: center;
+}
+.skill-lines {
+	fill: none;
+	stroke: rgb(0, 62, 128);
+	//stroke: rgb(0, 166, 247);
+	stroke-width: 3;
+	filter: url(#perk-filter);
+}
+.skill-lines__line--selected {
+	stroke: rgb(36, 183, 255);
+	stroke-width: 6;
+}
+.skill-perks__perk {
+	fill: url(#unavailable-perk-gradient);
+	stroke: transparent;
+	stroke-width: 10;
+	cursor: pointer;
+	filter: url(#perk-filter);
+}
+.skill-perks__perk:hover {
+	fill: url(#hover-perk-gradient);
+}
+.skill-perks__perk--available {
+	fill: url(#available-perk-gradient);
+}
+.skill-perks__perk--selected {
+	fill: url(#selected-perk-gradient);
+	stroke: url(#selected-perk-gradient);
+}
+.skill-perks__perk--selected:hover {
+	fill: url(#hover-perk-gradient);
+	stroke: url(#hover-perk-gradient);
+}
+.perks-names__name, .perk-rank__rank {
+	font-size: 20px;
+	letter-spacing: 1px;
+	fill: #fff;
+	pointer-events: none;
+}
+.perks-names__name--under, .perks-names__name--left, .perks-names__name--right, .perks-names__name--top {
+	//dominant-baseline: central;
+}
+.perks-names__name--under, .perks-names__name--top {
+	text-anchor: middle;
+}
+.perks-names__name--left {
+	text-anchor: end;
+}
+.perks-names__name--right {
+	text-anchor: start;
+}

@@ -16,6 +16,8 @@
 		
 		<link type="text/css" rel="stylesheet" href="./css/fonts.css">
 		<link type="text/css" rel="stylesheet" href="./css/PCversion.css">
+		<link type="text/css" rel="stylesheet" href="./css/skills_perks.css">
+		<link type="text/css" rel="stylesheet" href="./css/items_window.css">
 		
 		<!-- С этой таблицы стилей начинать, если отдельные таблицы -->
 		<link type="image/x-icon" rel="icon" href="./images/favicon2.ico" sizes="16x16">
@@ -25,10 +27,16 @@
 		<!--<script defer src="./js/animation.js"></script>-->
 		<script defer src="./js/main.js"></script>
 		
-		<script defer src="./js/allItems3.js"></script>
+		<!--<script defer src="./js/all_items.js"></script>-->
+		<script defer src="./js/items_constructor.js"></script>
 		<script defer src="./js/magic_resistances.js"></script>
 		<script defer src="./js/customizationMenu.js"></script>
-		
+		<script defer src="./js/img_lazy_loading.js"></script>
+		<script defer src="./js/skill-trees.js"></script>
+		<script defer src="./js/customization_menu.js"></script>
+		<!--<script defer src="./js/equip_items_old.js"></script>-->
+		<script defer src="./js/find_item.js"></script>
+		<script defer src="./js/equip_items.js"></script>
 		<!--<script type="module" src="./js/globals.js"></script>
 			<script type="module" src="./js/for_import.js"></script>
 			<script type="module" src="./js/items_constructor.js"></script>
@@ -41,38 +49,808 @@
 	
 	<body>
 		<noscript>Your browser does not support JavaScript!</noscript>
+		<div class="skills decoration hidden">
+			<header class="skills__header">
+				<h2 class="submenu-title">Skills & Perks:<span class="skill-tree-race"></span></h2>
+				<button class="close-window" type="button" data-close-modal=".skills #overlay">
+					<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+				</button>
+			</header>
+			<div class="skills__icons-wrapper">
+				<div class="icons icons--mage" role="group" aria-label="Mage skill trees">
+					<button type="button" class="icons__skill-icon icons__skill-icon--selected decoration" data-skill-icon="Illusion"><img src="./images/skills/illusion.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Illusion">Illusion</span><span class="chosen-perks-number" data-chosen-perks="Illusion">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Conjuration"><img src="./images/skills/conjuration.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Conjuration">Conjuration</span><span class="chosen-perks-number" data-chosen-perks="Conjuration">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Destruction"><img src="./images/skills/destruction.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Destruction">Destruction</span><span class="chosen-perks-number" data-chosen-perks="Destruction">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Restoration"><img src="./images/skills/restoration.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Restoration">Restoration</span><span class="chosen-perks-number" data-chosen-perks="Restoration">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Alteration"><img src="./images/skills/alteration.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Alteration">Alteration</span><span class="chosen-perks-number" data-chosen-perks="Alteration">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Enchanting"><img src="./images/skills/enchanting.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Enchanting">Enchanting</span><span class="chosen-perks-number" data-chosen-perks="Enchanting">0</span></button>
+				</div>
+				<div class="icons icons--warrior" role="group" aria-label="Warrior skill trees">
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Smithing"><img src="./images/skills/smithing.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Smithing">Smithing</span><span class="chosen-perks-number" data-chosen-perks="Smithing">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Heavy Armor"><img src="./images/skills/heavy-armor.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Heavy Armor">Heavy Armor</span><span class="chosen-perks-number" data-chosen-perks="Heavy Armor">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Block"><img src="./images/skills/block.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Block">Block</span><span class="chosen-perks-number" data-chosen-perks="Block">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Two-Handed"><img src="./images/skills/two-handed.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Two-Handed">Two-Handed</span><span class="chosen-perks-number" data-chosen-perks="Two-Handed">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="One-Handed"><img src="./images/skills/one-handed.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="One-Handed">One-Handed</span><span class="chosen-perks-number" data-chosen-perks="One-Handed">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Archery"><img src="./images/skills/archery.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Archery">Archery</span><span class="chosen-perks-number" data-chosen-perks="Archery">0</span></button>
+				</div>
+				<div class="icons icons--thief" role="group" aria-label="Thief skill trees">
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Light Armor"><img src="./images/skills/light-armor.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Light Armor">Light Armor</span><span class="chosen-perks-number" data-chosen-perks="Light Armor">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Sneak"><img src="./images/skills/sneak.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Sneak">Sneak</span><span class="chosen-perks-number" data-chosen-perks="Sneak">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Lockpicking"><img src="./images/skills/lockpicking.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Lockpicking">Lockpicking</span><span class="chosen-perks-number" data-chosen-perks="Lockpicking">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Pickpocket"><img src="./images/skills/pickpocket.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Pickpocket">Pickpocket</span><span class="chosen-perks-number" data-chosen-perks="Pickpocket">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Speech"><img src="./images/skills/speech.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Speech">Speech</span><span class="chosen-perks-number" data-chosen-perks="Speech">0</span></button>
+					<button type="button" class="icons__skill-icon decoration" data-skill-icon="Alchemy"><img src="./images/skills/alchemy.png" alt="" width="100" height="100" loading="lazy"><span class="icon-name" data-icon-name="Alchemy">Alchemy</span><span class="chosen-perks-number" data-chosen-perks="Alchemy">0</span></button>
+				</div>
+			</div>
+			<div class="skills__tree-wrapper">
+				<section class="tree-header">
+					<div>
+						<h2 class="tree-header__skill-tree-name">Illusion</h2>
+						<dl>
+							<dt>Active Perks:</dt>
+							<dd><span class="tree-header__active-perks">0</span> of <span class="tree-header__max-active-perks">13</span></dd>
+							<dt>Skill Level:</dt>
+							<dd class="tree-header__skill-level">0</dd>
+						</dl>
+					</div>
+					<button class="tree-header__clear-button tree-header__clear-button--tree decoration" type="button">Clear Tree</button>
+					<button class="tree-header__clear-button tree-header__clear-button--all decoration" type="button">Clear All Perks</button>
+					<div class="tree-header__buttons">
+						<p class="tree-header__p">Modify Skill Level:</p>
+						<button class="tree-header__button tree-header__button--add tree-header__button--tens decoration" type="button">+10</button>
+						<button class="tree-header__button tree-header__button--add tree-header__button--ones decoration" type="button">+1</button>
+						<button class="tree-header__button tree-header__button--subtract tree-header__button--tens decoration" type="button">-10</button>
+						<button class="tree-header__button tree-header__button--subtract tree-header__button--ones decoration" type="button">-1</button>
+					</div>
+				</section>
+				<svg style="position:absolute" width="0" height="0">
+					<defs>
+						<filter id="perk-filter" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse">
+							<feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+						</filter>
+						<radialGradient id="selected-perk-gradient" cx="50%" cy="50%" r="80%" fx="50%" fy="50%">
+							<stop offset="20%" stop-color="#fff"/>
+							<stop offset="70%" stop-color="gold"/>
+						</radialGradient>
+						<radialGradient id="available-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+							<stop offset="20%" stop-color="#fff"/>
+							<stop offset="70%" stop-color="rgb(36, 183, 255)"/>
+						</radialGradient>
+						<radialGradient id="unavailable-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+							<stop offset="20%" stop-color="#fff"/>
+							<stop offset="70%" stop-color="violet"/>
+						</radialGradient>
+						<radialGradient id="hover-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+							<stop offset="20%" stop-color="#fff"/>
+							<stop offset="70%" stop-color="red"/>
+						</radialGradient>
+					</defs>
+				</svg>
+				<svg class="skill-tree" data-skill-tree="Illusion" width="680" height="570" viewBox="-50 13 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L140 400" data-from="Novice Illusion" data-to="Apprentice Illusion"/>
+							<path class="skill-lines__line" d="M340 530 L50 500" data-from="Novice Illusion" data-to="Illusion Dual Casting"/>
+							<path class="skill-lines__line" d="M140 400 L140 300" data-from="Apprentice Illusion" data-to="Adept Illusion"/>
+							<path class="skill-lines__line" d="M140 300 L120 200" data-from="Adept Illusion" data-to="Expert Illusion"/>
+							<path class="skill-lines__line" d="M120 200 L220 40" data-from="Expert Illusion" data-to="Master Illusion"/>
+							<path class="skill-lines__line" d="M340 530 L300 350" data-from="Novice Illusion" data-to="Hypnotic Gaze"/>
+							<path class="skill-lines__line" d="M300 350 L220 240" data-from="Hypnotic Gaze" data-to="Aspect of Terror"/>
+							<path class="skill-lines__line" d="M220 240 L270 180" data-from="Aspect of Terror" data-to="Rage"/>
+							<path class="skill-lines__line" d="M270 180 L340 50" data-from="Rage" data-to="Master of the Mind"/>
+							<path class="skill-lines__line" d="M340 50 L460 170" data-from="Quiet Casting" data-to="Master of the Mind"/>
+							<path class="skill-lines__line" d="M460 170 L470 290" data-from="Kindred Mage" data-to="Quiet Casting"/>
+							<path class="skill-lines__line" d="M470 290 L550 410" data-from="Animage" data-to="Kindred Mage"/>
+							<path class="skill-lines__line" d="M550 410 L340 530" data-from="Novice Illusion" data-to="Animage"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Novice Illusion" role="button" tabindex="0" aria-label="Illusion Perk: Novice Illusion" aria-pressed="false"/>
+							<circle cx="50" cy="500" r="10" class="skill-perks__perk" role="button" data-perk-name="Illusion Dual Casting" tabindex="0" aria-label="Illusion Perk: Illusion Dual Casting" aria-pressed="false"/>
+							<circle cx="140" cy="400" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Apprentice Illusion" aria-label="Illusion Perk: Apprentice Illusion" aria-pressed="false"/>
+							<circle cx="140" cy="300" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Adept Illusion" aria-label="Illusion Perk: Adept Illusion" aria-pressed="false"/>
+							<circle cx="120" cy="200" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Expert Illusion" aria-label="Illusion Perk: Expert Illusion" aria-pressed="false"/>
+							<circle cx="220" cy="40" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Master Illusion" aria-label="Illusion Perk: Master Illusion" aria-pressed="false"/>
+							<circle cx="300" cy="350" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Hypnotic Gaze" aria-label="Illusion Perk: Hypnotic Gaze" aria-pressed="false"/>
+							<circle cx="220" cy="240" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Aspect of Terror" aria-label="Illusion Perk: Aspect of Terror" aria-pressed="false"/>
+							<circle cx="270" cy="180" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Rage" aria-label="Illusion Perk: Rage" aria-pressed="false"/>
+							<circle cx="340" cy="50" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Master of the Mind" aria-label="Illusion Perk: Master of the Mind" aria-pressed="false"/>
+							<circle cx="460" cy="170" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Quiet Casting" aria-label="Illusion Perk: Quiet Casting" aria-pressed="false"/>
+							<circle cx="470" cy="290" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Kindred Mage" aria-label="Illusion Perk: Kindred Mage" aria-pressed="false"/>
+							<circle cx="550" cy="410" r="10" class="skill-perks__perk" role="button" tabindex="0" data-perk-name="Animage" aria-label="Illusion Perk: Animage" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Novice Illusion</text>
+							<text x="50" y="500" dy="-20" class="perks-names__name perks-names__name--top">Illusion Dual Casting</text>
+							<text x="140" y="400" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Apprentice Illusion</text>
+							<text x="140" y="300" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Adept Illusion</text>
+							<text x="120" y="200" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Expert Illusion</text>
+							<text x="220" y="40" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Master Illusion</text>
+							<text x="300" y="350" dx="20" dy="5" class="perks-names__name perks-names__name--right">Hypnotic Gaze</text>
+							<text x="220" y="240" dx="20" dy="5" class="perks-names__name perks-names__name--right">Aspect of Terror</text>
+							<text x="270" y="180" dx="20" dy="5" class="perks-names__name perks-names__name--right">Rage</text>
+							<text x="340" y="50" dx="20" dy="5" class="perks-names__name perks-names__name--right">Master of the Mind</text>
+							<text x="460" y="170" dx="20" dy="5" class="perks-names__name perks-names__name--right">Quiet Casting</text>
+							<text x="470" y="290" dx="20" dy="5" class="perks-names__name perks-names__name--right">Kindred Mage</text>
+							<text x="550" y="410" dy="35" class="perks-names__name perks-names__name--under">Animage</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Conjuration" width="680" height="570" viewBox="-30 13 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L160 400" data-from="Novice Conjuration" data-to="Summoner"/>
+							<path class="skill-lines__line" d="M160 400 L100 240" data-from="Summoner" data-to="Atromancy"/>
+							<path class="skill-lines__line" d="M100 240 L105 140" data-from="Atromancy" data-to="Elemental Potency"/>
+							<path class="skill-lines__line" d="M105 140 L200 50" data-from="Elemental Potency" data-to="Twin Souls"/>
+							<path class="skill-lines__line" d="M200 50 L190 130" data-from="Dark Souls" data-to="Twin Souls"/>
+							<path class="skill-lines__line" d="M190 130 L200 220" data-from="Necromancy" data-to="Dark Souls"/>
+							<path class="skill-lines__line" d="M200 220 L340 530" data-from="Novice Conjuration" data-to="Necromancy"/>
+							<path class="skill-lines__line" d="M340 530 L220 380" data-from="Novice Conjuration" data-to="Conjuration Dual Casting"/>
+							<path class="skill-lines__line" d="M340 530 L480 400" data-from="Novice Conjuration" data-to="Apprentice Conjuration"/>
+							<path class="skill-lines__line" d="M480 400 L540 300" data-from="Apprentice Conjuration" data-to="Adept Conjuration"/>
+							<path class="skill-lines__line" d="M540 300 L550 180" data-from="Adept Conjuration" data-to="Expert Conjuration"/>
+							<path class="skill-lines__line" d="M550 180 L495 60" data-from="Expert Conjuration" data-to="Master Conjuration"/>
+							<path class="skill-lines__line" d="M340 530 L400 360" data-from="Novice Conjuration" data-to="Mystic Binding"/>
+							<path class="skill-lines__line" d="M400 360 L410 260" data-from="Mystic Binding" data-to="Soul Stealer"/>
+							<path class="skill-lines__line" d="M410 260 L410 200" data-from="Soul Stealer" data-to="Oblivion Binding"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Novice Conjuration" role="button" tabindex="0" aria-label="Conjuration Perk: Novice Conjuration" aria-pressed="false"/>
+							<circle cx="160" cy="400" r="10" class="skill-perks__perk" data-perk-name="Summoner" data-multiperk="2" role="button" tabindex="0" aria-label="Conjuration Perk: Summoner" aria-pressed="false"/>
+							<circle cx="100" cy="240" r="10" class="skill-perks__perk" data-perk-name="Atromancy" role="button" tabindex="0" aria-label="Conjuration Perk: Atromancy" aria-pressed="false"/>
+							<circle cx="105" cy="140" r="10" class="skill-perks__perk" data-perk-name="Elemental Potency" role="button" tabindex="0" aria-label="Conjuration Perk: Elemental Potency" aria-pressed="false"/>
+							<circle cx="200" cy="50" r="10" class="skill-perks__perk" data-perk-name="Twin Souls" role="button" tabindex="0" aria-label="Conjuration Perk: Twin Souls" aria-pressed="false"/>
+							<circle cx="190" cy="130" r="10" class="skill-perks__perk" data-perk-name="Dark Souls" role="button" tabindex="0" aria-label="Conjuration Perk: Dark Souls" aria-pressed="false"/>
+							<circle cx="200" cy="220" r="10" class="skill-perks__perk" data-perk-name="Necromancy" role="button" tabindex="0" aria-label="Conjuration Perk: Necromancy" aria-pressed="false"/>
+							<circle cx="220" cy="380" r="10" class="skill-perks__perk" data-perk-name="Conjuration Dual Casting" role="button" tabindex="0" aria-label="Conjuration Perk: Conjuration Dual Casting" aria-pressed="false"/>
+							<circle cx="480" cy="400" r="10" class="skill-perks__perk" data-perk-name="Apprentice Conjuration" role="button" tabindex="0" aria-label="Conjuration Perk: Apprentice Conjuration" aria-pressed="false"/>
+							<circle cx="540" cy="300" r="10" class="skill-perks__perk" data-perk-name="Adept Conjuration" role="button" tabindex="0" aria-label="Conjuration Perk: Adept Conjuration" aria-pressed="false"/>
+							<circle cx="550" cy="180" r="10" class="skill-perks__perk" data-perk-name="Expert Conjuration" role="button" tabindex="0" aria-label="Conjuration Perk: Expert Conjuration" aria-pressed="false"/>
+							<circle cx="495" cy="60" r="10" class="skill-perks__perk" data-perk-name="Master Conjuration" role="button" tabindex="0" aria-label="Conjuration Perk: Master Conjuration" aria-pressed="false"/>
+							<circle cx="400" cy="360" r="10" class="skill-perks__perk" data-perk-name="Mystic Binding" role="button" tabindex="0" aria-label="Conjuration Perk: Mystic Binding" aria-pressed="false"/>
+							<circle cx="410" cy="260" r="10" class="skill-perks__perk" data-perk-name="Soul Stealer" role="button" tabindex="0" aria-label="Conjuration Perk: Soul Stealer" aria-pressed="false"/>
+							<circle cx="410" cy="200" r="10" class="skill-perks__perk" data-perk-name="Oblivion Binding" role="button" tabindex="0" aria-label="Conjuration Perk: Oblivion Binding" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Novice Conjuration</text>
+							<text x="160" y="400" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Summoner <tspan class="perk-rank__rank" data-perk-rank="Summoner">0</tspan>/2</text>
+							<text x="100" y="240" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Atromancy</text>
+							<text x="105" y="140" dy="-20" class="perks-names__name perks-names__name--top">Elemental Potency</text>
+							<text x="200" y="50" dx="20" dy="5" class="perks-names__name perks-names__name--right">Twin Souls</text>
+							<text x="190" y="130" dx="20" dy="5" class="perks-names__name perks-names__name--right">Dark Souls</text>
+							<text x="200" y="220" dx="20" dy="5" class="perks-names__name perks-names__name--right">Necromancy</text>
+							<text x="220" y="380" dy="-20" class="perks-names__name perks-names__name--top">Conjuration Dual Casting</text>
+							<text x="480" y="400" dy="35" class="perks-names__name perks-names__name--under">Apprentice Conjuration</text>
+							<text x="540" y="300" dy="-20" class="perks-names__name perks-names__name--top">Adept Conjuration</text>
+							<text x="550" y="180" dy="-20" class="perks-names__name perks-names__name--top">Expert Conjuration</text>
+							<text x="495" y="60" dy="-20" class="perks-names__name perks-names__name--top">Master Conjuration</text>
+							<text x="400" y="360" dy="35" class="perks-names__name perks-names__name--under">Mystic Binding</text>
+							<text x="410" y="260" dy="35" class="perks-names__name perks-names__name--under">Soul Stealer</text>
+							<text x="410" y="200" dy="-20" class="perks-names__name perks-names__name--top">Oblivion Binding</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Destruction" width="680" height="570" viewBox="13 33 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L190 350" data-from="Novice Destruction" data-to="Augmented Flames"/>
+							<path class="skill-lines__line" d="M190 350 L160 250" data-from="Augmented Flames" data-to="Intense Flames"/>
+							<path class="skill-lines__line" d="M340 530 L270 310" data-from="Novice Destruction" data-to="Augmented Frost"/>
+							<path class="skill-lines__line" d="M270 310 L250 200" data-from="Augmented Frost" data-to="Deep Freeze"/>
+							<path class="skill-lines__line" d="M340 530 L360 300" data-from="Novice Destruction" data-to="Augmented Shock"/>
+							<path class="skill-lines__line" d="M360 300 L350 160" data-from="Augmented Shock" data-to="Disintegrate"/>
+							<path class="skill-lines__line" d="M340 530 L440 390" data-from="Novice Destruction" data-to="Apprentice Destruction"/>
+							<path class="skill-lines__line" d="M440 390 L495 310" data-from="Apprentice Destruction" data-to="Rune Master"/>
+							<path class="skill-lines__line" d="M440 390 L430 250" data-from="Apprentice Destruction" data-to="Adept Destruction"/>
+							<path class="skill-lines__line" d="M430 250 L460 170" data-from="Adept Destruction" data-to="Expert Destruction"/>
+							<path class="skill-lines__line" d="M460 170 L460 80" data-from="Expert Destruction" data-to="Master Destruction"/>
+							<path class="skill-lines__line" d="M340 530 L510 490" data-from="Novice Destruction" data-to="Destruction Dual Casting"/>
+							<path class="skill-lines__line" d="M510 490 L540 400" data-from="Destruction Dual Casting" data-to="Impact"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Novice Destruction" role="button" tabindex="0" aria-label="Destruction Perk: Novice Destruction" aria-pressed="false"/>
+							<circle cx="190" cy="350" r="10" class="skill-perks__perk" data-perk-name="Augmented Flames" data-multiperk="2" role="button" tabindex="0" aria-label="Destruction Perk: Augmented Flames" aria-pressed="false"/>
+							<circle cx="160" cy="250" r="10" class="skill-perks__perk" data-perk-name="Intense Flames" role="button" tabindex="0" aria-label="Destruction Perk: Intense Flames" aria-pressed="false"/>
+							<circle cx="270" cy="310" r="10" class="skill-perks__perk" data-perk-name="Augmented Frost" data-multiperk="2" role="button" tabindex="0" aria-label="Destruction Perk: Augmented Frost" aria-pressed="false"/>
+							<circle cx="250" cy="200" r="10" class="skill-perks__perk" data-perk-name="Deep Freeze" role="button" tabindex="0" aria-label="Destruction Perk: Deep Freeze" aria-pressed="false"/>
+							<circle cx="360" cy="300" r="10" class="skill-perks__perk" data-perk-name="Augmented Shock" data-multiperk="2" role="button" tabindex="0" aria-label="Destruction Perk: Augmented Shock" aria-pressed="false"/>
+							<circle cx="350" cy="160" r="10" class="skill-perks__perk" data-perk-name="Disintegrate" role="button" tabindex="0" aria-label="Destruction Perk: Disintegrate" aria-pressed="false"/>
+							<circle cx="440" cy="390" r="10" class="skill-perks__perk" data-perk-name="Apprentice Destruction" role="button" tabindex="0" aria-label="Destruction Perk: Apprentice Destruction" aria-pressed="false"/>
+							<circle cx="495" cy="310" r="10" class="skill-perks__perk" data-perk-name="Rune Master" role="button" tabindex="0" aria-label="Destruction Perk: Rune Master" aria-pressed="false"/>
+							<circle cx="430" cy="250" r="10" class="skill-perks__perk" data-perk-name="Adept Destruction" role="button" tabindex="0" aria-label="Destruction Perk: Adept Destruction" aria-pressed="false"/>
+							<circle cx="460" cy="170" r="10" class="skill-perks__perk" data-perk-name="Expert Destruction" role="button" tabindex="0" aria-label="Destruction Perk: Expert Destruction" aria-pressed="false"/>
+							<circle cx="460" cy="80" r="10" class="skill-perks__perk" data-perk-name="Master Destruction" role="button" tabindex="0" aria-label="Destruction Perk: Master Destruction" aria-pressed="false"/>
+							<circle cx="510" cy="490" r="10" class="skill-perks__perk" data-perk-name="Destruction Dual Casting" role="button" tabindex="0" aria-label="Destruction Perk: Destruction Dual Casting" aria-pressed="false"/>
+							<circle cx="540" cy="400" r="10" class="skill-perks__perk" data-perk-name="Impact" role="button" tabindex="0" aria-label="Destruction Perk: Impact" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Novice Destruction</text>
+							<text x="190" y="350" dy="35" class="perks-names__name perks-names__name--under">Augmented Flames <tspan class="perk-rank__rank" data-perk-rank="Augmented Flames">0</tspan>/2</text>
+							<text x="160" y="250" dy="-20" class="perks-names__name perks-names__name--top">Intense Flames</text>
+							<text x="270" y="310" dy="-20" class="perks-names__name perks-names__name--top">Augmented Frost <tspan class="perk-rank__rank" data-perk-rank="Augmented Frost">0</tspan>/2</text>
+							<text x="250" y="200" dy="-20" class="perks-names__name perks-names__name--top">Deep Freeze</text>
+							<text x="360" y="300" dy="35" class="perks-names__name perks-names__name--under">Augmented Shock <tspan class="perk-rank__rank" data-perk-rank="Augmented Shock">0</tspan>/2</text>
+							<text x="350" y="160" dy="-20" class="perks-names__name perks-names__name--top">Disintegrate</text>
+							<text x="440" y="390" dy="35" class="perks-names__name perks-names__name--under">Apprentice Destruction</text>
+							<text x="495" y="310" dx="20" dy="5" class="perks-names__name perks-names__name--right">Rune Master</text>
+							<text x="430" y="250" dx="20" dy="5" class="perks-names__name perks-names__name--right">Adept Destruction</text>
+							<text x="460" y="170" dx="20" dy="5" class="perks-names__name perks-names__name--right">Expert Destruction</text>
+							<text x="460" y="80" dx="20" dy="5" class="perks-names__name perks-names__name--right">Master Destruction</text>
+							<text x="510" y="490" dy="35" class="perks-names__name perks-names__name--under">Destruction Dual Casting</text>
+							<text x="540" y="400" dx="20" dy="5" class="perks-names__name perks-names__name--right">Impact</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Restoration" width="680" height="570" viewBox="-10 45 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L80 410" data-from="Novice Restoration" data-to="Respite"/>
+							<path class="skill-lines__line" d="M340 530 L220 410" data-from="Novice Restoration" data-to="Regeneration"/>
+							<path class="skill-lines__line" d="M220 410 L80 270" data-from="Regeneration" data-to="Necromage"/>
+							<path class="skill-lines__line" d="M340 530 L210 280" data-from="Novice Restoration" data-to="Ward Absorb"/>
+							<path class="skill-lines__line" d="M340 530 L370 420" data-from="Novice Restoration" data-to="Apprentice Restoration"/>
+							<path class="skill-lines__line" d="M370 420 L320 300" data-from="Apprentice Restoration" data-to="Adept Restoration"/>
+							<path class="skill-lines__line" d="M320 300 L330 190" data-from="Adept Restoration" data-to="Expert Restoration"/>
+							<path class="skill-lines__line" d="M330 190 L260 130" data-from="Expert Restoration" data-to="Master Restoration"/>
+							<path class="skill-lines__line" d="M340 530 L520 470" data-from="Novice Restoration" data-to="Restoration Dual Casting"/>
+							<path class="skill-lines__line" d="M340 530 L530 400" data-from="Novice Restoration" data-to="Recovery"/>
+							<path class="skill-lines__line" d="M530 400 L570 320" data-from="Recovery" data-to="Avoid Death"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Novice Restoration" role="button" tabindex="0" aria-label="Restoration Perk: Novice Restoration" aria-pressed="false"/>
+							<circle cx="80" cy="410" r="10" class="skill-perks__perk" data-perk-name="Respite" role="button" tabindex="0" aria-label="Restoration Perk: Respite" aria-pressed="false"/>
+							<circle cx="220" cy="410" r="10" class="skill-perks__perk" data-perk-name="Regeneration" role="button" tabindex="0" aria-label="Restoration Perk: Regeneration" aria-pressed="false"/>
+							<circle cx="80" cy="270" r="10" class="skill-perks__perk" data-perk-name="Necromage" role="button" tabindex="0" aria-label="Restoration Perk: Necromage" aria-pressed="false"/>
+							<circle cx="210" cy="280" r="10" class="skill-perks__perk" data-perk-name="Ward Absorb" role="button" tabindex="0" aria-label="Restoration Perk: Ward Absorb" aria-pressed="false"/>
+							<circle cx="370" cy="420" r="10" class="skill-perks__perk" data-perk-name="Apprentice Restoration" role="button" tabindex="0" aria-label="Restoration Perk: Apprentice Restoration" aria-pressed="false"/>
+							<circle cx="320" cy="300" r="10" class="skill-perks__perk" data-perk-name="Adept Restoration" role="button" tabindex="0" aria-label="Restoration Perk: Adept Restoration" aria-pressed="false"/>
+							<circle cx="330" cy="190" r="10" class="skill-perks__perk" data-perk-name="Expert Restoration" role="button" tabindex="0" aria-label="Restoration Perk: Expert Restoration" aria-pressed="false"/>
+							<circle cx="260" cy="130" r="10" class="skill-perks__perk" data-perk-name="Master Restoration" role="button" tabindex="0" aria-label="Restoration Perk: Master Restoration" aria-pressed="false"/>
+							<circle cx="520" cy="470" r="10" class="skill-perks__perk" data-perk-name="Restoration Dual Casting" role="button" tabindex="0" aria-label="Restoration Perk: Restoration Dual Casting" aria-pressed="false"/>
+							<circle cx="530" cy="400" r="10" class="skill-perks__perk" data-perk-name="Recovery" data-multiperk="2" role="button" tabindex="0" aria-label="Restoration Perk: Recovery" aria-pressed="false"/>
+							<circle cx="570" cy="320" r="10" class="skill-perks__perk" data-perk-name="Avoid Death" role="button" tabindex="0" aria-label="Restoration Perk: Avoid Death" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Novice Restoration</text>
+							<text x="80" y="410" dy="-20" class="perks-names__name perks-names__name--top">Respite</text>
+							<text x="220" y="410" dy="-20" class="perks-names__name perks-names__name--top">Regeneration</text>
+							<text x="80" y="270" dy="-20" class="perks-names__name perks-names__name--top">Necromage</text>
+							<text x="210" y="280" dy="-20" class="perks-names__name perks-names__name--top">Ward Absorb</text>
+							<text x="370" y="420" dy="-20" class="perks-names__name perks-names__name--top">Apprentice Restoration</text>
+							<text x="320" y="300" dy="-20" class="perks-names__name perks-names__name--top">Adept Restoration</text>
+							<text x="330" y="190" dy="-20" class="perks-names__name perks-names__name--top">Expert Restoration</text>
+							<text x="260" y="130" dy="-20" class="perks-names__name perks-names__name--top">Master Restoration</text>
+							<text x="520" y="470" dy="35" class="perks-names__name perks-names__name--under">Restoration Dual Casting</text>
+							<text x="530" y="400" dy="-20" class="perks-names__name perks-names__name--top">Recovery <tspan class="perk-rank__rank" data-perk-rank="Recovery">0</tspan>/2</text>
+							<text x="570" y="320" dy="-20" class="perks-names__name perks-names__name--top">Avoid Death</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Alteration" width="680" height="570" viewBox="20 25 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L350 370" data-from="Novice Alteration" data-to="Apprentice Alteration"/>
+							<path class="skill-lines__line" d="M340 530 L250 420" data-from="Novice Alteration" data-to="Alteration Dual Casting"/>
+							<path class="skill-lines__line" d="M350 370 L350 250" data-from="Apprentice Alteration" data-to="Adept Alteration"/>
+							<path class="skill-lines__line" d="M350 250 L400 190" data-from="Adept Alteration" data-to="Expert Alteration"/>
+							<path class="skill-lines__line" d="M400 190 L500 100" data-from="Expert Alteration" data-to="Master Alteration"/>
+							<path class="skill-lines__line" d="M400 190 L220 100" data-from="Expert Alteration" data-to="Atronach"/>
+							<path class="skill-lines__line" d="M350 250 L290 200" data-from="Adept Alteration" data-to="Stability"/>
+							<path class="skill-lines__line" d="M350 370 L250 270" data-from="Apprentice Alteration" data-to="Mage Armor"/>
+							<path class="skill-lines__line" d="M350 370 L450 270" data-from="Apprentice Alteration" data-to="Magic Resistance"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Novice Alteration" role="button" tabindex="0" aria-label="Alteration Perk: Novice Alteration" aria-pressed="false"/>
+							<circle cx="350" cy="370" r="10" class="skill-perks__perk" data-perk-name="Apprentice Alteration" role="button" tabindex="0" aria-label="Alteration Perk: Apprentice Alteration" aria-pressed="false"/>
+							<circle cx="250" cy="420" r="10" class="skill-perks__perk" data-perk-name="Alteration Dual Casting" role="button" tabindex="0" aria-label="Alteration Perk: Alteration Dual Casting" aria-pressed="false"/>
+							<circle cx="350" cy="250" r="10" class="skill-perks__perk" data-perk-name="Adept Alteration" role="button" tabindex="0" aria-label="Alteration Perk: Adept Alteration" aria-pressed="false"/>
+							<circle cx="400" cy="190" r="10" class="skill-perks__perk" data-perk-name="Expert Alteration" role="button" tabindex="0" aria-label="Alteration Perk: Expert Alteration" aria-pressed="false"/>
+							<circle cx="500" cy="100" r="10" class="skill-perks__perk" data-perk-name="Master Alteration" role="button" tabindex="0" aria-label="Alteration Perk: Master Alteration" aria-pressed="false"/>
+							<circle cx="220" cy="100" r="10" class="skill-perks__perk" data-perk-name="Atronach" role="button" tabindex="0" aria-label="Alteration Perk: Atronach" aria-pressed="false"/>
+							<circle cx="290" cy="200" r="10" class="skill-perks__perk" data-perk-name="Stability" role="button" tabindex="0" aria-label="Alteration Perk: Stability" aria-pressed="false"/>
+							<circle cx="250" cy="270" r="10" class="skill-perks__perk" data-perk-name="Mage Armor" data-multiperk="3" role="button" tabindex="0" aria-label="Alteration Perk: Mage Armor" aria-pressed="false"/>
+							<circle cx="450" cy="270" r="10" class="skill-perks__perk" data-perk-name="Magic Resistance" data-multiperk="3" role="button" tabindex="0" aria-label="Alteration Perk: Magic Resistance" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Novice Alteration</text>
+							<text x="350" y="370" dx="20" dy="5" class="perks-names__name perks-names__name--right">Apprentice Alteration</text>
+							<text x="250" y="420" dy="-20" class="perks-names__name perks-names__name--top">Alteration Dual Casting</text>
+							<text x="350" y="250" dy="35" class="perks-names__name perks-names__name--under">Adept Alteration</text>
+							<text x="400" y="190" dx="20" dy="5" class="perks-names__name perks-names__name--right">Expert Alteration</text>
+							<text x="500" y="100" dy="-20" class="perks-names__name perks-names__name--top">Master Alteration</text>
+							<text x="220" y="100" dy="-20" class="perks-names__name perks-names__name--top">Atronach</text>
+							<text x="290" y="200" dy="-20" class="perks-names__name perks-names__name--top">Stability</text>
+							<text x="250" y="270" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Mage Armor <tspan class="perk-rank__rank" data-perk-rank="Mage Armor">0</tspan>/3</text>
+							<text x="450" y="270" dx="20" dy="5" class="perks-names__name perks-names__name--right">Magic Resistance <tspan class="perk-rank__rank" data-perk-rank="Magic Resistance">0</tspan>/3</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Enchanting" width="680" height="570" viewBox="27 27 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L250 370" data-from="Enchanter" data-to="Fire Enchanter"/>
+							<path class="skill-lines__line" d="M250 370 L255 270" data-from="Fire Enchanter" data-to="Frost Enchanter"/>
+							<path class="skill-lines__line" d="M255 270 L290 180" data-from="Frost Enchanter" data-to="Storm Enchanter"/>
+							<path class="skill-lines__line" d="M290 180 L380 100" data-from="Storm Enchanter" data-to="Extra Effect"/>
+							<path class="skill-lines__line" d="M380 100 L400 230" data-from="Corpus Enchanter" data-to="Extra Effect"/>
+							<path class="skill-lines__line" d="M400 230 L350 350" data-from="Insightful Enchanter" data-to="Corpus Enchanter"/>
+							<path class="skill-lines__line" d="M350 350 L340 530" data-from="Enchanter" data-to="Insightful Enchanter"/>
+							<path class="skill-lines__line" d="M340 530 L500 390" data-from="Enchanter" data-to="Soul Squeezer"/>
+							<path class="skill-lines__line" d="M500 390 L470 170" data-from="Soul Squeezer" data-to="Soul Siphon"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Enchanter" data-multiperk="5" role="button" tabindex="0" aria-label="Enchanting Perk: Enchanter" aria-pressed="false"/>
+							<circle cx="250" cy="370" r="10" class="skill-perks__perk" data-perk-name="Fire Enchanter" role="button" tabindex="0" aria-label="Enchanting Perk: Fire Enchanter" aria-pressed="false"/>
+							<circle cx="255" cy="270" r="10" class="skill-perks__perk" data-perk-name="Frost Enchanter" role="button" tabindex="0" aria-label="Enchanting Perk: Frost Enchanter" aria-pressed="false"/>
+							<circle cx="290" cy="180" r="10" class="skill-perks__perk" data-perk-name="Storm Enchanter" role="button" tabindex="0" aria-label="Enchanting Perk: Storm Enchanter" aria-pressed="false"/>
+							<circle cx="380" cy="100" r="10" class="skill-perks__perk" data-perk-name="Extra Effect" role="button" tabindex="0" aria-label="Enchanting Perk: Extra Effect" aria-pressed="false"/>
+							<circle cx="400" cy="230" r="10" class="skill-perks__perk" data-perk-name="Corpus Enchanter" role="button" tabindex="0" aria-label="Enchanting Perk: Corpus Enchanter" aria-pressed="false"/>
+							<circle cx="350" cy="350" r="10" class="skill-perks__perk" data-perk-name="Insightful Enchanter" role="button" tabindex="0" aria-label="Enchanting Perk: Insightful Enchanter" aria-pressed="false"/>
+							<circle cx="500" cy="390" r="10" class="skill-perks__perk" data-perk-name="Soul Squeezer" role="button" tabindex="0" aria-label="Enchanting Perk: Soul Squeezer" aria-pressed="false"/>
+							<circle cx="470" cy="170" r="10" class="skill-perks__perk" data-perk-name="Soul Siphon" role="button" tabindex="0" aria-label="Enchanting Perk: Soul Siphon" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Enchanter <tspan class="perk-rank__rank" data-perk-rank="Enchanter">0</tspan>/5</text>
+							<text x="250" y="370" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Fire Enchanter</text>
+							<text x="255" y="270" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Frost Enchanter</text>
+							<text x="290" y="180" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Storm Enchanter</text>
+							<text x="380" y="100" dy="-20" class="perks-names__name perks-names__name--top">Extra Effect</text>
+							<text x="400" y="230" dx="20" dy="5" class="perks-names__name perks-names__name--right">Corpus Enchanter</text>
+							<text x="350" y="350" dx="20" dy="5" class="perks-names__name perks-names__name--right">Insightful Enchanter</text>
+							<text x="500" y="390" dx="20" dy="5" class="perks-names__name perks-names__name--right">Soul Squeezer</text>
+							<text x="470" y="170" dx="20" dy="5" class="perks-names__name perks-names__name--right">Soul Siphon</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Smithing" width="680" height="570" viewBox="55 45 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L100 350" data-from="Steel Smithing" data-to="Elven Smithing"/>
+							<path class="skill-lines__line" d="M100 350 L120 280" data-from="Elven Smithing" data-to="Advanced Smithing"/>
+							<path class="skill-lines__line" d="M120 280 L260 210" data-from="Advanced Smithing" data-to="Glass Smithing"/>
+							<path class="skill-lines__line" d="M260 210 L380 200" data-from="Glass Smithing" data-to="Dragon Armor"/>
+							<path class="skill-lines__line" d="M380 200 L480 220" data-from="Daedric Smithing" data-to="Dragon Armor"/>
+							<path class="skill-lines__line" d="M480 220 L670 300" data-from="Ebony Smithing" data-to="Daedric Smithing"/>
+							<path class="skill-lines__line" d="M670 300 L560 300" data-from="Orcish Smithing" data-to="Ebony Smithing"/>
+							<path class="skill-lines__line" d="M560 300 L440 390" data-from="Dwarven Smithing" data-to="Orcish Smithing"/>
+							<path class="skill-lines__line" d="M440 390 L340 530" data-from="Steel Smithing" data-to="Dwarven Smithing"/>
+							<path class="skill-lines__line" d="M340 530 L340 370" data-from="Steel Smithing" data-to="Arcane Blacksmith"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Steel Smithing" role="button" tabindex="0" aria-label="Smithing Perk: Steel Smithing" aria-pressed="false"/>
+							<circle cx="100" cy="350" r="10" class="skill-perks__perk" data-perk-name="Elven Smithing" role="button" tabindex="0" aria-label="Smithing Perk: Elven Smithing" aria-pressed="false"/>
+							<circle cx="120" cy="280" r="10" class="skill-perks__perk" data-perk-name="Advanced Smithing" role="button" tabindex="0" aria-label="Smithing Perk: Advanced Smithing" aria-pressed="false"/>
+							<circle cx="260" cy="210" r="10" class="skill-perks__perk" data-perk-name="Glass Smithing" role="button" tabindex="0" aria-label="Smithing Perk: Glass Smithing" aria-pressed="false"/>
+							<circle cx="380" cy="200" r="10" class="skill-perks__perk" data-perk-name="Dragon Armor" role="button" tabindex="0" aria-label="Smithing Perk: Dragon Armor" aria-pressed="false"/>
+							<circle cx="480" cy="220" r="10" class="skill-perks__perk" data-perk-name="Daedric Smithing" role="button" tabindex="0" aria-label="Smithing Perk: Daedric Smithing" aria-pressed="false"/>
+							<circle cx="670" cy="300" r="10" class="skill-perks__perk" data-perk-name="Ebony Smithing" role="button" tabindex="0" aria-label="Smithing Perk: Ebony Smithing" aria-pressed="false"/>
+							<circle cx="560" cy="300" r="10" class="skill-perks__perk" data-perk-name="Orcish Smithing" role="button" tabindex="0" aria-label="Smithing Perk: Orcish Smithing" aria-pressed="false"/>
+							<circle cx="440" cy="390" r="10" class="skill-perks__perk" data-perk-name="Dwarven Smithing" role="button" tabindex="0" aria-label="Smithing Perk: Dwarven Smithing" aria-pressed="false"/>
+							<circle cx="340" cy="370" r="10" class="skill-perks__perk" data-perk-name="Arcane Blacksmith" role="button" tabindex="0" aria-label="Smithing Perk: Arcane Blacksmith" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Steel Smithing</text>
+							<text x="100" y="350" dx="20" dy="5" class="perks-names__name perks-names__name--right">Elven Smithing</text>
+							<text x="120" y="280" dx="20" dy="5" class="perks-names__name perks-names__name--right">Advanced Smithing</text>
+							<text x="260" y="210" dy="-20" class="perks-names__name perks-names__name--top">Glass Smithing</text>
+							<text x="380" y="200" dy="-20" class="perks-names__name perks-names__name--top">Dragon Armor</text>
+							<text x="480" y="220" dx="20" dy="5" class="perks-names__name perks-names__name--right">Daedric Smithing</text>
+							<text x="670" y="300" dy="-20" class="perks-names__name perks-names__name--top">Ebony Smithing</text>
+							<text x="560" y="300" dy="35" class="perks-names__name perks-names__name--under">Orcish Smithing</text>
+							<text x="440" y="390" dx="20" dy="5" class="perks-names__name perks-names__name--right">Dwarven Smithing</text>
+							<text x="340" y="370" dy="-20" class="perks-names__name perks-names__name--top">Arcane Blacksmith</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Heavy Armor" width="680" height="570" viewBox="-3 23 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L160 400" data-from="Juggernaut" data-to="Fists of Steel"/>
+							<path class="skill-lines__line" d="M160 400 L130 280" data-from="Fists of Steel" data-to="Cushioned"/>
+							<path class="skill-lines__line" d="M130 280 L150 180" data-from="Cushioned" data-to="Conditioning"/>
+							<path class="skill-lines__line" d="M340 530 L500 420" data-from="Juggernaut" data-to="Well Fitted"/>
+							<path class="skill-lines__line" d="M500 420 L550 300" data-from="Well Fitted" data-to="Tower of Strength"/>
+							<path class="skill-lines__line" d="M550 300 L540 180" data-from="Tower of Strength" data-to="Heavy Matching Set"/>
+							<path class="skill-lines__line" d="M540 180 L510 90" data-from="Heavy Matching Set" data-to="Reflect Blows"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Juggernaut" data-multiperk="5" role="button" tabindex="0" aria-label="Heavy Armor Perk: Juggernaut" aria-pressed="false"/>
+							<circle cx="160" cy="400" r="10" class="skill-perks__perk" data-perk-name="Fists of Steel" role="button" tabindex="0" aria-label="Heavy Armor Perk: Fists of Steel" aria-pressed="false"/>
+							<circle cx="130" cy="280" r="10" class="skill-perks__perk" data-perk-name="Cushioned" role="button" tabindex="0" aria-label="Heavy Armor Perk: Cushioned" aria-pressed="false"/>
+							<circle cx="150" cy="180" r="10" class="skill-perks__perk" data-perk-name="Conditioning" role="button" tabindex="0" aria-label="Heavy Armor Perk: Conditioning" aria-pressed="false"/>
+							<circle cx="500" cy="420" r="10" class="skill-perks__perk" data-perk-name="Well Fitted" role="button" tabindex="0" aria-label="Heavy Armor Perk: Well Fitted" aria-pressed="false"/>
+							<circle cx="550" cy="300" r="10" class="skill-perks__perk" data-perk-name="Tower of Strength" role="button" tabindex="0" aria-label="Heavy Armor Perk: Tower of Strength" aria-pressed="false"/>
+							<circle cx="540" cy="180" r="10" class="skill-perks__perk" data-perk-name="Heavy Matching Set" role="button" tabindex="0" aria-label="Heavy Armor Perk: Matching Set" aria-pressed="false"/>
+							<circle cx="510" cy="90" r="10" class="skill-perks__perk" data-perk-name="Reflect Blows" role="button" tabindex="0" aria-label="Heavy Armor Perk: Reflect Blows" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Juggernaut <tspan class="perk-rank__rank" data-perk-rank="Juggernaut">0</tspan>/5</text>
+							<text x="160" y="400" dx="20" dy="5" class="perks-names__name perks-names__name--right">Fists of Steel</text>
+							<text x="130" y="280" dx="20" dy="5" class="perks-names__name perks-names__name--right">Cushioned</text>
+							<text x="150" y="180" dy="-20" class="perks-names__name perks-names__name--top">Conditioning</text>
+							<text x="500" y="420" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Well Fitted</text>
+							<text x="550" y="300" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Tower of Strength</text>
+							<text x="540" y="180" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Matching Set</text>
+							<text x="510" y="90" dy="-20" class="perks-names__name perks-names__name--top">Reflect Blows</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Block" width="680" height="570" viewBox="-13 24 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L180 460" data-from="Shield Wall" data-to="Deflect Arrows"/>
+							<path class="skill-lines__line" d="M180 460 L120 300" data-from="Deflect Arrows" data-to="Elemental Protection"/>
+							<path class="skill-lines__line" d="M120 300 L180 160" data-from="Elemental Protection" data-to="Block Runner"/>
+							<path class="skill-lines__line" d="M180 160 L340 90" data-from="Block Runner" data-to="Shield Charge"/>
+							<path class="skill-lines__line" d="M340 530 L500 460" data-from="Shield Wall" data-to="Power Bash"/>
+							<path class="skill-lines__line" d="M500 460 L560 300" data-from="Power Bash" data-to="Deadly Bash"/>
+							<path class="skill-lines__line" d="M560 300 L500 160" data-from="Deadly Bash" data-to="Disarming Bash"/>
+							<path class="skill-lines__line" d="M500 160 L340 90" data-from="Disarming Bash" data-to="Shield Charge"/>
+							<path class="skill-lines__line" d="M340 530 L340 350" data-from="Shield Wall" data-to="Quick Reflexes"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Shield Wall" data-multiperk="5" role="button" tabindex="0" aria-label="Block Perk: Shield Wall" aria-pressed="false"/>
+							<circle cx="180" cy="460" r="10" class="skill-perks__perk" data-perk-name="Deflect Arrows" role="button" tabindex="0" aria-label="Block Perk: Deflect Arrows" aria-pressed="false"/>
+							<circle cx="120" cy="300" r="10" class="skill-perks__perk" data-perk-name="Elemental Protection" role="button" tabindex="0" aria-label="Block Perk: Elemental Protection" aria-pressed="false"/>
+							<circle cx="180" cy="160" r="10" class="skill-perks__perk" data-perk-name="Block Runner" role="button" tabindex="0" aria-label="Block Perk: Block Runner" aria-pressed="false"/>
+							<circle cx="340" cy="90" r="10" class="skill-perks__perk" data-perk-name="Shield Charge" role="button" tabindex="0" aria-label="Block Perk: Shield Charge" aria-pressed="false"/>
+							<circle cx="500" cy="460" r="10" class="skill-perks__perk" data-perk-name="Power Bash" role="button" tabindex="0" aria-label="Block Perk: Power Bash" aria-pressed="false"/>
+							<circle cx="560" cy="300" r="10" class="skill-perks__perk" data-perk-name="Deadly Bash" role="button" tabindex="0" aria-label="Block Perk: Deadly Bash" aria-pressed="false"/>
+							<circle cx="500" cy="160" r="10" class="skill-perks__perk" data-perk-name="Disarming Bash" role="button" tabindex="0" aria-label="Block Perk: Disarming Bash" aria-pressed="false"/>
+							<circle cx="340" cy="350" r="10" class="skill-perks__perk" data-perk-name="Quick Reflexes" role="button" tabindex="0" aria-label="Block Perk: Quick Reflexes" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Shield Wall <tspan class="perk-rank__rank" data-perk-rank="Shield Wall">0</tspan>/5</text>
+							<text x="180" y="460" dy="-20" class="perks-names__name perks-names__name--top">Deflect Arrows</text>
+							<text x="120" y="300" dy="-20" class="perks-names__name perks-names__name--top">Elemental Protection</text>
+							<text x="180" y="160" dy="-20" class="perks-names__name perks-names__name--top">Block Runner</text>
+							<text x="340" y="90" dy="-20" class="perks-names__name perks-names__name--top">Shield Charge</text>
+							<text x="500" y="460" dy="-20" class="perks-names__name perks-names__name--top">Power Bash</text>
+							<text x="560" y="300" dy="-20" class="perks-names__name perks-names__name--top">Deadly Bash</text>
+							<text x="500" y="160" dy="-20" class="perks-names__name perks-names__name--top">Disarming Bash</text>
+							<text x="340" y="350" dy="-20" class="perks-names__name perks-names__name--top">Quick Reflexes</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Two-Handed" width="680" height="570" viewBox="22 12 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L200 360" data-from="Barbarian" data-to="Limbsplitter"/>
+							<path class="skill-lines__line" d="M340 530 L550 420" data-from="Barbarian" data-to="Skullcrusher"/>
+							<path class="skill-lines__line" d="M340 530 L340 390" data-from="Barbarian" data-to="Champion's Stance"/>
+							<path class="skill-lines__line" d="M340 390 L280 280" data-from="Champion's Stance" data-to="Great Critical Charge"/>
+							<path class="skill-lines__line" d="M280 280 L340 170" data-from="Great Critical Charge" data-to="Sweep"/>
+							<path class="skill-lines__line" d="M340 390 L400 280" data-from="Champion's Stance" data-to="Devastating Blow"/>
+							<path class="skill-lines__line" d="M400 280 L340 170" data-from="Devastating Blow" data-to="Sweep"/>
+							<path class="skill-lines__line" d="M340 170 L340 70" data-from="Sweep" data-to="Warmaster"/>
+							<path class="skill-lines__line" d="M340 530 L480 360" data-from="Barbarian" data-to="Deep Wounds"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Barbarian" data-multiperk="5" role="button" tabindex="0" aria-label="Two-Handed Perk: Barbarian" aria-pressed="false"/>
+							<circle cx="200" cy="360" r="10" class="skill-perks__perk" data-perk-name="Limbsplitter" data-multiperk="3" role="button" tabindex="0" aria-label="Two-Handed Perk: Limbsplitter" aria-pressed="false"/>
+							<circle cx="550" cy="420" r="10" class="skill-perks__perk" data-perk-name="Skullcrusher" data-multiperk="3" role="button" tabindex="0" aria-label="Two-Handed Perk: Skullcrusher" aria-pressed="false"/>
+							<circle cx="340" cy="390" r="10" class="skill-perks__perk" data-perk-name="Champion's Stance" role="button" tabindex="0" aria-label="Two-Handed Perk: Champion's Stance" aria-pressed="false"/>
+							<circle cx="280" cy="280" r="10" class="skill-perks__perk" data-perk-name="Great Critical Charge" role="button" tabindex="0" aria-label="Two-Handed Perk: Great Critical Charge" aria-pressed="false"/>
+							<circle cx="340" cy="170" r="10" class="skill-perks__perk" data-perk-name="Sweep" role="button" tabindex="0" aria-label="Two-Handed Perk: Sweep" aria-pressed="false"/>
+							<circle cx="400" cy="280" r="10" class="skill-perks__perk" data-perk-name="Devastating Blow" role="button" tabindex="0" aria-label="Two-Handed Perk: Devastating Blow" aria-pressed="false"/>
+							<circle cx="340" cy="70" r="10" class="skill-perks__perk" data-perk-name="Warmaster" role="button" tabindex="0" aria-label="Two-Handed Perk: Warmaster" aria-pressed="false"/>
+							<circle cx="480" cy="360" r="10" class="skill-perks__perk" data-perk-name="Deep Wounds" data-multiperk="3" role="button" tabindex="0" aria-label="Two-Handed Perk: Deep Wounds" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Barbarian <tspan class="perk-rank__rank" data-perk-rank="Barbarian">0</tspan>/5</text>
+							<text x="200" y="360" dy="-20" class="perks-names__name perks-names__name--top">Limbsplitter <tspan class="perk-rank__rank" data-perk-rank="Limbsplitter">0</tspan>/3</text>
+							<text x="550" y="420" dy="-20" class="perks-names__name perks-names__name--top">Skullcrusher <tspan class="perk-rank__rank" data-perk-rank="Skullcrusher">0</tspan>/3</text>
+							<text x="340" y="390" dy="35" class="perks-names__name perks-names__name--under">Champion's Stance</text>
+							<text x="280" y="280" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Great Critical Charge</text>
+							<text x="400" y="280" dx="20" dy="5" class="perks-names__name perks-names__name--right">Devastating Blow</text>
+							<text x="340" y="170" dy="-20" class="perks-names__name perks-names__name--top">Sweep</text>
+							<text x="340" y="70" dy="-20" class="perks-names__name perks-names__name--top">Warmaster</text>
+							<text x="480" y="360" dy="-20" class="perks-names__name perks-names__name--top">Deep Wounds <tspan class="perk-rank__rank" data-perk-rank="Deep Wounds">0</tspan>/3</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="One-Handed" width="680" height="570" viewBox="24 33 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L200 360" data-from="Armsman" data-to="Hack and Slash"/>
+							<path class="skill-lines__line" d="M340 530 L550 420" data-from="Armsman" data-to="Dual Flurry"/>
+							<path class="skill-lines__line" d="M340 530 L460 390" data-from="Armsman" data-to="Bladesman"/>
+							<path class="skill-lines__line" d="M550 420 L500 220" data-from="Dual Flurry" data-to="Dual Savagery"/>
+							<path class="skill-lines__line" d="M340 530 L340 390" data-from="Armsman" data-to="Fighting Stance"/>
+							<path class="skill-lines__line" d="M340 390 L280 250" data-from="Fighting Stance" data-to="Savage Strike"/>
+							<path class="skill-lines__line" d="M280 250 L340 120" data-from="Savage Strike" data-to="Paralyzing Strike"/>
+							<path class="skill-lines__line" d="M340 390 L400 250" data-from="Fighting Stance" data-to="Critical Charge"/>
+							<path class="skill-lines__line" d="M400 250 L340 120" data-from="Critical Charge" data-to="Paralyzing Strike"/>
+							<path class="skill-lines__line" d="M340 530 L420 340" data-from="Armsman" data-to="Bone Breaker"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Armsman" data-multiperk="5" role="button" tabindex="0" aria-label="One-Handed Perk: Armsman" aria-pressed="false"/>
+							<circle cx="200" cy="360" r="10" class="skill-perks__perk" data-perk-name="Hack and Slash" data-multiperk="3" role="button" tabindex="0" aria-label="One-Handed Perk: Hack and Slash" aria-pressed="false"/>
+							<circle cx="460" cy="390" r="10" class="skill-perks__perk" data-perk-name="Bladesman" data-multiperk="3" role="button" tabindex="0" aria-label="One-Handed Perk: Bladesman" aria-pressed="false"/>
+							<circle cx="550" cy="420" r="10" class="skill-perks__perk" data-perk-name="Dual Flurry" data-multiperk="2" role="button" tabindex="0" aria-label="One-Handed Perk: Dual Flurry" aria-pressed="false"/>
+							<circle cx="500" cy="220" r="10" class="skill-perks__perk" data-perk-name="Dual Savagery" role="button" tabindex="0" aria-label="One-Handed Perk: Dual Savagery" aria-pressed="false"/>
+							<circle cx="340" cy="390" r="10" class="skill-perks__perk" data-perk-name="Fighting Stance" role="button" tabindex="0" aria-label="One-Handed Perk: Fighting Stance" aria-pressed="false"/>
+							<circle cx="280" cy="250" r="10" class="skill-perks__perk" data-perk-name="Savage Strike" role="button" tabindex="0" aria-label="One-Handed Perk: Savage Strike" aria-pressed="false"/>
+							<circle cx="340" cy="120" r="10" class="skill-perks__perk" data-perk-name="Paralyzing Strike" role="button" tabindex="0" aria-label="One-Handed Perk: Paralyzing Strike" aria-pressed="false"/>
+							<circle cx="400" cy="250" r="10" class="skill-perks__perk" data-perk-name="Critical Charge" role="button" tabindex="0" aria-label="One-Handed Perk: Critical Charge" aria-pressed="false"/>
+							<circle cx="420" cy="340" r="10" class="skill-perks__perk" data-perk-name="Bone Breaker" data-multiperk="3" role="button" tabindex="0" aria-label="One-Handed Perk: Bone Breaker" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Armsman <tspan class="perk-rank__rank" data-perk-rank="Armsman">0</tspan>/5</text>
+							<text x="200" y="360" dy="-20" class="perks-names__name perks-names__name--top">Hack and Slash <tspan class="perk-rank__rank" data-perk-rank="Hack and Slash">0</tspan>/3</text>
+							<text x="550" y="420" dy="35" class="perks-names__name perks-names__name--under">Dual Flurry <tspan class="perk-rank__rank" data-perk-rank="Dual Flurry">0</tspan>/2</text>
+							<text x="460" y="390" dx="20" dy="5" class="perks-names__name perks-names__name--right">Bladesman <tspan class="perk-rank__rank" data-perk-rank="Bladesman">0</tspan>/3</text>
+							<text x="500" y="220" dy="-20" class="perks-names__name perks-names__name--top">Dual Savagery</text>
+							<text x="340" y="390" dy="-20"class="perks-names__name perks-names__name--top">Fighting Stance</text>
+							<text x="280" y="250" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Savage Strike</text>
+							<text x="400" y="250" dx="20" dy="5" class="perks-names__name perks-names__name--right">Critical Charge</text>
+							<text x="340" y="120" dy="-20" class="perks-names__name perks-names__name--top">Paralyzing Strike</text>
+							<text x="420" y="340" dy="-20" class="perks-names__name perks-names__name--top">Bone Breaker <tspan class="perk-rank__rank" data-perk-rank="Bone Breaker">0</tspan>/3</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Archery" width="680" height="570" viewBox="-100 25 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L160 420" data-from="Overdraw" data-to="Eagle Eye"/>
+							<path class="skill-lines__line" d="M160 420 L240 380" data-from="Eagle Eye" data-to="Steady Hand"/>
+							<path class="skill-lines__line" d="M160 420 L120 320" data-from="Eagle Eye" data-to="Power Shot"/>
+							<path class="skill-lines__line" d="M120 320 L130 200" data-from="Power Shot" data-to="Quick Shot"/>
+							<path class="skill-lines__line" d="M130 200 L250 80" data-from="Quick Shot" data-to="Bullseye"/>
+							<path class="skill-lines__line" d="M250 80 L270 160" data-from="Ranger" data-to="Bullseye"/>
+							<path class="skill-lines__line" d="M270 160 L290 240" data-from="Hunter's Discipline" data-to="Ranger"/>
+							<path class="skill-lines__line" d="M290 240 L310 350" data-from="Critical Shot" data-to="Hunter's Discipline"/>
+							<path class="skill-lines__line" d="M310 350 L340 530" data-from="Overdraw" data-to="Critical Shot"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Overdraw" data-multiperk="5" role="button" tabindex="0" aria-label="Archery Perk: Overdraw" aria-pressed="false"/>
+							<circle cx="160" cy="420" r="10" class="skill-perks__perk" data-perk-name="Eagle Eye" role="button" tabindex="0" aria-label="Archery Perk: Eagle Eye" aria-pressed="false"/>
+							<circle cx="240" cy="380" r="10" class="skill-perks__perk" data-perk-name="Steady Hand" data-multiperk="2" role="button" tabindex="0" aria-label="Archery Perk: Steady Hand" aria-pressed="false"/>
+							<circle cx="120" cy="320" r="10" class="skill-perks__perk" data-perk-name="Power Shot" role="button" tabindex="0" aria-label="Archery Perk: Power Shot" aria-pressed="false"/>
+							<circle cx="130" cy="200" r="10" class="skill-perks__perk" data-perk-name="Quick Shot" role="button" tabindex="0" aria-label="Archery Perk: Quick Shot" aria-pressed="false"/>
+							<circle cx="250" cy="80" r="10" class="skill-perks__perk" data-perk-name="Bullseye" role="button" tabindex="0" aria-label="Archery Perk: Bullseye" aria-pressed="false"/>
+							<circle cx="270" cy="160" r="10" class="skill-perks__perk" data-perk-name="Ranger" role="button" tabindex="0" aria-label="Archery Perk: Ranger" aria-pressed="false"/>
+							<circle cx="290" cy="240" r="10" class="skill-perks__perk" data-perk-name="Hunter's Discipline" role="button" tabindex="0" aria-label="Archery Perk: Hunter's Discipline" aria-pressed="false"/>
+							<circle cx="310" cy="350" r="10" class="skill-perks__perk" data-perk-name="Critical Shot" data-multiperk="3" role="button" tabindex="0" aria-label="Archery Perk: Critical Shot" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Overdraw <tspan class="perk-rank__rank" data-perk-rank="Overdraw">0</tspan>/5</text>
+							<text x="160" y="420" dy="35" class="perks-names__name perks-names__name--under">Eagle Eye</text>
+							<text x="240" y="380" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Steady Hand <tspan class="perk-rank__rank" data-perk-rank="Steady Hand">0</tspan>/2</text>
+							<text x="120" y="320" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Power Shot</text>
+							<text x="130" y="200" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Quick Shot</text>
+							<text x="250" y="80" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Bullseye</text>
+							<text x="270" y="160" dx="20" dy="5" class="perks-names__name perks-names__name--right">Ranger</text>
+							<text x="290" y="240" dx="20" dy="5" class="perks-names__name perks-names__name--right">Hunter's Discipline</text>
+							<text x="310" y="350" dx="20" dy="5" class="perks-names__name perks-names__name--right">Critical Shot <tspan class="perk-rank__rank" data-perk-rank="Critical Shot">0</tspan>/3</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Light Armor" width="680" height="570" viewBox="-25 25 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L300 360" data-from="Agile Defender" data-to="Custom Fit"/>
+							<path class="skill-lines__line" d="M300 360 L230 260" data-from="Custom Fit" data-to="Unhindered"/>
+							<path class="skill-lines__line" d="M230 260 L240 170" data-from="Unhindered" data-to="Wind Walker"/>
+							<path class="skill-lines__line" d="M240 170 L320 100" data-from="Wind Walker" data-to="Deft Movement"/>
+							<path class="skill-lines__line" d="M320 100 L380 160" data-from="Light Matching Set" data-to="Deft Movement"/>
+							<path class="skill-lines__line" d="M380 160 L300 360" data-from="Custom Fit" data-to="Light Matching Set"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Agile Defender" data-multiperk="5" role="button" tabindex="0" aria-label="Light Armor Perk: Agile Defender" aria-pressed="false"/>
+							<circle cx="300" cy="360" r="10" class="skill-perks__perk" data-perk-name="Custom Fit" role="button" tabindex="0" aria-label="Light Armor Perk: Custom Fit" aria-pressed="false"/>
+							<circle cx="230" cy="260" r="10" class="skill-perks__perk" data-perk-name="Unhindered" role="button" tabindex="0" aria-label="Light Armor Perk: Unhindered" aria-pressed="false"/>
+							<circle cx="240" cy="170" r="10" class="skill-perks__perk" data-perk-name="Wind Walker" role="button" tabindex="0" aria-label="Light Armor Perk: Wind Walker" aria-pressed="false"/>
+							<circle cx="320" cy="100" r="10" class="skill-perks__perk" data-perk-name="Deft Movement" role="button" tabindex="0" aria-label="Light Armor Perk: Deft Movement" aria-pressed="false"/>
+							<circle cx="380" cy="160" r="10" class="skill-perks__perk" data-perk-name="Light Matching Set" role="button" tabindex="0" aria-label="Light Armor Perk: Matching Set" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Agile Defender <tspan class="perk-rank__rank" data-perk-rank="Agile Defender">0</tspan>/5</text>
+							<text x="300" y="360" dx="20" dy="5" class="perks-names__name perks-names__name--right">Custom Fit</text>
+							<text x="230" y="260" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Unhindered</text>
+							<text x="240" y="170" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Wind Walker</text>
+							<text x="320" y="100" dy="-20" class="perks-names__name perks-names__name--top">Deft Movement</text>
+							<text x="380" y="160" dx="20" dy="5" class="perks-names__name perks-names__name--right">Matching Set</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Sneak" width="680" height="570" viewBox="-38 37 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M340 530 L180 440" data-from="Stealth" data-to="Muffled Movement"/>
+							<path class="skill-lines__line" d="M180 440 L140 340" data-from="Muffled Movement" data-to="Light Foot"/>
+							<path class="skill-lines__line" d="M140 340 L160 240" data-from="Light Foot" data-to="Silent Roll"/>
+							<path class="skill-lines__line" d="M160 240 L210 160" data-from="Silent Roll" data-to="Silence"/>
+							<path class="skill-lines__line" d="M210 160 L330 120" data-from="Silence" data-to="Shadow Warrior"/>
+							<path class="skill-lines__line" d="M340 530 L450 450" data-from="Stealth" data-to="Backstab"/>
+							<path class="skill-lines__line" d="M450 450 L470 350" data-from="Backstab" data-to="Deadly Aim"/>
+							<path class="skill-lines__line" d="M470 350 L430 290" data-from="Deadly Aim" data-to="Assassin's Blade"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="340" cy="530" r="10" class="skill-perks__perk" data-perk-name="Stealth" data-multiperk="5" role="button" tabindex="0" aria-label="Sneak Perk: Stealth" aria-pressed="false"/>
+							<circle cx="180" cy="440" r="10" class="skill-perks__perk" data-perk-name="Muffled Movement" role="button" tabindex="0" aria-label="Sneak Perk: Muffled Movement" aria-pressed="false"/>
+							<circle cx="140" cy="340" r="10" class="skill-perks__perk" data-perk-name="Light Foot" role="button" tabindex="0" aria-label="Sneak Perk: Light Foot" aria-pressed="false"/>
+							<circle cx="160" cy="240" r="10" class="skill-perks__perk" data-perk-name="Silent Roll" role="button" tabindex="0" aria-label="Sneak Perk: Silent Roll" aria-pressed="false"/>
+							<circle cx="210" cy="160" r="10" class="skill-perks__perk" data-perk-name="Silence" role="button" tabindex="0" aria-label="Sneak Perk: Silence" aria-pressed="false"/>
+							<circle cx="330" cy="120" r="10" class="skill-perks__perk" data-perk-name="Shadow Warrior" role="button" tabindex="0" aria-label="Sneak Perk: " aria-pressed="false"/>
+							<circle cx="450" cy="450" r="10" class="skill-perks__perk" data-perk-name="Backstab" role="button" tabindex="0" aria-label="Sneak Perk: Backstab" aria-pressed="false"/>
+							<circle cx="470" cy="350" r="10" class="skill-perks__perk" data-perk-name="Deadly Aim" role="button" tabindex="0" aria-label="Sneak Perk: Deadly Aim" aria-pressed="false"/>
+							<circle cx="430" cy="290" r="10" class="skill-perks__perk" data-perk-name="Assassin's Blade" role="button" tabindex="0" aria-label="Sneak Perk: Assassin's Blade" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="340" y="530" dy="35" class="perks-names__name perks-names__name--under">Stealth <tspan class="perk-rank__rank" data-perk-rank="Stealth">0</tspan>/5</text>
+							<text x="180" y="440" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Muffled Movement</text>
+							<text x="140" y="340" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Light Foot</text>
+							<text x="160" y="240" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Silent Roll</text>
+							<text x="210" y="160" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Silence</text>
+							<text x="330" y="120" dy="-20" class="perks-names__name perks-names__name--top">Shadow Warrior</text>
+							<text x="450" y="450" dx="20" dy="5" class="perks-names__name perks-names__name--right">Backstab</text>
+							<text x="470" y="350" dx="20" dy="5" class="perks-names__name perks-names__name--right">Deadly Aim</text>
+							<text x="430" y="290" dx="20" dy="5" class="perks-names__name perks-names__name--right">Assassin's Blade</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Lockpicking" width="680" height="570" viewBox="35 25 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M240 530 L350 400" data-from="Novice Locks" data-to="Apprentice Locks"/>
+							<path class="skill-lines__line" d="M350 400 L430 290" data-from="Apprentice Locks" data-to="Adept Locks"/>
+							<path class="skill-lines__line" d="M430 290 L480 210" data-from="Adept Locks" data-to="Expert Locks"/>
+							<path class="skill-lines__line" d="M480 210 L530 120" data-from="Expert Locks" data-to="Master Locks"/>
+							<path class="skill-lines__line" d="M350 400 L260 320" data-from="Apprentice Locks" data-to="Quick Hands"/>
+							<path class="skill-lines__line" d="M260 320 L160 270" data-from="Quick Hands" data-to="Wax Key"/>
+							<path class="skill-lines__line" d="M430 290 L350 230" data-from="Adept Locks" data-to="Golden Touch"/>
+							<path class="skill-lines__line" d="M350 230 L250 190" data-from="Golden Touch" data-to="Treasure Hunter"/>
+							<path class="skill-lines__line" d="M480 210 L400 160" data-from="Expert Locks" data-to="Locksmith"/>
+							<path class="skill-lines__line" d="M400 160 L350 100" data-from="Locksmith" data-to="Unbreakable"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="240" cy="530" r="10" class="skill-perks__perk" data-perk-name="Novice Locks" role="button" tabindex="0" aria-label="Lockpicking Perk: Novice Locks" aria-pressed="false"/>
+							<circle cx="350" cy="400" r="10" class="skill-perks__perk" data-perk-name="Apprentice Locks" role="button" tabindex="0" aria-label="Lockpicking Perk: Apprentice Locks" aria-pressed="false"/>
+							<circle cx="430" cy="290" r="10" class="skill-perks__perk" data-perk-name="Adept Locks" role="button" tabindex="0" aria-label="Lockpicking Perk: Adept Locks" aria-pressed="false"/>
+							<circle cx="480" cy="210" r="10" class="skill-perks__perk" data-perk-name="Expert Locks" role="button" tabindex="0" aria-label="Lockpicking Perk: Expert Locks" aria-pressed="false"/>
+							<circle cx="530" cy="120" r="10" class="skill-perks__perk" data-perk-name="Master Locks" role="button" tabindex="0" aria-label="Lockpicking Perk: Master Locks" aria-pressed="false"/>
+							<circle cx="260" cy="320" r="10" class="skill-perks__perk" data-perk-name="Quick Hands" role="button" tabindex="0" aria-label="Lockpicking Perk: Quick Hands" aria-pressed="false"/>
+							<circle cx="160" cy="270" r="10" class="skill-perks__perk" data-perk-name="Wax Key" role="button" tabindex="0" aria-label="Lockpicking Perk: Wax Key" aria-pressed="false"/>
+							<circle cx="350" cy="230" r="10" class="skill-perks__perk" data-perk-name="Golden Touch" role="button" tabindex="0" aria-label="Lockpicking Perk: Golden Touch" aria-pressed="false"/>
+							<circle cx="250" cy="190" r="10" class="skill-perks__perk" data-perk-name="Treasure Hunter" role="button" tabindex="0" aria-label="Lockpicking Perk: Treasure Hunter" aria-pressed="false"/>
+							<circle cx="400" cy="160" r="10" class="skill-perks__perk" data-perk-name="Locksmith" role="button" tabindex="0" aria-label="Lockpicking Perk: Locksmith" aria-pressed="false"/>
+							<circle cx="350" cy="100" r="10" class="skill-perks__perk" data-perk-name="Unbreakable" role="button" tabindex="0" aria-label="Lockpicking Perk: Unbreakable" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="240" y="530" dy="35" class="perks-names__name perks-names__name--under">Novice Locks</text>
+							<text x="350" y="400" dx="20" dy="5" class="perks-names__name perks-names__name--right">Apprentice Locks</text>
+							<text x="430" y="290" dx="20" dy="5" class="perks-names__name perks-names__name--right">Adept Locks</text>
+							<text x="480" y="210" dx="20" dy="5" class="perks-names__name perks-names__name--right">Expert Locks</text>
+							<text x="530" y="120" dx="20" dy="5" class="perks-names__name perks-names__name--right">Master Locks</text>
+							<text x="260" y="320" dy="-20" class="perks-names__name perks-names__name--top">Quick Hands</text>
+							<text x="160" y="270" dy="-20" class="perks-names__name perks-names__name--top">Wax Key</text>
+							<text x="350" y="230" dy="-20" class="perks-names__name perks-names__name--top">Golden Touch</text>
+							<text x="250" y="190" dy="-20" class="perks-names__name perks-names__name--top">Treasure Hunter</text>
+							<text x="400" y="160" dy="-20" class="perks-names__name perks-names__name--top">Locksmith</text>
+							<text x="350" y="100" dy="-20" class="perks-names__name perks-names__name--top">Unbreakable</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Pickpocket" width="680" height="570" viewBox="-5 40 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M200 530 L280 400" data-from="Light Fingers" data-to="Night Thief"/>
+							<path class="skill-lines__line" d="M280 400 L340 280" data-from="Night Thief" data-to="Cutpurse"/>
+							<path class="skill-lines__line" d="M340 280 L380 160" data-from="Cutpurse" data-to="Misdirection"/>
+							<path class="skill-lines__line" d="M380 160 L460 130" data-from="Misdirection" data-to="Perfect Touch"/>
+							<path class="skill-lines__line" d="M280 400 L220 290" data-from="Night Thief" data-to="Poisoned"/>
+							<path class="skill-lines__line" d="M280 400 L420 350" data-from="Night Thief" data-to="Extra Pockets"/>
+							<path class="skill-lines__line" d="M340 280 L270 200" data-from="Cutpurse" data-to="Keymaster"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="200" cy="530" r="10" class="skill-perks__perk" data-perk-name="Light Fingers" data-multiperk="5" role="button" tabindex="0" aria-label="Pickpocket Perk: Light Fingers" aria-pressed="false"/>
+							<circle cx="280" cy="400" r="10" class="skill-perks__perk" data-perk-name="Night Thief" role="button" tabindex="0" aria-label="Pickpocket Perk: Night Thief" aria-pressed="false"/>
+							<circle cx="340" cy="280" r="10" class="skill-perks__perk" data-perk-name="Cutpurse" role="button" tabindex="0" aria-label="Pickpocket Perk: Cutpurse" aria-pressed="false"/>
+							<circle cx="380" cy="160" r="10" class="skill-perks__perk" data-perk-name="Misdirection" role="button" tabindex="0" aria-label="Pickpocket Perk: Misdirection" aria-pressed="false"/>
+							<circle cx="460" cy="130" r="10" class="skill-perks__perk" data-perk-name="Perfect Touch" role="button" tabindex="0" aria-label="Pickpocket Perk: Perfect Touch" aria-pressed="false"/>
+							<circle cx="220" cy="290" r="10" class="skill-perks__perk" data-perk-name="Poisoned" role="button" tabindex="0" aria-label="Pickpocket Perk: Poisoned" aria-pressed="false"/>
+							<circle cx="420" cy="350" r="10" class="skill-perks__perk" data-perk-name="Extra Pockets" role="button" tabindex="0" aria-label="Pickpocket Perk: Extra Pockets" aria-pressed="false"/>
+							<circle cx="270" cy="200" r="10" class="skill-perks__perk" data-perk-name="Keymaster" role="button" tabindex="0" aria-label="Pickpocket Perk: Keymaster" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="200" y="530" dy="35" class="perks-names__name perks-names__name--under">Light Fingers <tspan class="perk-rank__rank" data-perk-rank="Light Fingers">0</tspan>/5</text>
+							<text x="280" y="400" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Night Thief</text>
+							<text x="340" y="280" dx="20" dy="5" class="perks-names__name perks-names__name--right">Cutpurse</text>
+							<text x="380" y="160" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Misdirection</text>
+							<text x="460" y="130" dy="-20" class="perks-names__name perks-names__name--top">Perfect Touch</text>
+							<text x="220" y="290" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Poisoned</text>
+							<text x="420" y="350" dx="20" dy="5" class="perks-names__name perks-names__name--right">Extra Pockets</text>
+							<text x="270" y="200" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Keymaster</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Speech" width="680" height="570" viewBox="20 25 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M200 530 L250 380" data-from="Haggling" data-to="Allure"/>
+							<path class="skill-lines__line" d="M250 380 L250 280" data-from="Allure" data-to="Merchant"/>
+							<path class="skill-lines__line" d="M250 280 L230 200" data-from="Merchant" data-to="Investor"/>
+							<path class="skill-lines__line" d="M230 200 L200 110" data-from="Investor" data-to="Fence"/>
+							<path class="skill-lines__line" d="M200 110 L400 70" data-from="Fence" data-to="Master Trader"/>
+							<path class="skill-lines__line" d="M200 530 L420 400" data-from="Haggling" data-to="Bribery"/>
+							<path class="skill-lines__line" d="M420 400 L490 290" data-from="Bribery" data-to="Persuasion"/>
+							<path class="skill-lines__line" d="M490 290 L530 190" data-from="Persuasion" data-to="Intimidation"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="200" cy="530" r="10" class="skill-perks__perk" data-perk-name="Haggling" data-multiperk="5" role="button" tabindex="0" aria-label="Speech Perk: Haggling" aria-pressed="false"/>
+							<circle cx="250" cy="380" r="10" class="skill-perks__perk" data-perk-name="Allure" role="button" tabindex="0" aria-label="Speech Perk: Allure" aria-pressed="false"/>
+							<circle cx="250" cy="280" r="10" class="skill-perks__perk" data-perk-name="Merchant" role="button" tabindex="0" aria-label="Speech Perk: Merchant" aria-pressed="false"/>
+							<circle cx="230" cy="200" r="10" class="skill-perks__perk" data-perk-name="Investor" role="button" tabindex="0" aria-label="Speech Perk: Investor" aria-pressed="false"/>
+							<circle cx="200" cy="110" r="10" class="skill-perks__perk" data-perk-name="Fence" role="button" tabindex="0" aria-label="Speech Perk: Fence" aria-pressed="false"/>
+							<circle cx="400" cy="70" r="10" class="skill-perks__perk" data-perk-name="Master Trader" role="button" tabindex="0" aria-label="Speech Perk: Master Trader" aria-pressed="false"/>
+							<circle cx="420" cy="400" r="10" class="skill-perks__perk" data-perk-name="Bribery" role="button" tabindex="0" aria-label="Speech Perk: Bribery" aria-pressed="false"/>
+							<circle cx="490" cy="290" r="10" class="skill-perks__perk" data-perk-name="Persuasion" role="button" tabindex="0" aria-label="Speech Perk: Persuasion" aria-pressed="false"/>
+							<circle cx="530" cy="190" r="10" class="skill-perks__perk" data-perk-name="Intimidation" role="button" tabindex="0" aria-label="Speech Perk: Intimidation" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="200" y="530" dy="35" class="perks-names__name perks-names__name--under">Haggling <tspan class="perk-rank__rank" data-perk-rank="Haggling">0</tspan>/5</text>
+							<text x="250" y="380" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Allure</text>
+							<text x="250" y="280" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Merchant</text>
+							<text x="230" y="200" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Investor</text>
+							<text x="200" y="110" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Fence</text>
+							<text x="400" y="70" dx="20" dy="5" class="perks-names__name perks-names__name--right">Master Trader</text>
+							<text x="420" y="400" dx="20" dy="5" class="perks-names__name perks-names__name--right">Bribery</text>
+							<text x="490" y="290" dx="20" dy="5" class="perks-names__name perks-names__name--right">Persuasion</text>
+							<text x="530" y="190" dy="-20" class="perks-names__name perks-names__name--top">Intimidation</text>
+						</g>
+					</g>
+				</svg>
+				<svg class="skill-tree hidden" data-skill-tree="Alchemy" width="680" height="570" viewBox="-80 13 680 570" xmlns="http://www.w3.org/2000/svg">
+					<g>
+						<g class="skill-lines">
+							<path class="skill-lines__line" d="M100 530 L400 470" data-from="Alchemist" data-to="Physician"/>
+							<path class="skill-lines__line" d="M400 470 L180 370" data-from="Physician" data-to="Poisoner"/>
+							<path class="skill-lines__line" d="M180 370 L190 270" data-from="Poisoner" data-to="Concentrated Poison"/>
+							<path class="skill-lines__line" d="M190 270 L280 170" data-from="Concentrated Poison" data-to="Snakeblood"/>
+							<path class="skill-lines__line" d="M280 170 L250 70" data-from="Snakeblood" data-to="Purity"/>
+							<path class="skill-lines__line" d="M190 270 L180 170" data-from="Concentrated Poison" data-to="Green Thumb"/>
+							<path class="skill-lines__line" d="M400 470 L320 360" data-from="Physician" data-to="Benefactor"/>
+							<path class="skill-lines__line" d="M320 360 L300 280" data-from="Benefactor" data-to="Experimenter"/>
+							<path class="skill-lines__line" d="M300 280 L280 170" data-from="Experimenter" data-to="Snakeblood"/>
+						</g>
+						<g class="skill-perks">
+							<circle cx="100" cy="530" r="10" class="skill-perks__perk" data-perk-name="Alchemist" data-multiperk="5" role="button" tabindex="0" aria-label="Alchemy Perk: Alchemist" aria-pressed="false"/>
+							<circle cx="400" cy="470" r="10" class="skill-perks__perk" data-perk-name="Physician" role="button" tabindex="0" aria-label="Alchemy Perk: Physician" aria-pressed="false"/>
+							<circle cx="180" cy="370" r="10" class="skill-perks__perk" data-perk-name="Poisoner" role="button" tabindex="0" aria-label="Alchemy Perk: Poisoner" aria-pressed="false"/>
+							<circle cx="190" cy="270" r="10" class="skill-perks__perk" data-perk-name="Concentrated Poison" role="button" tabindex="0" aria-label="Alchemy Perk: Concentrated Poison" aria-pressed="false"/>
+							<circle cx="280" cy="170" r="10" class="skill-perks__perk" data-perk-name="Snakeblood" role="button" tabindex="0" aria-label="Alchemy Perk: Snakeblood" aria-pressed="false"/>
+							<circle cx="250" cy="70" r="10" class="skill-perks__perk" data-perk-name="Purity" role="button" tabindex="0" aria-label="Alchemy Perk: Purity" aria-pressed="false"/>
+							<circle cx="180" cy="170" r="10" class="skill-perks__perk" data-perk-name="Green Thumb" role="button" tabindex="0" aria-label="Alchemy Perk: Green Thumb" aria-pressed="false"/>
+							<circle cx="320" cy="360" r="10" class="skill-perks__perk" data-perk-name="Benefactor" role="button" tabindex="0" aria-label="Alchemy Perk: Benefactor" aria-pressed="false"/>
+							<circle cx="300" cy="280" r="10" class="skill-perks__perk" data-perk-name="Experimenter" data-multiperk="3" role="button" tabindex="0" aria-label="Alchemy Perk: Experimenter" aria-pressed="false"/>
+						</g>
+						<g class="perks-names">
+							<text x="100" y="530" dy="-20" class="perks-names__name perks-names__name--top">Alchemist <tspan class="perk-rank__rank" data-perk-rank="Alchemist">0</tspan>/5</text>
+							<text x="400" y="470" dx="20" dy="5" class="perks-names__name perks-names__name--right">Physician</text>
+							<text x="180" y="370" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Poisoner</text>
+							<text x="190" y="270" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Concentrated Poison</text>
+							<text x="280" y="170" dx="20" dy="5" class="perks-names__name perks-names__name--right">Snakeblood</text>
+							<text x="250" y="70" dx="20" dy="5" class="perks-names__name perks-names__name--right">Purity</text>
+							<text x="180" y="170" dx="-20" dy="5" class="perks-names__name perks-names__name--left">Green Thumb</text>
+							<text x="320" y="360" dx="20" dy="5" class="perks-names__name perks-names__name--right">Benefactor</text>
+							<text x="300" y="280" dx="20" dy="5" class="perks-names__name perks-names__name--right">Experimenter <tspan class="perk-rank__rank" data-perk-rank="Experimenter">0</tspan>/3</text>
+						</g>
+					</g>
+				</svg>
+				<section class="perk-info invisible">
+					<div>
+						<h3><span class="perk-info__perk-name">Novice Illusion</span> <span class="perk-info__perk-rank hidden">(<span class="perk-info__perk-rank-current">0</span>/<span class="perk-info__perk-rank-max">5</span>)</span></h3>
+						<p class="perk-info__perk-requirement">Requires Skill: <span class="perk-info__perk-skill">20</span></p>
+					</div>
+					<p class="perk-info__perk-description">Cast Novice level Illusion spells for half magicka.</p>
+					<p class="perk-info__next-rank invisible">Next Rank: <span class="perk-info__next-rank-description"></span>Requires Skill: <span class="perk-info__next-skill">30</span></p>
+				</section>
+			</div>
+		</div>
 		<header>
 			<img src="./images/dovahkiinLogoFFF.png" id="dovahkiin" alt="Dovahkiin logo" width="25" height="35">
 			<h1>SKYRIM CHARACTER BUILDER</h1>
-			<div role="search">
-				<button id="searchBtn" class="decoration" type="button" data-open-modal="#searchWindow #overlay" data-clear-form="#searchInput">
-					<svg alt="" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="18" height="18" fill="#bbb" viewBox="0 0 118.783 118.783"><path d="M115.97 101.597 88.661 74.286a47.75 47.75 0 0 0 7.333-25.488c0-26.509-21.49-47.996-47.998-47.996S0 22.289 0 48.798s21.487 47.995 47.996 47.995a47.78 47.78 0 0 0 27.414-8.605l26.984 26.986a9.57 9.57 0 0 0 6.788 2.806 9.58 9.58 0 0 0 6.791-2.806 9.6 9.6 0 0 0-.003-13.577M47.996 81.243c-17.917 0-32.443-14.525-32.443-32.443s14.526-32.444 32.443-32.444c17.918 0 32.443 14.526 32.443 32.444S65.914 81.243 47.996 81.243"/></svg>QUICK SEARCH
-				</button>
-				<div id="searchWindow" class="decoration hidden">
-					<div id="searchHeader">
-						<label id="searchLabel" for="searchInput">QUICK SEARCH</label>
-						<button class="closeWindow" type="button" data-close-modal="#searchWindow #overlay">
-							<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="25" height="25"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
-						</button>
-					</div>
-					<div id="inputContainer" class="decoration">
-						<input id="searchInput" class="decoration" type="search" placeholder="How can I serve you, my Thane?" autocomplete="off">
-						<button id="clearInput" data-clear-form="#searchInput">
-							<svg alt="Clear" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="#bbb" stroke-width="2" d="M10 4a2 2 0 1 1 4 0v6h6v4H4v-4h6zM4 14h16v8H4zm12 8v-5.635M8 22v-5.635M12 22v-5.635"/></svg>
-						</button>
-					</div>
-					
-					<template id="searchTemplate">
-						<div class="resultTemplate">
-							<img class="swordIcon" src="./images/sword.svg" alt="Sword" width="14" height="14">
-							<p class="itemName"></p>
-							<p class="itemAdded">Equipped!</p>
-						</div>
-					</template>
-					
-					<div id="searchResult" class="hidden"></div>
-				</div>
-			</div>
 		</header>
 		<main>
 			<div id="charInfoContainer">
@@ -90,207 +868,283 @@
 						<p id="buildLevel">1</p>
 					</div>
 				</div>
-				<div id="characterDescription" class="decoration">
-					<h2 style="font-variant:small-caps;text-align:center;">Build Info</h2>
-					<div id="descriptionContainer"> <!-- сделать прокручивающимся -->
-						<div data-itemDescr="head" data-category="Armor" class="hidden">
-							<h3 class="itemName"><span></span> (Head)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemMaterial">Material: <span></span></p>
-								<p class="itemPerks">Perks: <span></span></p>
-								<p class="itemProfit">Double Profit from Tempering: <span></span></p>
-								<p class="itemAddEff">Additional Effect: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
-							</div>
+				<div class="character-information decoration">
+					<div class="character-information-wrapper">
+						<div >
+							<h2>Build Info</h2>
+							<button type="button">Equipped Items</button>
+							<button type="button">Character Skills</button>
+							<button type="button">Character Stats</button>
 						</div>
-						<div data-itemDescr="head" data-category="Jewelry" class="hidden">
-							<h3 class="itemName"><span></span> (Head)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+						<div id="descriptionContainer"> <!-- сделать прокручивающимся -->
+							<div data-itemDescr="head" data-category="Armor" class="">
+								<h3 class="itemName"><span></span> (Head)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemMaterial">Material: <span></span></p>
+									<p class="itemPerks">Perks: <span></span></p>
+									<p class="itemProfit">Double Profit from Tempering: <span></span></p>
+									<p class="itemAddEff">Additional Effect: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="head" data-category="Clothing" class="hidden">
-							<h3 class="itemName"><span></span> (Head)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="head" data-category="Jewelry" class="">
+								<h3 class="itemName"><span></span> (Head)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="body" data-category="Armor" class="hidden">
-							<h3 class="itemName"><span></span> (Body)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemMaterial">Material: <span></span></p>
-								<p class="itemPerks">Perks: <span></span></p>
-								<p class="itemProfit">Double Profit from Tempering: <span></span></p>
-								<p class="itemAddEff">Additional Effect: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="head" data-category="Clothing" class="">
+								<h3 class="itemName"><span></span> (Head)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="body" data-category="Clothing" class="hidden">
-							<h3 class="itemName"><span></span> (Head)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="body" data-category="Armor" class="">
+								<h3 class="itemName"><span></span> (Body)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemMaterial">Material: <span></span></p>
+									<p class="itemPerks">Perks: <span></span></p>
+									<p class="itemProfit">Double Profit from Tempering: <span></span></p>
+									<p class="itemAddEff">Additional Effect: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="arms" data-category="Armor" class="hidden">
-							<h3 class="itemName"><span></span> (Arms)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemMaterial">Material: <span></span></p>
-								<p class="itemPerks">Perks: <span></span></p>
-								<p class="itemProfit">Double Profit from Tempering: <span></span></p>
-								<p class="itemAddEff">Additional Effect: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="body" data-category="Clothing" class="">
+								<h3 class="itemName"><span></span> (Head)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="arms" data-category="Clothing" class="hidden">
-							<h3 class="itemName"><span></span> (Arms)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="arms" data-category="Armor" class="">
+								<h3 class="itemName"><span></span> (Arms)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemMaterial">Material: <span></span></p>
+									<p class="itemPerks">Perks: <span></span></p>
+									<p class="itemProfit">Double Profit from Tempering: <span></span></p>
+									<p class="itemAddEff">Additional Effect: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="legs" data-category="Armor" class="hidden">
-							<h3 class="itemName"><span></span> (Legs)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemMaterial">Material: <span></span></p>
-								<p class="itemPerks">Perks: <span></span></p>
-								<p class="itemProfit">Double Profit from Tempering: <span></span></p>
-								<p class="itemAddEff">Additional Effect: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="arms" data-category="Clothing" class="">
+								<h3 class="itemName"><span></span> (Arms)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="legs" data-category="Clothing" class="hidden">
-							<h3 class="itemName"><span></span> (Legs)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="legs" data-category="Armor" class="">
+								<h3 class="itemName"><span></span> (Legs)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemMaterial">Material: <span></span></p>
+									<p class="itemPerks">Perks: <span></span></p>
+									<p class="itemProfit">Double Profit from Tempering: <span></span></p>
+									<p class="itemAddEff">Additional Effect: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="right" data-category="Weapons" class="hidden">
-							<h3 class="itemName"><span></span> (Right Hand)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemDamage">Damage: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemMaterial">Material: <span></span></p>
-								<p class="itemPerks">Perks: <span></span></p>
-								<p class="itemUses">Uses: <span></span></p>
-								<p class="itemProfit">Double Profit from Tempering: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="legs" data-category="Clothing" class="">
+								<h3 class="itemName"><span></span> (Legs)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="right" data-category="Staves" class="hidden">
-							<h3 class="itemName"><span></span> (Right Hand)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemUses">Uses: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
-								<p class="itemMSchool">Magic shool: <span></span></p>
-								<p class="itemMEffect">Magic effect: <span></span></p>
+							<div data-itemDescr="right" data-category="Weapons" class="">
+								<h3 class="itemName"><span></span> (Right Hand)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemDamage">Damage: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemMaterial">Material: <span></span></p>
+									<p class="itemPerks">Perks: <span></span></p>
+									<p class="itemUses">Uses: <span></span></p>
+									<p class="itemProfit">Double Profit from Tempering: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="left" data-category="Weapons" class="hidden">
-							<h3 class="itemName"><span></span> (Left Hand)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemDamage">Damage: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemMaterial">Material: <span></span></p>
-								<p class="itemPerks">Perks: <span></span></p>
-								<p class="itemUses">Uses: <span></span></p>
-								<p class="itemProfit">Double Profit from Tempering: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="right" data-category="Staves" class="">
+								<h3 class="itemName"><span></span> (Right Hand)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemUses">Uses: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+									<p class="itemMSchool">Magic shool: <span></span></p>
+									<p class="itemMEffect">Magic effect: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="left" data-category="Staves" class="hidden">
-							<h3 class="itemName"><span></span> (Left Hand)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemUses">Uses: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
-								<p class="itemMSchool">Magic shool: <span></span></p>
-								<p class="itemMEffect">Magic effect: <span></span></p>
+							<div data-itemDescr="left" data-category="Weapons" class="">
+								<h3 class="itemName"><span></span> (Left Hand)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemDamage">Damage: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemMaterial">Material: <span></span></p>
+									<p class="itemPerks">Perks: <span></span></p>
+									<p class="itemUses">Uses: <span></span></p>
+									<p class="itemProfit">Double Profit from Tempering: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="left" data-category="Shields" class="hidden">
-							<h3 class="itemName"><span></span> (Left Arm)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemMaterial">Material: <span></span></p>
-								<p class="itemPerks">Perks: <span></span></p>
-								<p class="itemProfit">Double Profit from Tempering: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="left" data-category="Staves" class="">
+								<h3 class="itemName"><span></span> (Left Hand)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemUses">Uses: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+									<p class="itemMSchool">Magic shool: <span></span></p>
+									<p class="itemMEffect">Magic effect: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="both" data-category="Weapons" class="hidden">
-							<h3 class="itemName"><span></span> (Both Hands)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemDamage">Damage: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemMaterial">Material: <span></span></p>
-								<p class="itemPerks">Perks: <span></span></p>
-								<p class="itemUses">Uses: <span></span></p>
-								<p class="itemProfit">Double profit from tempering: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="left" data-category="Shields" class="">
+								<h3 class="itemName"><span></span> (Left Arm)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemMaterial">Material: <span></span></p>
+									<p class="itemPerks">Perks: <span></span></p>
+									<p class="itemProfit">Double Profit from Tempering: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="neck" data-category="Jewelry" class="hidden">
-							<h3 class="itemName"><span></span> (Neck)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="both" data-category="Weapons" class="">
+								<h3 class="itemName"><span></span> (Both Hands)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemDamage">Damage: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemMaterial">Material: <span></span></p>
+									<p class="itemPerks">Perks: <span></span></p>
+									<p class="itemUses">Uses: <span></span></p>
+									<p class="itemProfit">Double profit from tempering: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="finger" data-category="Jewelry" class="hidden">
-							<h3 class="itemName"><span></span> (Finger)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="neck" data-category="Jewelry" class="">
+								<h3 class="itemName"><span></span> (Neck)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
-						</div>
-						<div data-itemDescr="back" data-category="Clothing" class="hidden">
-							<h3 class="itemName"><span></span> (Back)</h3>
-							<div class="itemInformation">
-								<p class="itemDescription">Description: <span></span></p>
-								<p class="itemWeight">Weight: <span></span></p>
-								<p class="itemArmor">Armor: <span></span></p>
-								<p class="itemArtifact">Artifact: <span></span></p>
+							<div data-itemDescr="finger" data-category="Jewelry" class="">
+								<h3 class="itemName"><span></span> (Finger)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
+							</div>
+							<div data-itemDescr="back" data-category="Clothing" class="">
+								<h3 class="itemName"><span></span> (Back)</h3>
+								<div class="itemInformation">
+									<p class="itemDescription">Description: <span></span></p>
+									<p class="itemWeight">Weight: <span></span></p>
+									<p class="itemArmor">Armor: <span></span></p>
+									<p class="itemArtifact">Artifact: <span></span></p>
+								</div>
 							</div>
 						</div>
 					</div>
+					<dl class="total decoration hidden">
+						<dt>Total Physical Damage:</dt>
+						<dd class="total__damage">0</dd>
+						<dt>Magic Resistance:</dt>
+						<dd class="total__mag-res"><span>0</span> %</dd>
+						<dt>Fire Resistance:</dt>
+						<dd class="total__fire"><span>0</span> %</dd>
+						<dt>Total Fire Resistance:</dt>
+						<dd class="total__fire-total"><span>0</span> %</dd>
+						<dt>Total Armor Rating:</dt>
+						<dd class="total__armor">0</dd>
+						<dt>Total Poison Resistance:</dt>
+						<dd class="total__poison"><span>0</span> %</dd>
+						<dt>Frost Resistance:</dt>
+						<dd class="total__frost"><span>0</span> %</dd>
+						<dt>Total Frost Resistance:</dt>
+						<dd class="total__frost-total"><span>0</span> %</dd>
+						<dt>Total Weight:</dt>
+						<dd class="total__weight">0</dd>
+						<dt>Total Disease Resistance:</dt>
+						<dd class="total__disease"><span>0</span> %</dd>
+						<dt>Shock Resistance:</dt>
+						<dd class="total__shock"><span>0</span> %</dd>
+						<dt>Total Shock Resistance:</dt>
+						<dd class="total__shock-total"><span>0</span> %</dd>
+						<dt>Perks Chosen:</dt>
+						<dd class="total__perks">U/D</dd>
+					</dl>
+					<article class="character-skills decoration hidden">
+						<h3>Character skills</h3>
+						<dl>
+							<dt>Alchemy:</dt>
+							<dd class="character-skills__value character-skills__value--Alchemy"></dd>
+							<dt>Alteration:</dt>
+							<dd class="character-skills__value character-skills__value--Alteration"></dd>
+							<dt>Archery:</dt>
+							<dd class="character-skills__value character-skills__value--Archery"></dd>
+							<dt>Block:</dt>
+							<dd class="character-skills__value character-skills__value--Block"></dd>
+							<dt>Conjuration:</dt>
+							<dd class="character-skills__value character-skills__value--Conjuration"></dd>
+							<dt>Destruction:</dt>
+							<dd class="character-skills__value character-skills__value--Destruction"></dd>
+							<dt>Enchanting:</dt>
+							<dd class="character-skills__value character-skills__value--Enchanting"></dd>
+							<dt>Heavy Armor:</dt>
+							<dd class="character-skills__value character-skills__value--Heavy-Armor"></dd>
+							<dt>Illusion:</dt>
+							<dd class="character-skills__value character-skills__value--Illusion"></dd>
+							<dt>Light Armor:</dt>
+							<dd class="character-skills__value character-skills__value--Light-Armor"></dd>
+							<dt>Lockpicking:</dt>
+							<dd class="character-skills__value character-skills__value--Lockpicking"></dd>
+							<dt>One-Handed:</dt>
+							<dd class="character-skills__value character-skills__value--One-Handed"></dd>
+							<dt>Pickpocket:</dt>
+							<dd class="character-skills__value character-skills__value--Pickpocket"></dd>
+							<dt>Restoration:</dt>
+							<dd class="character-skills__value character-skills__value--Restoration"></dd>
+							<dt>Smithing:</dt>
+							<dd class="character-skills__value character-skills__value--Smithing"></dd>
+							<dt>Sneak:</dt>
+							<dd class="character-skills__value character-skills__value--Sneak"></dd>
+							<dt>Speech:</dt>
+							<dd class="character-skills__value character-skills__value--Speech"></dd>
+							<dt>Two-Handed:</dt>
+							<dd class="character-skills__value character-skills__value--Two-Handed"></dd>
+						</dl>
+					</article>
 				</div>
 			</div>
 			<section id="statistics" class="decoration">
@@ -304,53 +1158,53 @@
 						</div>
 					</div>
 				</div>
-				<div id="equippedItemsContainer">
-					<div id="headSlot" class="slot">
+				<div id="equippedItemsContainer" class="inventory">
+					<div id="headSlot" class="slot inventory__slot">
 						<p>Head</p>
-						<button type="button" data-slot="head">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Head">UNEQUIP</button>
 					</div>
-					<div id="bodySlot" class="slot">
+					<div id="bodySlot" class="slot inventory__slot">
 						<p>Body</p>
-						<button type="button" data-slot="body">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Body">UNEQUIP</button>
 					</div>
-					<div id="armsSlot" class="slot">
+					<div id="armsSlot" class="slot inventory__slot">
 						<p>Armguards</p>
-						<button type="button" data-slot="arms">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Arms">UNEQUIP</button>
 					</div>
-					<div id="legsSlot" class="slot">
+					<div id="legsSlot" class="slot inventory__slot">
 						<p>Legs</p>
-						<button type="button" data-slot="legs">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Legs">UNEQUIP</button>
 					</div>
-					<div id="rightSlot" class="slot">
+					<div id="rightSlot" class="slot inventory__slot">
 						<p>Right Arm</p>
-						<button type="button" data-slot="right">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Right">UNEQUIP</button>
 					</div>
-					<div id="leftSlot" class="slot">
+					<div id="leftSlot" class="slot inventory__slot">
 						<p>Left Arm</p>
-						<button type="button" data-slot="left">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Left">UNEQUIP</button>
 					</div>
-					<div id="neckSlot" class="slot">
+					<div id="neckSlot" class="slot inventory__slot">
 						<p>Neck</p>
-						<button type="button" data-slot="neck">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Neck">UNEQUIP</button>
 					</div>
-					<div id="fingerSlot" class="slot">
+					<div id="fingerSlot" class="slot inventory__slot">
 						<p>Finger</p>
-						<button type="button" data-slot="finger">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Finger">UNEQUIP</button>
 					</div>
-					<div id="backSlot" class="slot">
+					<div id="backSlot" class="slot inventory__slot">
 						<p>Back</p>
-						<button type="button" data-slot="back">UNEQUIP</button>
+						<button class="inventory__button" type="button" data-slot="Back">UNEQUIP</button>
 					</div>
 				</div>
 			</section>
-			<div class="builds-container decoration builds-container--slide-out-right">
-				<div class="header header--builds">
+			<div class="builds-container decoration">
+				<header class="header header--builds">
 					<h2 class="submenu-title">MY BUILDS</h2>
 					<button id="closeBuildsBtn" class="closeBtn" type="button">Close</button>
 					<button id="addNewBuildBtn" type="button" data-open-modal="#overlay #createBuildContainer" data-clear-form="#nameYourBuild #races">
 						<svg alt="Create build" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path fill="#fff" fill-rule="evenodd" d="M28 12h-8V4a4 4 0 1 0-8 0v8H4a4 4 0 1 0 0 8h8v8a4 4 0 1 0 8 0v-8h8a4 4 0 1 0 0-8"/></svg>
 					</button>
-				</div>
+				</header>
 				<p id="noBuildsYet" class="decoration">No Builds...</p>
 				<div id="newBuildsContainer"></div>
 				<template id="myBuildsTemplate">
@@ -417,306 +1271,436 @@
 					<button type="button" data-close-modal="#overlay #deleteBuildContainer">YES</button>
 				</div>
 			</div>
-			<div class="customization-container decoration customization-container--slide-out-right">
-				<div id="customizationHeader" class="header">
+			<div class="customization-container decoration">
+				<header id="customizationHeader" class="header">
 					<h2 class="submenu-title">CUSTOMIZATION</h2>
 					<button id="closeCustomizeBtn" class="closeBtn" type="button">Close</button>
-				</div>
+				</header>
 				<div id="customizationMenu">
 					<div>
-						<button type="button" class="decoration">Armor</button>
+						<button type="button" class="category-button--items decoration">Armor</button>
 						<div id="armor" class="hidden">
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Heavy</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Light</button>
+							<button type="button" data-open-modal=".items-window #overlay">Heavy</button>
+							<button type="button" data-open-modal=".items-window #overlay">Light</button>
 						</div>
 					</div>
 					<div>
-						<button type="button" class="decoration">Weapons</button>
+						<button type="button" class="category-button--items decoration">Weapons</button>
 						<div id="weapons" class="hidden">
 							<h3>One-Handed Weapons</h3>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Axes</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Daggers</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Maces</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Other</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Swords</button>
+							<button type="button" data-open-modal=".items-window #overlay">Axes</button>
+							<button type="button" data-open-modal=".items-window #overlay">Daggers</button>
+							<button type="button" data-open-modal=".items-window #overlay">Maces</button>
+							<button type="button" data-open-modal=".items-window #overlay">Other</button>
+							<button type="button" data-open-modal=".items-window #overlay">Swords</button>
 							<h3>Two-Handed Weapons</h3>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Battleaxes</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Bows</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Crossbows</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Greatswords</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Warhammers</button>
+							<button type="button" data-open-modal=".items-window #overlay">Battleaxes</button>
+							<button type="button" data-open-modal=".items-window #overlay">Bows</button>
+							<button type="button" data-open-modal=".items-window #overlay">Crossbows</button>
+							<button type="button" data-open-modal=".items-window #overlay">Greatswords</button>
+							<button type="button" data-open-modal=".items-window #overlay">Warhammers</button>
 						</div>
 					</div>
 					<div>
-						<button type="button" class="decoration">Shields</button>
+						<button type="button" class="category-button--items decoration">Shields</button>
 						<div id="shields" class="hidden">
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Heavy</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Light</button>
+							<button type="button" data-open-modal=".items-window #overlay">Heavy</button>
+							<button type="button" data-open-modal=".items-window #overlay">Light</button>
 						</div>
 					</div>
 					<div>
-						<button type="button" class="decoration">Staves</button>
+						<button type="button" class="category-button--items decoration">Staves</button>
 						<div id="staves" class="hidden">
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay" data-close-modal="#sortByOther">Craftable</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay" data-close-modal="#sortByOther">Uncraftable</button>
+							<button type="button" data-open-modal=".items-window #overlay" data-close-modal=".items-window__sort-button--by-other">Craftable</button>
+							<button type="button" data-open-modal=".items-window #overlay" data-close-modal=".items-window__sort-button--by-other">Uncraftable</button>
 						</div>
 					</div>
 					<div>
-						<button type="button" class="decoration">Jewelry</button>
+						<button type="button" class="category-button--items decoration">Jewelry</button>
 						<div id="jewelry" class="hidden">
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Amulets</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Circlets</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Rings</button>
+							<button type="button" data-open-modal=".items-window #overlay">Amulets</button>
+							<button type="button" data-open-modal=".items-window #overlay">Circlets</button>
+							<button type="button" data-open-modal=".items-window #overlay">Rings</button>
 						</div>
 					</div>
 					<div>
-						<button type="button" class="decoration">Clothing</button>
+						<button type="button" class="category-button--items decoration">Clothing</button>
 						<div id="clothing" class="hidden">
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Backpacks</button>
-							<button type="button" data-open-modal="#itemsWindowContainer #overlay">Clothes</button>
+							<button type="button" data-open-modal=".items-window #overlay">Backpacks</button>
+							<button type="button" data-open-modal=".items-window #overlay">Clothes</button>
 						</div>
 					</div>
 					<div>
-						<button type="button" class="decoration">Skills & Perks</button>
+						<button type="button" class="category-button--skills decoration" data-open-modal=".skills #overlay">Skills & Perks</button>
 					</div>
 					<div>
 						<button type="button" class="decoration">Boons</button>
 					</div>
 				</div>
 			</div>
-			<div id="itemsWindowContainer" class="hidden">
-				<div id="itemsWindowCloseBlock" data-close-modal="#overlay #itemsWindowContainer" data-open-modal="#sortByOther"></div>
-				<div id="itemsWrapper">
-					<div id="filterWindow" class="decoration">
-						<div id="fieldsetWrapper">
-							<fieldset id="artifact">
-								<legend>Artifact</legend>
-								<label><input type="checkbox" id="isArtifact" name="isArtifact" value="isArtifact" autocomplete="off">Artifact</label>
-								<label><input type="checkbox" id="notArtifact" name="notArtifact" value="notArtifact" autocomplete="off">Not artifact</label>
+			<div class="items-window hidden" data-close-modal="#overlay .items-window" data-open-modal=".items-window__sort-button--by-other">
+				<div class="items-window__wrapper">
+					<div class="filter-window decoration">
+						<div class="filter-window__fieldset-wrapper" aria-label="Item filters">
+							<fieldset class="filter-window__fieldset filter-window__fieldset--artifact">
+								<legend class="filter-window__legend">Artifact</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Artifact" autocomplete="off">Artifact</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="notArtifact" autocomplete="off">Not artifact</label>
 							</fieldset>
-							<fieldset id="bodyPart" class="hidden">
-								<legend>Body part</legend>
-								<label><input type="checkbox" id="armsPiece" name="armsPiece" value="Arms" autocomplete="off">Arms</label>
-								<label><input type="checkbox" id="backPiece" name="backPiece" value="Back" autocomplete="off">Back</label>
-								<label><input type="checkbox" id="bodyPiece" name="bodyPiece" value="Body" autocomplete="off">Body</label>
-								<label><input type="checkbox" id="fingerPiece" name="fingerPiece" value="Finger" autocomplete="off">Finger</label>
-								<label><input type="checkbox" id="headPiece" name="headPiece" value="Head" autocomplete="off">Head</label>
-								<label><input type="checkbox" id="legsPiece" name="legsPiece" value="Legs" autocomplete="off">Legs</label>
-								<label><input type="checkbox" id="neckPiece" name="neckPiece" value="Neck" autocomplete="off">Neck</label>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--body-part hidden">
+								<legend class="filter-window__legend">Body part</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Arms" autocomplete="off">Arms</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Back" autocomplete="off">Back</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Body" autocomplete="off">Body</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Finger" autocomplete="off">Finger</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Head" autocomplete="off">Head</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Legs" autocomplete="off">Legs</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Neck" autocomplete="off">Neck</label>
 							</fieldset>
-							<fieldset id="canEnch">
-								<legend>Can be enchanted</legend>
-								<label><input type="checkbox" id="canBeEnch" name="canBeEnch" value="isEnchantable" autocomplete="off">Can be enchanted</label>
-								<label><input type="checkbox" id="cannotBeEnch" name="cannotBeEnch" value="notEnchantable" autocomplete="off">Cannot be enchanted</label>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--enchantable">
+								<legend class="filter-window__legend">Can be enchanted</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Enchantable" autocomplete="off">Can be enchanted</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unenchantable" autocomplete="off">Cannot be enchanted</label>
 							</fieldset>
-							<fieldset id="canWearHelmet" class="hidden">
-								<legend>Can wear with helmet</legend>
-								<label><input type="checkbox" id="canHelm" name="canHelm" value="canWearHelm" autocomplete="off">Can wear</label>
-								<label><input type="checkbox" id="cannotHelm" name="cannotHelm" value="cannotWearHelm" autocomplete="off">Cannot wear</label>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--helmet hidden">
+								<legend class="filter-window__legend">Can wear with helmet</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="canWearHelmet" autocomplete="off">Can wear</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="cannotWearHelmet" autocomplete="off">Cannot wear</label>
 							</fieldset>
-							<fieldset id="enchanted">
-								<legend>Enchantment</legend>
-								<label><input type="checkbox" id="isEnchanted" name="isEnchanted" value="isEnchanted" autocomplete="off">Enchanted</label>
-								<label><input type="checkbox" id="notEnchanted" name="notEnchanted" value="notEnchanted" autocomplete="off">Not enchanted</label>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--enchanted">
+								<legend class="filter-window__legend">Enchantment</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Enchanted" autocomplete="off">Enchanted</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unenchanted" autocomplete="off">Not enchanted</label>
 							</fieldset>
-							<fieldset id="magicSchool" class="hidden">
-								<legend>Magic school</legend>
-								<label><input type="checkbox" id="alteration" name="alteration" value="Alteration" autocomplete="off">Alteration</label>
-								<label><input type="checkbox" id="conjuration" name="conjuration" value="Conjuration" autocomplete="off">Conjuration</label>
-								<label><input type="checkbox" id="destruction" name="destruction" value="Destruction" autocomplete="off">Destruction</label>
-								<label><input type="checkbox" id="illusion" name="illusion" value="Illusion" autocomplete="off">Illusion</label>
-								<label><input type="checkbox" id="restoration" name="restoration" value="Restoration" autocomplete="off">Restoration</label>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--magic-school hidden">
+								<legend class="filter-window__legend">Magic school</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Alteration" autocomplete="off">Alteration</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Conjuration" autocomplete="off">Conjuration</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Destruction" autocomplete="off">Destruction</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Illusion" autocomplete="off">Illusion</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Restoration" autocomplete="off">Restoration</label>
 							</fieldset>
-							<fieldset id="smithingPerks" class="hidden">
-								<legend>Smithing perks</legend>
-								<label><input type="checkbox" id="steelPerk" name="steelPerk" value="Steel" autocomplete="off">Steel</label>
-								<label><input type="checkbox" id="elvenPerk" name="elvenPerk" value="Elven" autocomplete="off">Elven</label>
-								<label><input type="checkbox" id="advancedPerk" name="advancedPerk" value="Advanced" autocomplete="off">Advanced</label>
-								<label><input type="checkbox" id="glassPerk" name="glassPerk" value="Glass" autocomplete="off">Glass</label>
-								<label><input type="checkbox" id="dragonPerk" name="dragonPerk" value="Dragon" autocomplete="off">Dragon</label>
-								<label><input type="checkbox" id="arcanePerk" name="arcanePerk" value="Arcane" autocomplete="off">Arcane</label>
-								<label><input type="checkbox" id="dwarvenPerk" name="dwarvenPerk" value="Dwarven" autocomplete="off">Dwarven</label>
-								<label><input type="checkbox" id="orcishPerk" name="orcishPerk" value="Orcish" autocomplete="off">Orcish</label>
-								<label><input type="checkbox" id="ebonyPerk" name="ebonyPerk" value="Ebony" autocomplete="off">Ebony</label>
-								<label><input type="checkbox" id="daedricPerk" name="daedricPerk" value="Daedric" autocomplete="off">Daedric</label>
-								<label><input type="checkbox" id="nonePerk" name="nonePerk" value="noPerks" autocomplete="off">None</label>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--smithing hidden">
+								<legend class="filter-window__legend">Smithing perks</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Steel" autocomplete="off">Steel</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Elven" autocomplete="off">Elven</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Advanced" autocomplete="off">Advanced</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Glass" autocomplete="off">Glass</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Dragon" autocomplete="off">Dragon</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Arcane" autocomplete="off">Arcane</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Dwarven" autocomplete="off">Dwarven</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Orcish" autocomplete="off">Orcish</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Ebony" autocomplete="off">Ebony</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Daedric" autocomplete="off">Daedric</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="noPerks" autocomplete="off">None</label>
 							</fieldset>
-							<fieldset id="tempering" class="hidden">
-								<legend>Tempering</legend>
-								<label><input type="checkbox" id="cannotTemper" name="cannotTemper" value="notSmithable" autocomplete="off">Cannot be tempered</label>
-								<label><input type="checkbox" id="canTemper" name="canTemper" value="isSmithable" autocomplete="off">Can be tempered</label>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--tempering hidden">
+								<legend class="filter-window__legend">Tempering</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Smithable" autocomplete="off">Can be tempered</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unsmithable" autocomplete="off">Cannot be tempered</label>
 							</fieldset>
 						</div>
 					</div>
-					<div id="itemsWindow" class="decoration">
-						<div>
-							<h2 class="submenu-title"></h2>
-							<button id="filter" data-filter-open="false">
+					<div class="items-window__items decoration">
+						<header class="items-window__header">
+							<h2 class="items-window__title submenu-title"></h2>
+							<button class="items-window__filter-button" data-filter-open="false">
 								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" alt="Filter" stroke="#fff" stroke-width="3" viewBox="0 0 64 64"><path d="M50.69 32h5.63M7.68 32h31.01M26.54 15.97h29.78M7.68 15.97h6.88M35 48.03h21.32M7.68 48.03H23"/><circle cx="20.55" cy="15.66" r="6"/><circle cx="44.69" cy="32" r="6"/><circle cx="29" cy="48.03" r="6"/></svg>
 								<span>Filter</span>
 							</button>
-							<button class="closeWindow" type="button" data-close-modal="#overlay #itemsWindowContainer" data-open-modal="#sortByOther">
-								<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="30" height="30"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+							<div class="items-window__search-wrapper" role="search">
+								<label class="items-window__label" for="items-search">Find Item:</label>
+								<input id="items-search" class="items-window__search decoration" type="search" autocomplete="off">
+								<button class="items-window__clear-search" type="button" aria-label="Clear Search" title="Clear">&#9932;</button>
+							</div>
+							<button class="close-window" type="button" data-close-modal="#overlay .items-window" data-open-modal=".items-window__sort-button--by-other">
+								<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
 							</button>
-						</div>
-						<div>
-							<div id="sortByNameContainer">
-								<button id="sortByName" data-sorting-selected="true" data-sorting-order="desc">
-									<span>Name</span><span class="sortingDirection" data-sorting-order="desc">AZ</span><span class="hidden sortingDirection" data-sorting-order="asc">ZA</span>
+						</header>
+						<div class="items-window__sorting-panel">
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-name">
+								<button class="items-window__sort-button items-window__sort-button--by-name" data-sorting-selected="true" data-sorting-order="desc" data-sort-button-type="name">
+									<span>Name</span><span class="sorting-direction" data-sorting-order="desc">AZ</span><span class="hidden sorting-direction" data-sorting-order="asc">ZA</span>
 								</button>
 							</div>
-							<div id="sortByWeightContainer">
-								<button id="sortByWeight" data-sorting-selected="false" data-sorting-order="desc">
-									<span>Weight</span><span class="hidden sortingDirection" data-sorting-order="desc">↓</span><span class="hidden sortingDirection" data-sorting-order="asc">↑</span>
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-weight">
+								<button class="items-window__sort-button items-window__sort-button--by-weight" data-sorting-selected="false" data-sorting-order="desc" data-sort-button-type="weight">
+									<span>Weight</span><span class="hidden sorting-direction" data-sorting-order="desc">↓</span><span class="hidden sorting-direction" data-sorting-order="asc">↑</span>
 								</button>
 							</div>
-							<div id="sortByOtherContainer">
-								<button id="sortByOther" data-sorting-selected="false" data-sorting-order="desc">
-									<span></span><span class="hidden sortingDirection" data-sorting-order="desc">↓</span><span class="hidden sortingDirection" data-sorting-order="asc">↑</span>
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-other">
+								<button class="items-window__sort-button items-window__sort-button--by-other" data-sorting-selected="false" data-sorting-order="desc" data-sort-button-type="other">
+									<span></span><span class="hidden sorting-direction" data-sorting-order="desc">↓</span><span class="hidden sorting-direction" data-sorting-order="asc">↑</span>
 								</button>
 							</div>
 							<hr>
 						</div>
-						<template id="itemsTemplate">
-							<div class="itemCard">
-								<img class="itemMiniature" alt="" data-src="" width="70" height="70" loading="lazy">
-								<div>
-									<h2 class="itemName"></h2>
-									<p class="description minor-text"></p>
+						<template class="items-window__template">
+							<div class="item-card">
+								<img class="item-card__image" alt="" data-src="" width="100" height="100" loading="lazy">
+								<div class="item-card__info">
+									<h2 class="item-card__name"></h2>
+									<p class="item-card__description minor-text"></p>
 								</div>
-								<p class="itemRating"></p>
-								<p class="itemWeight"></p>
-								<button class="equipItemButton" type="button" data-open-modal="#equipItemContainer">Equip</button>
+								<p class="item-card__rating"></p>
+								<p class="item-card__weight"></p>
+								<button class="item-card__equip-button" type="button" data-open-modal="#equipItemContainer">Equip</button>
 							</div>
 						</template>
-						<div class="biggerIMGContainer"></div>
-						<div id="cardsContainer">
-							<div id="cardsList"></div>
+						<div class="items-window__bigger-img"></div>
+						<div class="items-window__cards">
+							<div class="items-window__cards-list"></div>
 						</div>
 					</div>
-					<div id="equippedCards" class="decoration">
-						<h2>Equipped Items</h2>
-						<div id="equippedCardsWrapper"></div>
+					<div class="equipped-items decoration">
+						<h2 class="equipped-items__title">Equipped Items</h2>
+						<div class="equipped-items__wrapper">
+							<div class="equipped-item hidden" data-item-menu-slot="Left">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Left Arm</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Left">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Left">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Right">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Right Arm</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Right">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Right">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Both">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Both Arms</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Both">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Both">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Head">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Head</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Head">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Head">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Neck">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Neck</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Neck">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Neck">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Body">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Body</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Body">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Body">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Arms">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Armguards</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Arms">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Arms">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Finger">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Finger</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Finger">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Finger">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Legs">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Legs</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Legs">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Legs">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Back">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Back</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Back">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Back">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div id="chooseHandContainer" class="hidden">
-					<div id="choosingHand" class="decoration hidden">
-						<div>
-							<p>Which hand would you like to equip <span class="firstItem"></span> in?</p>
+				<div class="equip-options-window hidden">
+					<div class="choose-hand decoration hidden">
+						<div class="choose-hand__text">
+							<p>Which hand would you like to equip <span class="choose-hand__item first-item"></span> in?</p>
 						</div>
-						<div>
-							<button type="button">Left</button><button type="button">Right</button>
-						</div>
-					</div>
-					<div id="itemReplacement" class="decoration hidden">
-						<div>
-							<p>This slot is occupied by <span class="firstItem"></span>. Would you like to replace <span class="firstItem"></span> with <span class="secondItem"></span>?</p>
-						</div>
-						<div>
-							<button type="button">Yes</button><button type="button">No</button>
+						<div class="choose-hand__buttons">
+							<button type="button" class="choose-hand__button">Left</button><button type="button" class="choose-hand__button">Right</button>
 						</div>
 					</div>
-					<div id="sameItem" class="decoration hidden">
-						<div>
+					<div class="same-item decoration hidden">
+						<div class="same-item__text same-text__buttons">
 							<p>This item is already equipped in this slot!</p>
-							<button type="button">OK</button>
+							<button type="button" class="same-item__button">OK</button>
 						</div>
 					</div>
-					<div id="equip2H" class="decoration hidden">
-						<div>
-							<p>You are trying to equip <span class="firstItem"></span>. <span class="secondItem"></span> <span class="and hidden">and</span> <span class="thirdItem"></span> will be unequipped. Equip?</p>
+					<div class="item-replacement decoration hidden">
+						<div class="item-replacement__text">
+							<p class="item-replacement__equip">
+								Equip <span class="item-replacement__first-item"></span>?
+							</p>
+							<p class="item-replacement__unequip-first hidden">
+								<span class="item-replacement__second-item"></span> will be unequipped.
+							</p>
+							<p class="item-replacement__unequip-second hidden">
+								<span class="item-replacement__third-item"></span> will be unequipped.
+							</p>
+							<p class="item-replacement__unequip-body hidden">
+								It will unequip <span class="item-replacement__second-item"></span>, which occupies Body and Head slots.
+							</p>
+							<p class="item-replacement__unequip-head hidden">
+								It occupies both Body and Head slots and will unequip <span class="item-replacement__second-item"></span> from the Head slot.
+							</p>
+							<p class="item-replacement__unequip-both hidden">
+								It occupies both Body and Head slots and will unequip <span class="item-replacement__second-item"></span> and <span class="item-replacement__third-item"></span>.
+							</p>
 						</div>
-						<div>
-							<button type="button">Yes</button><button type="button">No</button>
-						</div>
-					</div>
-					<div id="equipHoody" class="decoration hidden">
-						<div>
-							<p>You are trying to equip a hooded item. Therefore the head slot item will be unequipped. Unequip the head piece?</p>
-						</div>
-						<div>
-							<button type="button">Yes</button><button type="button">No</button>
-						</div>
-					</div>
-					<div id="unequipHoody" class="decoration hidden">
-						<div>
-							<p>You are trying to equip an item in the head slot while a hooded item is equipped. The hooded item will be unequipped. Unequip it?</p>
-						</div>
-						<div>
-							<button type="button">Yes</button><button type="button">No</button>
-						</div>
-					</div>
-					<div id="equipHoody2" class="decoration hidden">
-						<div>
-							<p>You are trying to equip hooded item <span class="firstItem"></span>. <span class="secondItem"></span> and <span class="thirdItem"></span> will be unequipped. Equip?</p>
-						</div>
-						<div>
-							<button type="button">Yes</button><button type="button">No</button>
+						<div class="item-replacement__buttons">
+							<button type="button" class="item-replacement__button">Yes</button>
+							<button type="button" class="item-replacement__button">No</button>
 						</div>
 					</div>
 					<div class="unequip-item-from-menu decoration hidden">
-						<div>
+						<div class="unequip-item-from-menu__text">
 							<p>Do you want to unequip <span></span>?</p>
 						</div>
-						<div>
-							<button type="button">Yes</button><button type="button">No</button>
+						<div class="unequip-item-from-menu__buttons">
+							<button type="button" class="unequip-item-from-menu__button">Yes</button><button type="button" class="unequip-item-from-menu__button">No</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</main>
 		<aside>
-			<dl class="total decoration">
-				<dt>Total Physical Damage:</dt>
-				<dd class="total__damage">0</dd>
-				<dt>Magic Resistance:</dt>
-				<dd class="total__mag-res"><span>0</span> %</dd>
-				<dt>Fire Resistance:</dt>
-				<dd class="total__fire"><span>0</span> %</dd>
-				<dt>Total Fire Resistance:</dt>
-				<dd class="total__fire-total"><span>0</span> %</dd>
-				<dt>Total Armor Rating:</dt>
-				<dd class="total__armor">0</dd>
-				<dt>Total Poison Resistance:</dt>
-				<dd class="total__poison"><span>0</span> %</dd>
-				<dt>Frost Resistance:</dt>
-				<dd class="total__frost"><span>0</span> %</dd>
-				<dt>Total Frost Resistance:</dt>
-				<dd class="total__frost-total"><span>0</span> %</dd>
-				<dt>Total Weight:</dt>
-				<dd class="total__weight">0</dd>
-				<dt>Total Disease Resistance:</dt>
-				<dd class="total__disease"><span>0</span> %</dd>
-				<dt>Shock Resistance:</dt>
-				<dd class="total__shock"><span>0</span> %</dd>
-				<dt>Total Shock Resistance:</dt>
-				<dd class="total__shock-total"><span>0</span> %</dd>
-				<dt>Perks Chosen:</dt>
-				<dd class="total__perks">U/D</dd>
-			</dl>
-			<div id="diagram" class="hidden">
-				<canvas id="myCanvas">
-				</canvas>
-			</div>
-			<div id="mainBtnsContainer">
+			<div class="main-buttons">
 				<div>
-					<button id="manageBuildsBtn" type="button" title="Create your character">BUILDS</button>
-					<p id="warning" class="hidden">Create a Build first!</p>
+					<button class="main-buttons__builds decoration" type="button" title="Create your character">BUILDS</button>
+					<p class="warning hidden">Create a Build first!</p>
 				</div>
 				<div>
-					<button id="customizeBuildsBtn" type="button" title="Assign skills, equipment and bonuses">CUSTOMIZATION</button>
+					<button class="main-buttons__customization decoration" type="button" title="Assign skills, equipment and bonuses">CUSTOMIZATION</button>
 				</div>
 			</div>
 		</aside>
-		<div id="overlay" class="hidden" data-close-modal="#overlay #searchWindow #createBuildContainer #renameBuildContainer #deleteBuildContainer" data-remove-validation="#renameYourBuild #nameYourBuild #races"></div>
-		
-		<!--<script src="./js/allItems.js"></script>-->
-		
-		<!--<script src="./js/overlay.js"></script>-->
-		<!--<script src="./js/openMenuPC.js"></script>
-		<script src="./js/searchMenuPC.js"></script>-->
-		<!--<script src="./js/armor/lightArmor.js"></script>-->
-		<!--<script async src="./js/weapons.js"></script>-->
-		<!--<script src="./js/showHide.js"></script>-->
+		<div id="overlay" class="hidden" data-close-modal="#overlay #searchWindow #createBuildContainer #renameBuildContainer #deleteBuildContainer .skills" data-remove-validation="#renameYourBuild #nameYourBuild #races"></div>
 	</body>
 </html>
