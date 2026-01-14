@@ -6,26 +6,26 @@
 */
 @font-face {
 	font-family: "Balgruf";
-	src: url("../fonts/Balgruf.ttf");
+	src: url("../fonts/Balgruf.ttf") format("truetype");
 	font-display: swap;
 }
 @font-face {
 	font-family: "Catwalzhari";
-	src: url("../fonts/Catwalzhari.ttf");
+	src: url("../fonts/Catwalzhari.ttf") format("truetype");
 	font-display: swap;
 }
 @font-face {
 	font-family: "Futura";
-	src: url("../fonts/Futura.otf");
+	src: url("../fonts/Futura.otf") format("opentype");
 	font-display: swap;
 }
 @font-face {
 	font-family: "Futura Bold";
-	src: url("../fonts/Futura_Bold.ttf");
+	src: url("../fonts/Futura_Bold.ttf") format("truetype");
 	font-display: swap;
 }
 @font-face {
 	font-family: "Futura Medium";
-	src: url("../fonts/Futura_Medium.woff");
+	src: url("../fonts/Futura_Medium.woff") format("woff");
 	font-display: swap;
 }

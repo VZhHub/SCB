@@ -13,7 +13,7 @@ const myVars2 = {
 	chooseHandContainer: document.querySelector(".equip-options-window"), // пока используется
 	cardsList: document.querySelector(".items-window__cards-list"), // используется не только в customization_menu.js, но  в других местах. Перед удалением убедись!
 	equippedCards: document.querySelector(".equipped-items"), // пока используется
-	totalPerks: document.querySelector(".total__perks"),
+	//totalPerks: document.querySelector(".total__perks"),
 	itemsWindowItems: document.querySelector(".items-window__items"),
 	filterWindow: document.querySelector(".filter-window"), // пока используется 
 };

@@ -59,15 +59,6 @@ const vampires = {
 const werewolf = {
 	"Beast Blood": "Grants a 100% resistance to all diseases, but also prevents you from gaining resting bonuses.",
 };
-const standingStonesEffects = {
-	"The Apprentice Stone": {
-		magic: -1,
-	},
-	"The Lord Stone": {
-		armor: 50,
-		magic: 0.25,
-	},
-};
 
 dom6.boonsOptions.addEventListener("mouseover", e => showBoonDetails(e));
 dom6.boonsOptions.addEventListener("mouseout", e => hideBoonDetails(e));
@@ -93,10 +84,21 @@ dom6.standingStones.addEventListener("change", e => isStoneSelected(e));
 
 function isStoneSelected(e) {
 	const el = e.target.closest(".boons__label").querySelector("input");
-	if (selectedStandingStones.has(el.value)) {
+	const name = el.value;
+	if (selectedStandingStones.has(name)) {
 		deselectStone(el);
+		setMagicResistances(name, -1);
+		//setPhysStats(null, null, name, -1);
+		setTheLordStone(name, -1);
+		//setBoons(name, -1);
+		setBoonDescription(name, false);
 	} else {
 		selectStone(el);
+		setMagicResistances(name, 1);
+		//setPhysStats(null, null, name, 1);
+		setTheLordStone(name, 1);
+		//setBoons(name, 1);
+		setBoonDescription(name, true);
 	}
 }
 function selectStone(el) {
@@ -125,7 +127,7 @@ function deselectStone(el) {
 	}
 }
 function checkAetherialCrown() {
-	return slotContent.Head.equippedItem?.name === "Aetherial Crown";
+	return slotContent.Head?.name === "Aetherial Crown";
 }
 function disableOtherStones() {
 	for (let [key, value] of standingStonesInputs) {
@@ -152,6 +154,9 @@ function saveStandingStoneInAC(el) {
 function equipAetherialCrown(name) {
 	if (name === "Aetherial Crown" && selectedStandingStones.size === 1) {
 		if (standingStoneSavedInAC) {
+			setBoonDescription(standingStoneSavedInAC, true);
+			setTheLordStone(standingStoneSavedInAC, 1);
+			setMagicResistances(standingStoneSavedInAC, 1);
 			selectedStandingStones.add(standingStoneSavedInAC);
 			standingStonesInputs.get(standingStoneSavedInAC).checked = true;
 			standingStonesInputs.get(standingStoneSavedInAC).disabled = false;
@@ -162,6 +167,9 @@ function equipAetherialCrown(name) {
 }
 function unequipAetherialCrown(name) {
 	if (name === "Aetherial Crown" && selectedStandingStones.size === 2) {
+		setBoonDescription(standingStoneSavedInAC, false);
+		setTheLordStone(standingStoneSavedInAC, -1);
+		setMagicResistances(standingStoneSavedInAC, -1);
 		selectedStandingStones.delete(standingStoneSavedInAC);
 		standingStonesInputs.get(standingStoneSavedInAC).checked = false;
 		standingStonesInputs.get(standingStoneSavedInAC).disabled = true;
@@ -170,7 +178,7 @@ function unequipAetherialCrown(name) {
 	}
 }
 
-//const selectedBlessings = new Set(); // пока не нужно
+const selectedBlessings = new Set();
 const blessingsInputs = new Map();
 const tripletBlocks = {
 	"Companion's Insight": ["Lover's Insight", "Scholar's Insight"],
@@ -192,10 +200,22 @@ function isBlessingSelected(e) {
 	const el = e.target.closest(".boons__label").querySelector("input");
 	const name = el.value;
 	if (el.checked) {
-		//selectedBlessings.add(name);
+		selectedBlessings.add(name);
 		tripletBlocks[name]?.forEach(a => blessingsInputs.get(a).disabled = true);
+		setMagicResistances(name, 1);
+		//setPhysStats(null, null, name, 1);
+		setAncientKnowledge(name, 1);
+		//setBoons(name, 1);
+		setSeekerMod(name, 1);
+		setBoonDescription(name, true);
 	} else {
-		//selectedBlessings.delete(name);
+		selectedBlessings.delete(name);
 		tripletBlocks[name]?.forEach(a => blessingsInputs.get(a).disabled = false);
+		setMagicResistances(name, -1);
+		//setPhysStats(null, null, name, -1);
+		setAncientKnowledge(name, -1);
+		//setBoons(name, -1);
+		setSeekerMod(name, -1);
+		setBoonDescription(name, false);
 	}
 }

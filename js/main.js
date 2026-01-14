@@ -1,7 +1,7 @@
 "use strict";
 const dom = {
 	// get c использовал для мобилок, пока не удалять
-	get c() {return window.getComputedStyle(this.a).getPropertyValue("display");},
+	//get c() {return window.getComputedStyle(this.a).getPropertyValue("display");},
 	// overlay используется в другом файле, осторожно
 	overlay: document.querySelector("#overlay"),
 	mainButtonsCustomization: document.querySelector(".main-buttons__customization"),
@@ -37,7 +37,7 @@ const dom = {
 	customizationMenu: document.querySelector("#customizationMenu"),
 	header: document.querySelector("header"),
 	main: document.querySelector("main"),
-	statistics: document.querySelector("#statistics"),
+	showcase: document.querySelector(".showcase"),
 };
 
 // НЕ ЗАБУДЬ ПРО TOUCHSTART
@@ -50,7 +50,9 @@ if (window.matchMedia("(pointer:fine)").matches) {
 		e.addEventListener("click", () => clearForms(e));
 	});
 	dom.openModal.forEach(button => {
-		button.addEventListener("click", () => openModal(button));
+		button.addEventListener("click", () => {
+			openModal(button);
+		});
 	});
 	dom.closeModal.forEach(button => {
 		button.addEventListener("click", () => closeModal(button));
@@ -73,16 +75,16 @@ function unblockCustomizationButton() {
 	dom.buildsContainer.removeEventListener("transitionend", unblockCustomizationButton);
 }
 function toggleBuildHelper() {
-	dom.customizationContainer.classList.add("customization-container--slide-right");
-	dom.customizationContainer.classList.remove("customization-container--slide-left");
+	dom.customizationContainer.classList.add("customization-container--slide-up");
+	dom.customizationContainer.classList.remove("customization-container--slide-down");
 	dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
 	dom.mainButtonsCustomization.disabled = !dom.mainButtonsCustomization.disabled;
 	dom.buildsContainer.removeEventListener("transitionend", toggleBuildHelper);
 }
 function toggleBuild() {
 	menuState.builds = !menuState.builds;
-	dom.buildsContainer.classList.toggle("builds-container--slide-left");
-	dom.buildsContainer.classList.remove("builds-container--slide-right");
+	dom.buildsContainer.classList.toggle("builds-container--slide-down");
+	dom.buildsContainer.classList.remove("builds-container--slide-up");
 	dom.mainButtonsBuilds.classList.toggle("manageBuildsBtn--selected");
 	dom.mainButtonsCustomization.classList.remove("customizeBuildsBtn--selected");
 	if (!menuState.customization) {
@@ -97,24 +99,24 @@ function toggleBuild() {
 		menuState.customization = !menuState.customization;
 	}
 	dom.buildsContainer.classList.add("builds-container--on-top");
-	if (menuState.customization !== menuState.builds) dom.statistics.classList.add("moveLeft");
-	if (!menuState.customization && !menuState.builds) dom.statistics.classList.remove("moveLeft");
+	//if (menuState.customization !== menuState.builds) dom.showcase.classList.add("moveLeft");
+	//if (!menuState.customization && !menuState.builds) dom.showcase.classList.remove("moveLeft");
 }
 function unblockBuildsButton() {
 	dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
 	dom.customizationContainer.removeEventListener("transitionend", unblockBuildsButton);
 }
 function customizationMenuHelper() {
-	dom.buildsContainer.classList.add("builds-container--slide-right");
-	dom.buildsContainer.classList.remove("builds-container--slide-left");
+	dom.buildsContainer.classList.add("builds-container--slide-up");
+	dom.buildsContainer.classList.remove("builds-container--slide-down");
 	dom.mainButtonsBuilds.disabled = !dom.mainButtonsBuilds.disabled;
 	dom.mainButtonsCustomization.disabled = !dom.mainButtonsCustomization.disabled;
 	dom.customizationContainer.removeEventListener("transitionend", customizationMenuHelper);
 }
 function toggleCustomizationMenu() {
 	menuState.customization = !menuState.customization;
-	dom.customizationContainer.classList.toggle("customization-container--slide-left");
-	dom.customizationContainer.classList.remove("customization-container--slide-right");
+	dom.customizationContainer.classList.toggle("customization-container--slide-down");
+	dom.customizationContainer.classList.remove("customization-container--slide-up");
 	dom.mainButtonsCustomization.classList.toggle("customizeBuildsBtn--selected");
 	dom.mainButtonsBuilds.classList.remove("manageBuildsBtn--selected");
 	if (!menuState.builds) {
@@ -129,8 +131,8 @@ function toggleCustomizationMenu() {
 		menuState.builds = !menuState.builds;
 	}
 	dom.customizationContainer.classList.add("customization-container--on-top");
-	if (menuState.customization !== menuState.builds) dom.statistics.classList.add("moveLeft");
-	if (!menuState.customization && !menuState.builds) dom.statistics.classList.remove("moveLeft");
+	//if (menuState.customization !== menuState.builds) dom.showcase.classList.add("moveLeft");
+	//if (!menuState.customization && !menuState.builds) dom.showcase.classList.remove("moveLeft");
 }
 function toggleBuilds() {
 	clearTimeout(createBuildFirst.timerID);
@@ -161,14 +163,16 @@ function createBuildFirst() {
 //-----------------------------------
 
 
-const state = {
+const state = { // нигде не используется
 	opened: [],
 };
-const events = ["click", "keydown"];
+const events = ["click", "keydown"]; // нигде не используется
 // В deleteBuildYes добавить очистку yourBuilds
 const yourBuilds = [];
+let currentCharName;
+const charNameLevel = new Map();
 let buildsCount = 0;
-function createNode() {}
+//function createNode() {}
 // SAVE BUILD
 function saveYourBuild(event) {
 	let a = dom.races,
@@ -178,6 +182,7 @@ function saveYourBuild(event) {
 	miniOptions = node.querySelector(".options"),
 	characterName = node.querySelector(".characterName"),
 	characterRace = node.querySelector(".characterRace"),
+	characterLevel = node.querySelector(".characterLevel"),
 	buildInfo = node.querySelector(".buildInfo"),
 	myBuild = node.querySelector(".myBuild"),
 	rename = miniOptions.children[0],
@@ -186,6 +191,8 @@ function saveYourBuild(event) {
 		dom.newBuildsContainer.insertBefore(node, dom.newBuildsContainer.children[0]);
 		dom.noBuildsYet.classList.add("hidden");
 		yourBuilds.push(b.value);
+		charNameLevel.set(b.value, characterLevel);
+		currentCharName = b.value;
 		buildsCount++;
 		//dom.yourBuildName.textContent = b.value; // Надо делать классом вместе с characterName
 		characterName.textContent = b.value;
@@ -209,6 +216,8 @@ function saveYourBuild(event) {
 			deleteBuild.addEventListener("touchstart", openDeleteBuild);
 		}
 		selectBuild(buildInfo);
+		toggleTitle(".statistics-wrapper");
+		for (const i of document.querySelectorAll(".statistics")) i.classList.remove("hidden");
 		return true;
 	} else {
 		validateInput(dom.nameYourBuild, dom.races);
@@ -224,6 +233,7 @@ function openModal(button) {
 		const el = document.querySelector(selector);
 		if (el) el.classList.remove("hidden");
 	}
+	closeMenus();
 }
 function closeModal(button = null) {
 	if (button != null) {
@@ -239,6 +249,7 @@ function closeModal(button = null) {
 		}
 	}
 	removeValidation(button);
+	closeAllItemsDetails();
 }
 //-----------------------------------
 
@@ -257,6 +268,7 @@ function closeModal(button = null) {
 function openCreateCharMenu() {
 	dom.nameYourBuild.focus();
 	document.querySelectorAll(".toggleOptions").forEach(el => el.classList.remove("toggleOptions"));
+	//toggleBuild();
 }
 //-------------------------------------------------
 
@@ -310,6 +322,7 @@ function selectBuild(arg) {
 	dom.buildRace.textContent = charRace;
 	dom.buildLevel.textContent = charLevel;
 	document.querySelectorAll(".toggleOptions").forEach(el => el.classList.remove("toggleOptions"));
+	currentCharName = charName;
 }
 //---------------------------------------------
 

@@ -26,7 +26,7 @@ function searchItem(event) {
 	const hide = [], show = [];
 	if (guess === "") {
 		for (let i of arr) {
-			if (!i.inFilter) {
+			if (!i.inFilter && !i.equipped) {
 				show.push(i.card);
 			}
 		}
@@ -38,7 +38,7 @@ function searchItem(event) {
 	const pattern = /\S+/g;
 	const result = guess.toUpperCase().match(pattern);
 	for (let i of arr) {
-		if (!i.inFilter) {
+		if (!i.inFilter && !i.equipped) {
 			if (result.every(e => i.name.toUpperCase().includes(e))) {
 				show.push(i.card);
 			} else {

@@ -27,10 +27,10 @@ const dom4 = {
 	descriptionContainer: document.querySelector("#descriptionContainer"),
 	// экипированные карточки
 	equippedCards: document.querySelector(".equipped-items"),
-	totalDamage: document.querySelector(".total__damage"),
+	/*totalDamage: document.querySelector(".total__damage"),
 	totalMagRes: document.querySelector(".total__mag-res"),
 	totalArmor: document.querySelector(".total__armor"),
-	totalWeight: document.querySelector(".total__weight"),
+	totalWeight: document.querySelector(".total__weight"),*/
 	// использовалось в removeCard, видимо, связано с категорией предметов
 	itemsWindow: document.querySelector(".items-window"),
 	// используется в функции getSortingDirection в removeCard - ненужно
@@ -45,6 +45,9 @@ const dom4 = {
 	itemReplacementUnequipBody: document.querySelector(".item-replacement__unequip-body"),
 	itemReplacementUnequipHead: document.querySelector(".item-replacement__unequip-head"),
 	itemReplacementUnequipBoth: document.querySelector(".item-replacement__unequip-both"),
+	placeForCards: document.querySelector(".card-info-wrapper"),
+	card: document.querySelector(".card-info-template"),
+	details: document.querySelector(".item-details-template"),
 };
 dom4.itemCards.addEventListener("click", e => {
 	if (e.target.closest(".item-card__equip-button")) {
@@ -72,6 +75,10 @@ dom4.equippedItemsContainer.addEventListener("click", e => {
 	if (button.classList.contains("inventory__button")) unequipFromMainWindow(button.dataset.slot);
 });
 dom4.unequipMiniatureContainer.querySelectorAll("button").forEach(button => button.addEventListener("click", e => replaceOrKeepItem(e.target)));
+dom4.equippedItemsContainer.addEventListener("mouseover", e => highlightCard(e));
+dom4.equippedItemsContainer.addEventListener("mouseout", e => highlightCard(e));
+dom4.placeForCards.addEventListener("mouseover", e => highlightSlot(e));
+dom4.placeForCards.addEventListener("mouseout", e => highlightSlot(e));
 const slot = {
 	Neck: document.querySelector("#neckSlot"),
 	Head: document.querySelector("#headSlot"),
@@ -94,40 +101,21 @@ const itemMenuEquipSlots = Object.fromEntries([...document.querySelectorAll(".eq
 	img: e.querySelector(".equipped-item__img"),
 }]));
 const slotContent = {
-	Neck: {
-		equippedItem: null,
-	},
-	Head: {
-		equippedItem: null,
-	},
-	Back: {
-		equippedItem: null,
-	},
-	Arms: {
-		equippedItem: null,
-	},
-	Right: {
-		equippedItem: null,
-	},
-	Left: {
-		equippedItem: null,
-	},
-	Both: {
-		equippedItem: null,
-	},
-	Body: {
-		equippedItem: null,
-	},
-	Finger: {
-		equippedItem: null,
-	},
-	Legs: {
-		equippedItem: null,
-	},
+	Neck: null,
+	Head: null,
+	Back: null,
+	Arms: null,
+	Right: null,
+	Left: null,
+	Both: null,
+	Body: null,
+	Finger: null,
+	Legs: null,
 };
 const resolution = new Map();
 const cachedImages = new Map();
-
+const cardsWithDescr = new Map();
+let itemsEquipped = 0;
 async function equipItem(e) {
 	const name = e.dataset.itemName;
 	const item = cachedItems[properties.category][properties.type][name];
@@ -164,12 +152,12 @@ async function slotChecker(param, name, item) {
 		const hand = await new Promise((resolve, reject) => {
 			resolution.set("Second", {resolve, reject});
 		});
-		if (!slotContent[hand].equippedItem && !slotContent.Both.equippedItem) {
+		if (!slotContent[hand] && !slotContent.Both) {
 			closeSelectHandWindow();
 			closeEquipOptionsContainer();
 			resolution.get("First").resolve(hand);
 		} else {
-			if (name === slotContent[hand].equippedItem?.name) {
+			if (name === slotContent[hand]?.name) {
 				const promise = new Promise((resolve, reject) => {
 					resolution.set("Second", {resolve, reject});
 				});
@@ -181,7 +169,7 @@ async function slotChecker(param, name, item) {
 					resolution.get("First").reject(err);
 				}
 				closeEquipOptionsContainer();
-			} else if (slotContent.Both.equippedItem) {
+			} else if (slotContent.Both) {
 				closeSelectHandWindow();
 				replacer(name, hand, "Both", false);
 			} else {
@@ -190,17 +178,17 @@ async function slotChecker(param, name, item) {
 			}
 		}
 	} else if (param === "Two") { //двуручка
-		if (!slotContent.Left.equippedItem && !slotContent.Right.equippedItem && !slotContent.Both.equippedItem) {
+		if (!slotContent.Left && !slotContent.Right && !slotContent.Both) {
 			resolution.get("First").resolve("Both");
 		} else {
 			openEquipOptionsContainer();
 			replacer(name, "Both", "Both", false);
 		}
 	} else if (param === "Shield") {
-		if (slotContent.Both.equippedItem) {
+		if (slotContent.Both) {
 			openEquipOptionsContainer();
 			replacer(name, "Left", "Both", false);
-		} else if (slotContent.Left.equippedItem) {
+		} else if (slotContent.Left) {
 			openEquipOptionsContainer();
 			replacer(name, "Left", "Left", false);
 		} else {
@@ -208,11 +196,11 @@ async function slotChecker(param, name, item) {
 		}
 	} else {
 		if (param === "Head") {
-			if (!slotContent.Head.equippedItem) {
-				if (!slotContent.Body.equippedItem) {
+			if (!slotContent.Head) {
+				if (!slotContent.Body) {
 					resolution.get("First").resolve(param);
 				} else {
-					if (!slotContent.Body.equippedItem.cannotWearHelmet) {
+					if (!slotContent.Body.cannotWearHelmet) {
 						resolution.get("First").resolve(param);
 					} else {
 						openEquipOptionsContainer();
@@ -225,8 +213,8 @@ async function slotChecker(param, name, item) {
 			}
 		} else if (param === "Body") {
 			const isHooded = item.cannotWearHelmet || false;
-			if (!slotContent.Body.equippedItem) {
-				if (!slotContent.Head.equippedItem) {
+			if (!slotContent.Body) {
+				if (!slotContent.Head) {
 					resolution.get("First").resolve(param);
 				} else {
 					if (!isHooded) {
@@ -239,7 +227,7 @@ async function slotChecker(param, name, item) {
 			} else {
 				openEquipOptionsContainer();
 				if (isHooded) {
-					if (slotContent.Head.equippedItem) {
+					if (slotContent.Head) {
 						replacer(name, param, "Both", true);
 					}
 				} else {
@@ -247,7 +235,7 @@ async function slotChecker(param, name, item) {
 				}
 			}
 		} else {
-			if (slotContent[param].equippedItem) {
+			if (slotContent[param]) {
 				openEquipOptionsContainer();
 				replacer(name, param, param, false);
 			} else {
@@ -281,15 +269,15 @@ function decideToReplaceItem(decision, slotName, isHooded) {
 				unequipItem("Head");
 				unequipItem("Body");
 			} else {
-				if (slotContent.Both.equippedItem) {
+				if (slotContent.Both) {
 					unequipItem("Both", true);
 				} else {
-					if (slotContent.Left.equippedItem) unequipItem("Left", true);
-					if (slotContent.Right.equippedItem) unequipItem("Right", true);
+					if (slotContent.Left) unequipItem("Left", true);
+					if (slotContent.Right) unequipItem("Right", true);
 				}
 			}
 		} else if (slotName === "Left" || slotName === "Right") {
-			if (slotContent.Both.equippedItem) {
+			if (slotContent.Both) {
 				unequipItem("Both");
 			} else {
 				unequipItem(slotName);
@@ -304,8 +292,8 @@ function decideToReplaceItem(decision, slotName, isHooded) {
 }
 function unequipItem(slotName, hideSlot = false, menuIsOpen) {
 	const menuSlot = itemMenuEquipSlots[slotName];
-	const item = slotContent[slotName].equippedItem;
-	unequipAetherialCrown(slotContent.Head.equippedItem.name);
+	const item = slotContent[slotName];
+	unequipAetherialCrown(slotContent.Head?.name);
 	menuSlot.img.removeChild(menuSlot.img.firstChild); 
 	if (slotName === "Both") {
 		slot.Left.removeChild(slot.Left.lastChild);
@@ -316,10 +304,16 @@ function unequipItem(slotName, hideSlot = false, menuIsOpen) {
 	adjustCardByCommonness(item, false, menuIsOpen);
 	if (hideSlot) {
 		menuSlot.itemSlot.classList.add("hidden");
-		slotContent[slotName].equippedItem = null;
+		slotContent[slotName] = null;
 		adjustSlot(slotName, false);
 	}
+	countEquippedItems(false);
 	toggleEquippedCardsPanel();
+	deleteCardsWithDescr(item, slotName);
+	setMagicResistances(item.name, -1);
+	setPhysStats(slotName, item, item.name, -1);
+	cancelBonusForSameTypeArmor(slotName);
+	checkMatchingSetArmor(item.name, slotName, item.type, -1);
 }
 function adjustCardByCommonness(item, bool, menuIsOpen = true) {
 	const meth = bool ? "add" : "remove";
@@ -360,10 +354,13 @@ function bundleFunc(result, item, name) {
 	adjustSlot(result, true);
 	toggleEquippedCardsPanel();
 	equipAetherialCrown(name);
-	// нужно добавить описание и исправить функции ниже
-	/*makeDescription(result); 
-	calcTotalValues(properties.category, properties.type, 1, name);
-	calcMagRes(name, 1);*/
+	makeCardsWithDescr(item, name, result);
+	countEquippedItems(true);
+	setMagicResistances(name, 1);
+	setPhysStats(result, item, name, 1);
+	addBonusForSameTypeArmor(result);
+	checkMatchingSetArmor(name, result, item.type, 1);
+	//getItemDescription(item, true);
 }
 function equipItemInItemWindowSlot(item, slotName) {
 	const slot = itemMenuEquipSlots[slotName];
@@ -423,7 +420,7 @@ function makeImg(slotName, item, name) {
 	}
 }
 function setSlotContent(slotName, item) {
-	slotContent[slotName].equippedItem = item;
+	slotContent[slotName] = item;
 }
 function adjustSlot(slotName, bool) {
 	const meth = bool ? "add" : "remove";
@@ -437,11 +434,13 @@ function adjustSlot(slotName, bool) {
 		slot[slotName].classList[meth]("occupied");
 	}
 }
+function countEquippedItems(x) {
+	x ? itemsEquipped++ : itemsEquipped--;
+}
 function toggleEquippedCardsPanel() {
-	if (Object.values(slotContent).every(e => e.equippedItem === null)) {
-		dom4.equippedCards.classList.remove("showEquipped");
-	} else {
-		dom4.equippedCards.classList.add("showEquipped");
+	if (itemsEquipped === 0) {
+		dom4.equippedCards.classList.toggle("showEquipped");
+		toggleTitle(".card-info-wrapper");
 	}
 }
 function chooseHand(e) {
@@ -475,8 +474,7 @@ function confirmSameItem() {
 function toggleItemDetails(e) {
 	const button = e.target.closest(".equipped-item__info-button");
 	if (button) {
-		const selector = button.dataset.toggleDetails;
-		const details = itemMenuEquipSlots[selector].details;
+		const details = itemMenuEquipSlots[button.dataset.toggleDetails].details;
 		if (!details.style.maxHeight) {
 			details.style.maxHeight = details.scrollHeight + "px";
 		} else {
@@ -485,12 +483,22 @@ function toggleItemDetails(e) {
 		button.classList.toggle("equipped-item__info-button--turn");
 	}
 }
+function closeItemDetailsOnUnequip(slotName) {
+	document.querySelector(`[data-toggle-details=${slotName}]`).classList.remove("equipped-item__info-button--turn");
+	itemMenuEquipSlots[slotName].details.style.maxHeight = null;
+}
+function closeAllItemsDetails() {
+	for (const i of document.querySelectorAll(".equipped-item__info-button--turn")) {
+		itemMenuEquipSlots[i.dataset.toggleDetails].details.style.maxHeight = null;
+		i.classList.remove("equipped-item__info-button--turn");
+	}
+}
 function openReplaceItemWindow(slotName, name, isHooded) {
 	dom4.itemReplacement.classList.remove("hidden");
 	dom4.itemReplacementFirstItem.textContent = name;
 	const firstP = dom4.itemReplacementUnequipFirst;
 	if (isHooded) {
-		const bodyName = slotContent.Body.equippedItem.name, headName = slotContent.Head.equippedItem.name;
+		const bodyName = slotContent.Body.name, headName = slotContent.Head.name;
 		const unequipBody = dom4.itemReplacementUnequipBody, unequipHead = dom4.itemReplacementUnequipHead, unequipBoth = dom4.itemReplacementUnequipBoth;
 		switch(slotName) {
 			case "Body":
@@ -508,7 +516,7 @@ function openReplaceItemWindow(slotName, name, isHooded) {
 				break;
 		}
 	} else if (slotName === "Both") {
-		const left = slotContent.Left.equippedItem, right = slotContent.Right.equippedItem, both = slotContent.Both.equippedItem, secondP = dom4.itemReplacementUnequipSecond;
+		const left = slotContent.Left, right = slotContent.Right, both = slotContent.Both, secondP = dom4.itemReplacementUnequipSecond;
 		if (both) {
 			firstP.classList.remove("hidden");
 			firstP.querySelector(".item-replacement__second-item").textContent = both.name;
@@ -524,7 +532,7 @@ function openReplaceItemWindow(slotName, name, isHooded) {
 		}
 	} else {
 		firstP.classList.remove("hidden");
-		firstP.querySelector(".item-replacement__second-item").textContent = slotContent[slotName].equippedItem.name;
+		firstP.querySelector(".item-replacement__second-item").textContent = slotContent[slotName].name;
 	}
 }
 function closeReplaceItemWindow() {
@@ -536,6 +544,7 @@ async function unequipFromItemMenu(slotName) {
 	await unequipConditions(slotName, dom4.unequipItemFromMenuName, true);
 	toggleUnequipItemFromItemMenu();
 	closeEquipOptionsContainer();
+	closeItemDetailsOnUnequip(slotName);
 }
 function toggleUnequipItemFromItemMenu() {
 	dom4.unequipItemFromMenu.classList.toggle("hidden");
@@ -550,9 +559,90 @@ function toggleUnequipFromMainWindow() {
 	dom4.equippedItemsContainer.classList.toggle("blurred");
 }
 async function unequipConditions(slotName, nameField, menuIsOpen) {
-	const defSlot = (slotName === "Left" || slotName === "Right") && slotContent.Both.equippedItem ? "Both" : slotName;
-	nameField.textContent = slotContent[defSlot].equippedItem.name;
+	const defSlot = (slotName === "Left" || slotName === "Right") && slotContent.Both ? "Both" : slotName;
+	nameField.textContent = slotContent[defSlot].name;
 	const decision = await new Promise(resolve => resolution.set("Third", {resolve}));
 	if (decision === "Yes") unequipItem(defSlot, true, menuIsOpen);
 	resolution.clear();
+}
+function makeCardsWithDescr(item, name, result) {
+	const node = dom4.card.content.cloneNode(true);
+	const returnNode = (string) => node.querySelector(string);
+	const article = returnNode(".card-info");
+	const forDetails = returnNode(".card-info__details-wrapper");
+	returnNode(".card-info__name").textContent = name;
+	returnNode(".card-info__slot").textContent = `(${result})`;
+	returnNode(".card-info__weight-value").textContent = item.weight;
+	const arRat = item.armorRating, isArmor = arRat !== undefined;
+	returnNode(".card-info__other-param").textContent = isArmor ? "Armor" : "Damage";
+	returnNode(".card-info__other-value").textContent = isArmor ? arRat : item.damage;
+	returnNode(".card-info__ench").textContent = item.description;
+	function f(summ, desc) {
+		const node = dom4.details.content.cloneNode(true);
+		node.querySelector(".item-details__summary").textContent = summ;
+		node.querySelector(".item-details__p").textContent = desc;
+		forDetails.appendChild(node.querySelector(".item-details"));
+	}
+	const addEff = item.additionalEffect, magSch = item.magicSchool;
+	addEff && f("Additional Effect", addEff);
+	item.artifact && f("Artifact", "It is one of a kind.")
+	item.enchantable && f("Enchantable", "Item can be enchanted.");
+	magSch && f(magSch, "Magic school staff profits from.");
+	const material = item.material, category = item.category;
+	if (material) {
+		const materialName = Array.isArray(material) ? material.join(" + ") : material;
+		f(materialName, "Main material for upgrade.");
+		item.profitFromTempering ? f("Improvable 2x", "Item can be improved twice as much.") : f("Improvable", "Item can be improved, but not twice as much.");
+	} else if (["Weapons", "Armor", "Shields"].includes(category)) {
+		f("Unimprovable", "Cannot be improved through tempering.");
+	}
+	const perks = item.perks, uses = item.uses;
+	if (perks) {
+		const perksName = Array.isArray(perks) ? perks.join(" + ") : perks;
+		f(perksName, "Perk(s) for tempering.");
+	}
+	if (uses) f(`Uses: ${uses}`, "How long enchantment lasts.");
+	const key = `${name} ${result}`;
+	article.dataset.lightSlot = result;
+	dom4.placeForCards.appendChild(article);
+	cardsWithDescr.set(key, article);
+	addLightData(key, result);
+}
+function deleteCardsWithDescr(item, slotName) {
+	const itemName = `${item.name} ${slotName}`;
+	cardsWithDescr.get(itemName).remove();
+	cardsWithDescr.delete(itemName);
+	clearLightData(slotName);
+}
+function addLightData(name, result) {
+	if (result === "Both") {
+		slot.Left.dataset.lightCard = slot.Right.dataset.lightCard = name;
+	} else if (result === "Shield") {
+		slot.Left.dataset.lightCard = name;
+	} else {
+		slot[result].dataset.lightCard = name;
+	}
+}
+function clearLightData(slotName) {
+	if (slotName === "Both") {
+		slot.Left.dataset.lightCard = slot.Right.dataset.lightCard = "";
+	} else {
+		slot[slotName].dataset.lightCard = "";
+	}
+}
+function highlightSlot(e) {
+	const card = e.target.closest(".card-info")?.dataset?.lightSlot;
+	const cl = "inventory__slot--highlight";
+	if (card) {
+		if (card === "Both") {
+			slot.Left.classList.toggle(cl);
+			slot.Right.classList.toggle(cl);
+		} else {
+			slot[card].classList.toggle(cl);
+		}
+	}
+}
+function highlightCard(e) {
+	const name = e.target.closest(".slot")?.dataset?.lightCard;
+	name && cardsWithDescr.get(name).classList.toggle("card-info--highlight");
 }

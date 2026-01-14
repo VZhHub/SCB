@@ -140,6 +140,13 @@
 	color: #fff;
 	font-size: 1.5rem;
 }
+.tree-header__button:hover {
+	border-color: orangered;
+}
+.tree-header__button:active {
+	border-color: red;
+	background-color: #12151a;
+}
 .tree-header__button--add {
 	border-radius: 50% 50% 0 0;
 }

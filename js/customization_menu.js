@@ -289,3 +289,7 @@ function uncheckAllCheckboxes() { // checkedFilterOptions используетс
 	for (let i of Object.values(cachedItems[properties.category][properties.type])) i.inFilter = false;
 	checkedFilterOptions.splice(0, checkedFilterOptions.length);
 }
+function closeMenus() {
+	menuState.builds && toggleBuild();
+	menuState.customization && toggleCustomizationMenu();
+}

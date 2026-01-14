@@ -1,242 +1,27 @@
-function calcMagRes(itemName, sign) {
-	const item = magicResistances[itemName];
-	if (!item) return;
-	domMagRes.magRes.textContent = Number(domMagRes.magRes.textContent) + (sign * Number(item.magic) * 100);
-	domMagRes.fireRes.textContent = Number(domMagRes.fireRes.textContent) + (sign * Number(item.fire) * 100);
-	domMagRes.fireResTot.textContent = Number(domMagRes.fireResTot.textContent) + (sign * Number(item.magic) * 100) + (sign * Number(item.fire) * 100);
-	domMagRes.frostRes.textContent = Number(domMagRes.frostRes.textContent) + (sign * Number(item.frost) * 100);
-	domMagRes.frostResTot.textContent = Number(domMagRes.frostResTot.textContent) + (sign * Number(item.magic) * 100) + (sign * Number(item.frost) * 100);
-	domMagRes.shockRes.textContent = Number(domMagRes.shockRes.textContent) + (sign * Number(item.shock) * 100);
-	domMagRes.shockResTot.textContent = Number(domMagRes.shockResTot.textContent) + (sign * Number(item.magic) * 100) +  (sign * Number(item.shock) * 100);
-	domMagRes.diseaseRes.textContent = Number(domMagRes.diseaseRes.textContent) + (sign * Number(item.disease) * 100);
-	domMagRes.poisonRes.textContent = Number(domMagRes.poisonRes.textContent) + (sign * Number(item.poison) * 100);
+const magicResistances = new Map();
+for (const i of document.querySelectorAll("[data-resistances]")) {
+	magicResistances.set(i.dataset.resistances, i);
 }
-const domMagRes = {
-	magRes: document.querySelector(".total__mag-res span"),
-	fireRes: document.querySelector(".total__fire span"),
-	fireResTot: document.querySelector(".total__fire-total span"),
-	frostRes: document.querySelector(".total__frost span"),
-	frostResTot: document.querySelector(".total__frost-total span"),
-	shockRes: document.querySelector(".total__shock span"),
-	shockResTot: document.querySelector(".total__shock-total span"),
-	diseaseRes: document.querySelector(".total__disease span"),
-	poisonRes: document.querySelector(".total__poison span"),
-};
-const magicResistances = {
-	"Shield of Ysgramor": {
-		magic: .2,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Shield of Solitude": {
-		magic: .3,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Imperial Dragon Shield": {
-		magic: 0,
-		fire: .1,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Storm-Bear Shield": {
-		magic: 0,
-		fire: 0,
-		frost: .1,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Savior's Hide": {
-		magic: .15,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: .5,
-	},
-	"Nightingale Armor": {
-		magic: 0,
-		fire: 0,
-		frost: .5,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Reforged Gauntlets of the Crusader": {
-		magic: 0,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: .5,
-		poison: 0,
-	},
-	"Ancient Shrouded Armor": {
-		magic: 0,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: 1,
-	},
-	"Shrouded Armor": {
-		magic: 0,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: .5,
-	},
-	"Lord's Mail": {
-		magic: .17,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: .75,
-	},
-	"Wraithguard": {
-		magic: .1,
-		fire: .1,
-		frost: .1,
-		shock: .1,
-		disease:.1,
-		poison: .1,
-	},
-	"Ahzidal": {
-		magic: 0,
-		fire: .5,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Otar": {
-		magic: 0,
-		fire: .3,
-		frost: .3,
-		shock: .3,
-		disease: 0,
-		poison: 0,
-	},
-	"Ancient Helmet of the Unburned": {
-		magic: 0,
-		fire: .4,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Imperial Dragon Armor": {
-		magic: 0,
-		fire: .3,
-		frost: .3,
-		shock: .3,
-		disease: 0,
-		poison: 0,
-	},
-	"Imperial Dragon Boots": {
-		magic: 0,
-		fire: .2,
-		frost: 0,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Dukaan": {
-		magic: 0,
-		fire: 0,
-		frost: .5,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Helm of Yngol": {
-		magic: 0,
-		fire: 0,
-		frost: .3,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Storm-Bear Armor": {
-		magic: 0,
-		fire: 0,
-		frost: .5,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Storm-Bear Boots": {
-		magic: 0,
-		fire: 0,
-		frost: .2,
-		shock: 0,
-		disease: 0,
-		poison: 0,
-	},
-	"Zahkriisos": {
-		magic: 0,
-		fire: 0,
-		frost: 0,
-		shock: .5,
-		disease: 0,
-		poison: 0,
-	},
-	"Gauntlets of the Crusader": {
-		magic: 0,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: .5,
-		poison: 0,
-	},
-	"Hevnoraak": {
-		magic: 0,
-		fire: 0,
-		frost: 0,
-		shock: 0,
-		disease: 1,
-		poison: 1,
-	},
-	"Ring of Phynaster": {
-		magic: .2,
-		fire: 0,
-		frost: 0,
-		shock: .2,
-		disease: 0,
-		poison: .2,
-	},
-	"Denstagmer's Ring": {
-		magic: 0,
-		fire: .2,
-		frost: .2,
-		shock: .2,
-		disease: 0,
-		poison: 0,
-	},
-	"Telvanni Shoes": {
-		magic: 0,
-		fire: 0,
-		frost: 0,
-		shock: .7,
-		disease: 0,
-		poison: 0,
-	},
-	"Archmage's Boots": {
-		magic: 0,
-		fire: 0,
-		frost: 0,
-		shock: .4,
-		disease: 0,
-		poison: 0,
-	},
-};
+function displayResistances() {
+	for (const [key, value] of Object.entries(currentRes)) {
+		if (key.includes("Total")) {
+			if (value >= 97.75) {
+				magicResistances.get(key).textContent = 97.75 + " %";
+			} else {
+				magicResistances.get(key).textContent = value + " %";
+			}
+		} else if (key === "disease") {
+			if (value >= 100) {
+				magicResistances.get(key).textContent = 100 + " %";
+			} else {
+				magicResistances.get(key).textContent = value + " %";
+			}
+		} else {
+			if (value >= 85) {
+				magicResistances.get(key).textContent = 85 + " %";
+			} else {
+				magicResistances.get(key).textContent = value + " %";
+			}
+		}
+	}
+}
