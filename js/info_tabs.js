@@ -1,21 +1,18 @@
-const buildInfoTabPanel = document.querySelector(".char-info-tabs");
-const buildInfoTabs = document.querySelectorAll(".char-info-tabs__tab");
-const infoWindowsWrapper = document.querySelector(".char-info-wrapper");
-const infoWindows = document.querySelectorAll(".char-info-wrapper > section");
-buildInfoTabPanel.addEventListener("click", e => switchTabs(e));
+import {dom} from "./dom.js";
+dom.buildInfoTabPanel.addEventListener("click", e => switchTabs(e));
 function switchTabs(e) {
 	const button = e.target.closest("button");
 	if (button) {
-		for (let i of buildInfoTabs) i.classList.remove("char-info-tabs__tab--selected");
-		button.classList.add("char-info-tabs__tab--selected");
+		for (const i of dom.buildInfoTabs) i.classList.remove("info-win-tabs__tab--selected");
+		button.classList.add("info-win-tabs__tab--selected");
 		showInfoWindow(button);
 	}
 }
 function showInfoWindow(e) {
-	const tabName = e.dataset.infoTab;
-	for (let i of infoWindows) i.classList.add("hidden");
-	infoWindowsWrapper.querySelector(tabName).classList.remove("hidden");
+	for (const i of dom.infoWindows) i.classList.add("hidden");
+	dom.infoWindowsWrapper.querySelector(e.dataset.infoTab).classList.remove("hidden");
 }
 function toggleTitle(container) {
 	document.querySelector(`${container} .nothing-there-yet`).classList.toggle("hidden");
 }
+export {toggleTitle};

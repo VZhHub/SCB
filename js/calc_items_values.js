@@ -1,3 +1,8 @@
+import {charSkills} from "./skills.js";
+import {setDeathbrand, checkForSet} from "./special_sets.js";
+import {displayUnarmedDamage} from "./unarmed_damage.js";
+import {slotContent} from "./equip_items.js";
+import {fillArmor, mapCanvases} from "./canvas.js";
 const dwarvenArmor = ["Brawler's Dwarven Gauntlets", "Dwarven Plate Armor", "Visage of Mzund", "Wraithguard", "Dwarven Shield", "Dwarven Mail Armor", "Dwarven Mail Boots", "Dwarven Mail Gauntlets", "Dwarven Mail Helmet", "Dwarven Armor", "Dwarven Boots", "Dwarven Gauntlets", "Dwarven Helmet", "Dwarven Plate Armor", "Dwarven Plate Boots"];
 const basicValues = {
 	"One-Handed": 0,
@@ -168,6 +173,18 @@ const skillModifiers = {
 		"Heavy Armor": 22,
 	},
 };
+const slotsToCheckArmor = ["Head", "Body", "Arms", "Legs", "Left"];
+const weaponSkills = ["Archery", "One-Handed", "Two-Handed"];
+const armorOnMods = {
+	"Heavy Armor": ["Heavy Armor", "Dwarven Heavy"],
+	"Light Armor": ["Light Armor", "Dwarven Light"],
+};
+const shieldKeys = {
+	"Heavy Armor": "Shields Heavy",
+	"Light Armor": "Shields Light",
+};
+const physicalValues = new Map();
+for (const i of document.querySelectorAll("[data-phys-values]")) physicalValues.set(i.dataset.physValues, i);
 function setPhysStats(slot, item, name, sign) {
 	if (item) {
 		const armor = item.armorRating, damage = item.damage, type = item.type, category = item.category, weight = item.weight;
@@ -177,22 +194,18 @@ function setPhysStats(slot, item, name, sign) {
 			const isShield = category === "Shields";
 			if (type === "Heavy") {
 				if (isDwarven) {
-					//basicValues["Dwarven Heavy"] += value;
 					basicValues["Dwarven Heavy"][slot] += value;
 				} else if (isShield) {
 					basicValues["Shields Heavy"] += value;
 				} else {
-					//basicValues["Heavy Armor"] += value;
 					basicValues["Heavy Armor"][slot] += value;
 				}
 			} else if (type === "Light") {
 				if (isDwarven) {
-					//basicValues["Dwarven Light"] += value;
 					basicValues["Dwarven Light"][slot] += value;
 				} else if (isShield) {
 					basicValues["Shields Light"] += value;
 				} else {
-					//basicValues["Light Armor"] += value;
 					basicValues["Light Armor"][slot] += value;
 				}
 			} else {
@@ -230,16 +243,15 @@ function setItemsBonuses(name, sign) {
 	}
 	const mod = percentageModifiers[name];
 	if (mod) {
-		for (let [key, value] of Object.entries(mod)) {
+		for (const [key, value] of Object.entries(mod)) {
 			sumOfModifiers[key].items += sign * value;
 		}
 	}
-	console.log("setItemsBonuses", sumOfModifiers);
 }
 function setItemSkillBonus(name, sign, otherObj) {
 	const item = otherObj ?? skillModifiers[name];
 	if (!item) return;
-	for (let [key, value] of Object.entries(item)) {
+	for (const [key, value] of Object.entries(item)) {
 		const skill = charSkills[key];
 		skill.otherSource += sign * value;
 		skill.total = skill.ownSkill + skill.otherSource;
@@ -272,15 +284,6 @@ function calcArmorSkillMod(skill) {
 		sumOfModifiers[skill].skill = .4 * charSkills[skill].total / 100;
 	}
 }
-const weaponSkills = ["Archery", "One-Handed", "Two-Handed"];
-const armorOnMods = {
-	"Heavy Armor": ["Heavy Armor", "Dwarven Heavy"],
-	"Light Armor": ["Light Armor", "Dwarven Light"],
-};
-const shieldKeys = {
-	"Heavy Armor": "Shields Heavy",
-	"Light Armor": "Shields Light",
-};
 function calcTotalValue() {
 	let armorSum = 0, shieldsSum = 0, damageSum = 0;
 	for (const i of weaponSkills) {
@@ -307,15 +310,9 @@ function calcTotalValue() {
 function setSeekerMod(name, sign) {
 	const mod = percentageModifiers[name];
 	if (mod) {
-		for (let [key, value] of Object.entries(mod)) {
-			sumOfModifiers[key].seeker += sign * value;
-		}
+		for (const [key, value] of Object.entries(mod)) sumOfModifiers[key].seeker += sign * value;
 		calcTotalValue();
 	}
-}
-const physicalValues = new Map();
-for (const i of document.querySelectorAll("[data-phys-values]")) {
-	physicalValues.set(i.dataset.physValues, i);
 }
 function displayPhysValues() {
 	physicalValues.get("totalArmor").textContent = totalValues.totalArmor;
@@ -323,7 +320,6 @@ function displayPhysValues() {
 	physicalValues.get("totalWeight").textContent = totalValues.totalWeight;
 	calcAndDisplayPhysProtection();
 }
-const slotsToCheckArmor = ["Head", "Body", "Arms", "Legs", "Left"];
 function calcAndDisplayPhysProtection() {
 	let pieces = 0;
 	for (const i of slotsToCheckArmor) {
@@ -334,3 +330,4 @@ function calcAndDisplayPhysProtection() {
 	physicalValues.get("physProtection").textContent = reduction + " %";
 	fillArmor(mapCanvases.get("totalArmor"), reduction);
 }
+export {calcWeaponSkillMod, calcArmorSkillMod, calcTotalValue, setPhysStats, setItemSkillBonus, basicValues, sumOfModifiers, displayPhysValues, setTheLordStone, setAncientKnowledge, setSeekerMod};

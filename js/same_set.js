@@ -1,3 +1,4 @@
+import {sumOfModifiers, calcTotalValue} from "./calc_items_values.js";
 const equippedMatchingItems = new Set();
 const matchingSlots = {
 	Head: null,
@@ -404,7 +405,6 @@ const matchingItems = {
 	},
 };
 function checkMatchingSetArmor(name, slot, armorType, sign) {
-	//console.log("checkMatchingSetArmor", name, slot, armorType)
 	if (armorType !== "Heavy" && armorType !== "Light") return;
 	if (!(slot in matchingSlots)) return;
 	armorType += " Armor";
@@ -419,11 +419,9 @@ function checkMatchingSetArmor(name, slot, armorType, sign) {
 	}
 }
 function checkMatchingSetPerk(perkName, bool, skillTree) {
-	console.log("checkMatchingSetPerk", perkName, bool, skillTree)
 	if (perkName !== "Matching Set") return;
 	const skill = skillTree ? skillTree : currentSkillTree;
 	const bonus = matchingSetBonus[skill];
-	console.log(perkName, skill)
 	if (bool) {
 		bonus.chosen = true;
 		setMatchingSetBonus(skill, 1);
@@ -446,14 +444,13 @@ function setMatchingSetBonus(armorType, sign) {
 		}
 		if (count === 4) {
 			sumOfModifiers[armorType].sameSet += sign * .25;
-			//applyModifiers();
 			calcTotalValue();
 			bonus.applied = true;
 		}
 	} else if (sign === -1) {
-		sumOfModifiers[armorType] += sign * .25;
-		//applyModifiers();
+		sumOfModifiers[armorType].sameSet += sign * .25;
 		calcTotalValue();
 		bonus.applied = false;
 	}
 }
+export {checkMatchingSetArmor, checkMatchingSetPerk};

@@ -1,6 +1,13 @@
-document.querySelector(".tree-header__buttons").addEventListener("click", e => changeSkillLevel(e));
+import {dom} from "./dom.js";
+import {raceSkills} from "./other.js";
+import {chosenRace} from "./main_win.js";
+import {charSkills, currentSkillTree} from "./skills.js";
+import {calcArmorSkillMod, calcWeaponSkillMod, calcTotalValue, displayPhysValues} from "./calc_items_values.js";
+import {updateTextSkill} from "./add_skills.js";
+document.querySelector(".skills-header__buttons").addEventListener("click", e => changeSkillLevel(e));
 let charLevel = 1;
 let xpToNextLevel = (charLevel + 3) * 25;
+let totalXP = 0;
 const xpBySkillTree = {
 	Alchemy: 0,
 	Alteration: 0,
@@ -21,7 +28,6 @@ const xpBySkillTree = {
 	Speech: 0,
 	"Two-Handed": 0,
 };
-let totalXP = 0;
 function calcCharLevel(skill, bool) {
 	const a = raceSkills[chosenRace][skill] + 1;
 	const b = charSkills[skill].ownSkill;
@@ -37,12 +43,12 @@ function calcCharLevel(skill, bool) {
 			xpToNextLevel -= (charLevel-- + 3) * 25;
 		}
 	}
-	dom.buildLevel.textContent = charLevel;
-	charNameLevel.get(currentCharName).textContent = charLevel;
+	dom.currentLevel.textContent = charLevel;
+	displayPhysValues();
 }
 function changeSkillLevel(e) {
 	const button = e.target;
-	if (button.closest(".tree-header__button")) {
+	if (button.closest(".skills-header__button")) {
 		const mod = Number(button.dataset.changeSkill);
 		const skill = charSkills[currentSkillTree];
 		const lowestSkill = raceSkills[chosenRace][currentSkillTree];
@@ -56,7 +62,7 @@ function changeSkillLevel(e) {
 		calcWeaponSkillMod(currentSkillTree);
 		calcArmorSkillMod(currentSkillTree);
 		calcTotalValue();
-		domm.treeSkillLevel.textContent = skill.total = skill.ownSkill + skill.otherSource;
+		dom.treeSkillLevel.textContent = skill.total = skill.ownSkill + skill.otherSource;
 		updateTextSkill(currentSkillTree);
 		if (mod < 0) {
 			calcCharLevel(currentSkillTree, false);
@@ -65,3 +71,4 @@ function changeSkillLevel(e) {
 		}
 	}
 }
+export {calcCharLevel, calcArmorSkillMod};

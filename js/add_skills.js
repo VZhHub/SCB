@@ -1,19 +1,16 @@
-//export {addSkill, skills, perks};
-const dom8 = {
-	characterSkills: document.querySelector(".character-skills-wrapper"),
-	template: document.querySelector(".character-skills-wrapper template"),
-};
+import {dom} from "./dom.js";
+import {currentSkillTree, charSkills} from "./skills.js";
 const skills = new Map();
 const perks = new Map();
 function updateTextPerk(clickedPerk, perk) {
 	perks.get(currentSkillTree).get(clickedPerk).textContent = clickedPerk + " " + perk.rankNow + "/" + perk.maxRank;
 }
 function addPerkSection() {
-	const node = dom8.template.content.cloneNode(true);
+	const node = dom.template.content.cloneNode(true);
 	const section = node.querySelector("section");
 	const h3 = node.querySelector("h3");
 	h3.textContent = currentSkillTree;
-	dom8.characterSkills.appendChild(node);
+	dom.characterSkills.appendChild(node);
 	skills.set(currentSkillTree, section);
 }
 function returnLi(clickedPerk, perk) {
@@ -45,3 +42,4 @@ function deletePerkSection(skillTree) {
 		skills.delete(skillTree);
 	}
 }
+export {skills, addPerkSection, returnLi, addLiPerks, updateTextSkill, deleteLiPerks, deletePerkSection, updateTextPerk};

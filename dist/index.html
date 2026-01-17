@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="keywords" content="Skyrim, calculator, builder, planner, perks, skills, weapons, armor">
+		<meta name="description" content="Skyrim character builder and equipment calculator">
+		<meta name="author" content="Vladislav Zharov">
+		<meta name="theme-color" content="#121212">
+		
+		<meta property="og:title" content="Skyrim Character Builder">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="https://vzhhub.github.io/SCB/images/preview.png">
+		<meta property="og:url" content="https://vzhhub.github.io/SCB/">
+		
+		<link type="image/x-icon" rel="icon" href="/SCB/assets/favicon-Crsc1IHB.ico" sizes="16x16">
+		<title>SCB - Skyrim Character Builder</title>
+
+		<script type="module" crossorigin src="/SCB/assets/index-D0xxQbMq.js"></script>
+		<link rel="stylesheet" crossorigin href="/SCB/assets/index-D7O9GdCo.css">
+	</head>
+	
+	<body>
+		<noscript>Your browser does not support JavaScript!</noscript>
+		<header>
+			<img src="data:image/png;base64,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" alt="Dovahkiin logo" width="25" height="35">
+			<h1>SKYRIM CHARACTER BUILDER</h1>
+			<div class="main-buttons">
+				<div>
+					<button class="main-buttons__character decoration" type="button" title="Create your character">CHARACTER</button>
+					<p class="warning hidden">Create a Character first!</p>
+				</div>
+				<div>
+					<button class="main-buttons__menu decoration" type="button" title="Assign skills, equipment and bonuses">MENU</button>
+				</div>
+			</div>
+		</header>
+		<main>
+			<section class="build-information">
+				<article class="current-character decoration">
+					<dl class="current-character__dl current-character__dl--left">
+						<dt class="minor-text">Character Name</dt>
+						<dd class="current-character__name">Unknown Adventurer</dd>
+					</dl>
+					<dl class="current-character__dl current-character__dl--middle">
+						<dt class="minor-text">Character Race</dt>
+						<dd class="current-character__race">Unknown Race</dd>
+					</dl>
+					<dl class="current-character__dl current-character__dl--right">
+						<dt class="minor-text">Character Level</dt>
+						<dd class="current-character__level">1</dd>
+					</dl>
+				</article>
+				<article class="info-win decoration">
+					<div class="info-win__wrapper">
+						<section class="info-win__item-info-section">
+							<h3 class="nothing-there-yet">No items have been equipped yet...</h3>
+							<template id="item-info-template">
+								<article class="item-info">
+									<h3 class="item-info__h3">
+										<span class="item-info__name"></span>
+										<span class="item-info__slot"></span>
+									</h3>
+									<dl class="item-info__params">
+										<div role="group">
+											<dt class="item-info__other-param"></dt>
+											<dd class="item-info__other-value"></dd>
+										</div>
+										<div role="group">
+											<dt class="item-info__weight">Weight</dt>
+											<dd class="item-info__weight-value"></dd>
+										</div>
+									</dl>
+									<p class="item-info__ench"></p>
+									<div class="item-info__details-wrapper"></div>
+								</article>	
+							</template>
+							<template id="item-details-template">
+								<details class="item-details">
+									<summary class="item-details__summary"></summary>
+									<p class="item-details__p"></p>
+								</details>
+							</template>
+						</section>
+						<section class="info-win__character-skills-section hidden">
+							<h3 class="nothing-there-yet">No perks have been chosen yet...</h3>
+							<template id="character-skills-template">
+								<section class="character-skills">
+									<h3 class="character-skills__skill"></h3>
+									<ul class="character-skills__perk"></ul>
+								</section>
+							</template>
+						</section>
+						<section class="info-win__passive-effects-section hidden">
+							<h3 class="nothing-there-yet">You have no passive effects...</h3>
+							<section class="passive-effects">
+								<dl class="passive-effects__dl">
+									<template id="passive-effects-template">
+										<dt class="passive-effects__term"></dt>
+										<dd class="passive-effects__desc"></dd>
+									</template>
+								</dl>
+							</section>
+						</section>
+						<section class="info-win__statistics-section hidden">
+							<h3 class="nothing-there-yet">No data for statistics yet...</h3>
+							<section class="statistics hidden">
+								<h3>Resistances</h3>
+								<hr>
+								<p>You can reach 85% Resist Poison or Magic, but by combining Resist Magic with Elemental Resistances, you can reach 97.75% resistance to a specific element, except for Disease Resistance, which can reach 100%.</p>
+								<dl>
+									<dt>Magic</dt>
+									<dd data-resistances="magic">0 %</dd>
+									<dt>Fire</dt>
+									<dd data-resistances="fire">0 %</dd>
+									<dt>Total Fire</dt>
+									<dd data-resistances="fireTotal">0 %</dd>
+									<dt>Poison</dt>
+									<dd data-resistances="poison">0 %</dd>
+									<dt>Frost</dt>
+									<dd data-resistances="frost">0 %</dd>
+									<dt>Total Frost</dt>
+									<dd data-resistances="frostTotal">0 %</dd>
+									<dt>Disease</dt>
+									<dd data-resistances="disease">0 %</dd>
+									<dt>Shock</dt>
+									<dd data-resistances="shock">0 %</dd>
+									<dt>Total Shock</dt>
+									<dd data-resistances="shockTotal">0 %</dd>
+								</dl>
+							</section>
+							<section class="statistics hidden">
+								<h3>Armor & Damage</h3>
+								<hr>
+								<p>Armor provides a maximum of 80% physical damage reduction. You need 667 points of armor for this. For each piece of armor, including a shield, this value is reduced by 25 points. So, for 4 pieces of armor plus a shield, you need 542 points of armor to reach armor cap.</p>
+								<dl>
+									<dt>Unarmed Damage</dt>
+									<dd data-unarmed-damage>0</dd>
+									<dt>Physical Weapon Damage</dt>
+									<dd data-phys-values="totalDamage">0</dd>
+									<dt>Total Armor</dt>
+									<dd data-phys-values="totalArmor">0</dd>
+									<dt>Physical Protection</dt>
+									<dd data-phys-values="physProtection">0 %</dd>
+									<dt>Total Weight</dt>
+									<dd data-phys-values="totalWeight">0</dd>
+								</dl>
+							</section>
+							<section class="statistics hidden">
+								<h3>Magical & Physical Caps</h3>
+								<hr>
+								<h4>Armor Cap</h4>
+								<canvas data-canvas="totalArmor"></canvas>
+								<h4>Magic Cap</h4>
+								<canvas data-canvas="magic"></canvas>
+								<h4>Fire Cap</h4>
+								<canvas data-canvas="fireTotal"></canvas>
+								<h4>Frost Cap</h4>
+								<canvas data-canvas="frostTotal"></canvas>
+								<h4>Shock Cap</h4>
+								<canvas data-canvas="shockTotal"></canvas>
+								<h4>Poison Cap</h4>
+								<canvas data-canvas="poison"></canvas>
+								<h4>Disease Cap</h4>
+								<canvas data-canvas="disease"></canvas>
+							</section>
+						</section>
+					</div>
+				</article>
+				<section class="info-win-tabs">
+					<button class="info-win-tabs__tab decoration" type="button" data-info-tab=".info-win__item-info-section">Equipped Items</button>
+					<button class="info-win-tabs__tab decoration" type="button" data-info-tab=".info-win__character-skills-section">Skills & Perks</button>
+					<button class="info-win-tabs__tab decoration" type="button" data-info-tab=".info-win__passive-effects-section">Passive Effects</button>
+					<button class="info-win-tabs__tab decoration" type="button" data-info-tab=".info-win__statistics-section">Statistics</button>
+				</section>
+			</section>
+			<section class="showcase decoration">
+				<div class="showcase__unequip-item-wrapper hidden">
+					<section class="unequip-item-from-showcase decoration">
+						<div>
+							<p>Do you want to unequip <span></span>?</p>
+						</div>
+						<div>
+							<button type="button">Yes</button><button type="button">No</button>
+						</div>
+					</section>
+				</div>
+				<div class="showcase__slot-wrapper inventory">
+					<div class="showcase__slot" data-showcase-slot="headSlot">
+						<p>Head</p>
+						<button class="showcase__slot-button" type="button" data-slot="Head">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="bodySlot">
+						<p>Body</p>
+						<button class="showcase__slot-button" type="button" data-slot="Body">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="armsSlot">
+						<p>Armguards</p>
+						<button class="showcase__slot-button" type="button" data-slot="Arms">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="legsSlot">
+						<p>Legs</p>
+						<button class="showcase__slot-button" type="button" data-slot="Legs">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="rightSlot">
+						<p>Right Arm</p>
+						<button class="showcase__slot-button" type="button" data-slot="Right">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="leftSlot">
+						<p>Left Arm</p>
+						<button class="showcase__slot-button" type="button" data-slot="Left">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="neckSlot">
+						<p>Neck</p>
+						<button class="showcase__slot-button" type="button" data-slot="Neck">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="fingerSlot">
+						<p>Finger</p>
+						<button class="showcase__slot-button" type="button" data-slot="Finger">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="backSlot">
+						<p>Back</p>
+						<button class="showcase__slot-button" type="button" data-slot="Back">UNEQUIP</button>
+					</div>
+				</div>
+			</section>
+			<section class="create-character decoration hidden">
+				<label class="create-character__label-name" for="character-name">Name Your Character</label>
+				<input id="character-name" class="decoration" type="text" value="" required autocomplete="off">
+				<label class="create-character__label-race" for="races">Choose Race</label>
+				<select id="races" class="decoration" required autocomplete="off">
+					<option value="" selected hidden>---</option>
+					<option value="Argonian">Argonian</option>
+					<option value="Breton">Breton</option>
+					<option value="Dark Elf">Dark Elf</option>
+					<option value="High Elf">High Elf</option>
+					<option value="Imperial">Imperial</option>
+					<option value="Khajiit">Khajiit</option>
+					<option value="Nord">Nord</option>
+					<option value="Orc">Orc</option>
+					<option value="Redguard">Redguard</option>
+					<option value="Wood Elf">Wood Elf</option>
+				</select>
+				<button class="cancel-build" type="button" data-close-modal="#overlay .create-character" data-remove-validation="#character-name #races">Cancel</button>
+				<button class="save-character" type="button" data-close-modal="#overlay .create-character" data-remove-validation="#character-name #races">SAVE</button>
+			</section>
+			<section class="menu decoration">
+				<div class="header">
+					<h2 class="submenu-title">MENU</h2>
+					<button class="close-button" type="button">Close</button>
+				</div>
+				<div class="menu-options">
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Armor</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Heavy</button>
+							<button type="button" data-open-items>Light</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Weapons</button>
+						<div class="hidden">
+							<h3 class="menu-options__h3">One-Handed Weapons</h3>
+							<button type="button" data-open-items>Axes</button>
+							<button type="button" data-open-items>Daggers</button>
+							<button type="button" data-open-items>Maces</button>
+							<button type="button" data-open-items>Other</button>
+							<button type="button" data-open-items>Swords</button>
+							<h3 class="menu-options__h3">Two-Handed Weapons</h3>
+							<button type="button" data-open-items>Battleaxes</button>
+							<button type="button" data-open-items>Bows</button>
+							<button type="button" data-open-items>Crossbows</button>
+							<button type="button" data-open-items>Greatswords</button>
+							<button type="button" data-open-items>Warhammers</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Shields</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Heavy</button>
+							<button type="button" data-open-items>Light</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Staves</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Craftable</button>
+							<button type="button" data-open-items>Uncraftable</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Jewelry</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Amulets</button>
+							<button type="button" data-open-items>Circlets</button>
+							<button type="button" data-open-items>Rings</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Clothing</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Backpacks</button>
+							<button type="button" data-open-items>Clothes</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--skills decoration">Skills & Perks</button>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--boons decoration">Boons</button>
+					</div>
+				</div>
+			</section>
+			<section class="items-window hidden">
+				<div class="items-window__wrapper">
+					<div class="items-window__bigger-img"></div>
+					<section class="filter-window decoration">
+						<button class="close-window" type="button">
+							<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+						</button>
+						<div class="filter-window__fieldset-wrapper" aria-label="Item filters">
+							<fieldset class="filter-window__fieldset filter-window__fieldset--artifact">
+								<legend class="filter-window__legend">Artifact</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Artifact" autocomplete="off">Artifact</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="notArtifact" autocomplete="off">Not artifact</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--body-part hidden">
+								<legend class="filter-window__legend">Body part</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Arms" autocomplete="off">Arms</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Back" autocomplete="off">Back</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Body" autocomplete="off">Body</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Finger" autocomplete="off">Finger</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Head" autocomplete="off">Head</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Legs" autocomplete="off">Legs</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Neck" autocomplete="off">Neck</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--enchantable">
+								<legend class="filter-window__legend">Can be enchanted</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Enchantable" autocomplete="off">Can be enchanted</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unenchantable" autocomplete="off">Cannot be enchanted</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--helmet hidden">
+								<legend class="filter-window__legend">Can wear with helmet</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="canWearHelmet" autocomplete="off">Can wear</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="cannotWearHelmet" autocomplete="off">Cannot wear</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--enchanted">
+								<legend class="filter-window__legend">Enchantment</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Enchanted" autocomplete="off">Enchanted</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unenchanted" autocomplete="off">Not enchanted</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--magic-school hidden">
+								<legend class="filter-window__legend">Magic school</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Alteration" autocomplete="off">Alteration</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Conjuration" autocomplete="off">Conjuration</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Destruction" autocomplete="off">Destruction</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Illusion" autocomplete="off">Illusion</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Restoration" autocomplete="off">Restoration</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--smithing hidden">
+								<legend class="filter-window__legend">Smithing perks</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Steel" autocomplete="off">Steel</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Elven" autocomplete="off">Elven</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Advanced" autocomplete="off">Advanced</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Glass" autocomplete="off">Glass</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Dragon" autocomplete="off">Dragon</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Arcane" autocomplete="off">Arcane</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Dwarven" autocomplete="off">Dwarven</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Orcish" autocomplete="off">Orcish</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Ebony" autocomplete="off">Ebony</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Daedric" autocomplete="off">Daedric</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="noPerks" autocomplete="off">None</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--tempering hidden">
+								<legend class="filter-window__legend">Tempering</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Smithable" autocomplete="off">Can be tempered</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unsmithable" autocomplete="off">Cannot be tempered</label>
+							</fieldset>
+						</div>
+					</section>
+					<section class="items-window__items decoration">
+						<div class="items-window__header">
+							<h2 class="items-window__title submenu-title"></h2>
+							<button class="items-window__filter-button" data-filter-open="false">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" alt="Filter" stroke="#fff" stroke-width="3" viewBox="0 0 64 64"><path d="M50.69 32h5.63M7.68 32h31.01M26.54 15.97h29.78M7.68 15.97h6.88M35 48.03h21.32M7.68 48.03H23"/><circle cx="20.55" cy="15.66" r="6"/><circle cx="44.69" cy="32" r="6"/><circle cx="29" cy="48.03" r="6"/></svg>
+								<span>Filter</span>
+							</button>
+							<button class="items-window__equipped-button" data-inventory-open="false">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" alt="Equipped Items" fill="#fff" viewBox="132 133 734 722"><path d="M846 502 609 644q-6 3-6 15v180q0 8 6.5 11t12.5-1l240-182q4-3 4-9V514q0-7-7-11t-13-1M563 841V654q0-8-8-13l-126-70q-7-4-14 .5t-7 12.5v34q0 6-4 10t-10 4l-61-1q-6 0-10-5l-47-52q-4-4-4-10l-1-66q0-8-7-12l-110-65q-7-4-14 0t-7 12l1 165q0 8 6 12l401 243q7 4 14.5 0t7.5-12m42-259q-1 5 3 7t8 0q100-60 185-110l64-38q-5-75-35.5-107.5T753 323q-61 29-101 96-42 71-47 163M139 369q94 50 406 216 6 4 12 .5t7-10.5q2-50 18-100 17-57 48-100 35-49 84-72 8-3 7.5-11.5T714 280Q346 133 343 133q-72 0-122 37-43 31-67 86-20 47-22 101 0 8 7 12"/></svg>
+								<span>Inventory</span>
+							</button>
+							<div class="items-window__search-wrapper" role="search">
+								<label class="items-window__label" for="items-search">Find Item:</label>
+								<input id="items-search" class="items-window__search decoration" type="search" autocomplete="off">
+								<button class="items-window__clear-search" type="button" aria-label="Clear Search" title="Clear">&#9932;</button>
+							</div>
+							<button class="close-window" type="button" data-close-modal="#overlay .items-window">
+								<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+							</button>
+						</div>
+						<div class="items-window__sorting-panel">
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-name">
+								<button class="items-window__sort-button items-window__sort-button--by-name" data-sorting-selected="true" data-sorting-order="desc" data-sort-button-type="name">
+									<span>Name</span><span class="sorting-direction" data-sorting-order="desc">AZ</span><span class="hidden sorting-direction" data-sorting-order="asc">ZA</span>
+								</button>
+							</div>
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-weight">
+								<button class="items-window__sort-button items-window__sort-button--by-weight" data-sorting-selected="false" data-sorting-order="desc" data-sort-button-type="weight">
+									<span>Weight</span><span class="hidden sorting-direction" data-sorting-order="desc">↓</span><span class="hidden sorting-direction" data-sorting-order="asc">↑</span>
+								</button>
+							</div>
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-other">
+								<button class="items-window__sort-button items-window__sort-button--by-other" data-sorting-selected="false" data-sorting-order="desc" data-sort-button-type="other">
+									<span></span><span class="hidden sorting-direction" data-sorting-order="desc">↓</span><span class="hidden sorting-direction" data-sorting-order="asc">↑</span>
+								</button>
+							</div>
+							<hr>
+						</div>
+						<template id="items-window-template">
+							<div class="item-card">
+								<img class="item-card__image" alt="" data-src="" width="100" height="100" loading="lazy">
+								<div class="item-card__info">
+									<h2 class="item-card__name"></h2>
+									<p class="item-card__description minor-text"></p>
+								</div>
+								<p class="item-card__rating"></p>
+								<p class="item-card__weight"></p>
+								<button class="item-card__equip-button" type="button">Equip</button>
+							</div>
+						</template>
+						<div class="items-window__cards">
+							<div class="items-window__cards-list"></div>
+						</div>
+					</section>
+					<section class="equipped-items decoration">
+						<div class="equipped-items__header">
+							<h2 class="equipped-items__title">Equipped Items</h2>
+							<button class="close-window" type="button">
+								<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+							</button>
+						</div>
+						<div class="equipped-items__wrapper">
+							<div class="equipped-item hidden" data-item-menu-slot="Left">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Left Arm</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Left">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Left">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Right">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Right Arm</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Right">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Right">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Both">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Both Arms</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Both">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Both">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Head">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Head</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Head">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Head">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Neck">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Neck</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Neck">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Neck">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Body">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Body</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Body">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Body">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Arms">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Armguards</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Arms">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Arms">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Finger">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Finger</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Finger">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Finger">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Legs">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Legs</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Legs">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Legs">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Back">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Back</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Back">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Back">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="equip-options-window hidden">
+					<section class="choose-hand decoration hidden">
+						<div class="choose-hand__text">
+							<p>Which hand would you like to equip <span class="choose-hand__item first-item"></span> in?</p>
+						</div>
+						<div class="choose-hand__buttons">
+							<button type="button" class="choose-hand__button">Left</button><button type="button" class="choose-hand__button">Right</button>
+						</div>
+					</section>
+					<section class="same-item decoration hidden">
+						<div class="same-item__text same-text__buttons">
+							<p>This item is already equipped in this slot!</p>
+							<button type="button" class="same-item__button">OK</button>
+						</div>
+					</section>
+					<section class="item-replacement decoration hidden">
+						<div class="item-replacement__text">
+							<p class="item-replacement__equip">
+								Equip <span class="item-replacement__first-item"></span>?
+							</p>
+							<p class="item-replacement__unequip-first hidden">
+								<span class="item-replacement__second-item"></span> will be unequipped.
+							</p>
+							<p class="item-replacement__unequip-second hidden">
+								<span class="item-replacement__third-item"></span> will be unequipped.
+							</p>
+							<p class="item-replacement__unequip-body hidden">
+								It will unequip <span class="item-replacement__second-item"></span>, which occupies Body and Head slots.
+							</p>
+							<p class="item-replacement__unequip-head hidden">
+								It occupies both Body and Head slots and will unequip <span class="item-replacement__second-item"></span> from the Head slot.
+							</p>
+							<p class="item-replacement__unequip-both hidden">
+								It occupies both Body and Head slots and will unequip <span class="item-replacement__second-item"></span> and <span class="item-replacement__third-item"></span>.
+							</p>
+						</div>
+						<div class="item-replacement__buttons">
+							<button type="button" class="item-replacement__button">Yes</button>
+							<button type="button" class="item-replacement__button">No</button>
+						</div>
+					</section>
+					<section class="unequip-item-from-menu decoration hidden">
+						<div class="unequip-item-from-menu__text">
+							<p>Do you want to unequip <span></span>?</p>
+						</div>
+						<div class="unequip-item-from-menu__buttons">
+							<button type="button" class="unequip-item-from-menu__button">Yes</button><button type="button" class="unequip-item-from-menu__button">No</button>
+						</div>
+					</section>
+				</div>
+			</section>
+			<section class="boons decoration hidden">
+				<div class="boons__header">
+					<h2 class="submenu-title">BOONS</h2>
+					<button class="close-window" type="button" data-close-modal=".boons #overlay" aria-label="Close window">
+						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+					</button>
+				</div>
+				<div class="boons__options">
+					<fieldset class="boons__fieldset">
+						<legend class="boons__legend">Standing Stones</legend>
+						<div>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Apprentice Stone" autocomplete="off">The Apprentice Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Atronach Stone" autocomplete="off">The Atronach Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Lady Stone" autocomplete="off">The Lady Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Lord Stone" autocomplete="off">The Lord Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Mage Stone" autocomplete="off">The Mage Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Ritual Stone" autocomplete="off">The Ritual Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Serpent Stone" autocomplete="off">The Serpent Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Shadow Stone" autocomplete="off">The Shadow Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Steed Stone" autocomplete="off">The Steed Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Thief Stone" autocomplete="off">The Thief Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Tower Stone" autocomplete="off">The Tower Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Warrior Stone" autocomplete="off">The Warrior Stone</label>
+						</div>
+					</fieldset>
+					<fieldset class="boons__fieldset">
+						<legend class="boons__legend">Blessings</legend>
+						<div>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Agent of Dibella" autocomplete="off">Agent of Dibella</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Agent of Mara" autocomplete="off">Agent of Mara</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Ancient Knowledge" autocomplete="off">Ancient Knowledge</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Companion's Insight" autocomplete="off">Companion's Insight</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragon Infusion" autocomplete="off">Dragon Infusion</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Flame" autocomplete="off">Dragonborn Flame</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Force" autocomplete="off">Dragonborn Force</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Frost" autocomplete="off">Dragonborn Frost</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Eternal Spirit" autocomplete="off">Eternal Spirit</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Fire Within" autocomplete="off">The Fire Within</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Force Without Effort" autocomplete="off">Force Without Effort</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Lover's Insight" autocomplete="off">Lover's Insight</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Prowler's Profit" autocomplete="off">Prowler's Profit</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Sailor's Repose" autocomplete="off">Sailor's Repose</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Scholar's Insight" autocomplete="off">Scholar's Insight</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Might" autocomplete="off">Seeker of Might</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Shadows" autocomplete="off">Seeker of Shadows</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Sorcery" autocomplete="off">Seeker of Sorcery</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Sinderion's Serendipity" autocomplete="off">Sinderion's Serendipity</label>
+						</div>
+					</fieldset>
+				</div>
+				<p class="boons__p decoration"></p>
+			</section>
+			<section class="skills decoration hidden">
+				<div class="skills__header">
+					<h2 class="submenu-title">Skills & Perks:<span class="skill-tree-race"></span></h2>
+					<button class="skills-header__clear-button skills-header__clear-button--tree decoration" type="button">Clear Tree</button>
+					<button class="skills-header__clear-button skills-header__clear-button--all decoration" type="button">Clear All Perks</button>
+					<div class="skills-header__buttons">
+						<p class="skills-header__p">Modify Skill Level:</p>
+						<button class="skills-header__button skills-header__button--add skills-header__button--tens decoration" type="button" data-change-skill="10">+10</button>
+						<button class="skills-header__button skills-header__button--subtract skills-header__button--tens decoration" type="button" data-change-skill="-10">-10</button>
+						<button class="skills-header__button skills-header__button--add skills-header__button--ones decoration" type="button" data-change-skill="1">+1</button>
+						<button class="skills-header__button skills-header__button--subtract skills-header__button--ones decoration" type="button" data-change-skill="-1">-1</button>
+					</div>
+					<button class="close-window" type="button" data-close-modal=".skills #overlay">
+						<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+					</button>
+				</div>
+				<div class="skills__icons-wrapper">
+					<section class="icons icons--mage" role="group" aria-label="Mage skill trees">
+						<button type="button" class="icons__skill-icon icons__skill-icon--selected decoration" data-skill-icon="Illusion"><img src="/SCB/assets/illusion-DUZPezae.webp" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Illusion">Illusion</span><span class="chosen-perks-number" data-chosen-perks="Illusion">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Conjuration"><img src="/SCB/assets/conjuration-DlSts7L3.webp" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Conjuration">Conjuration</span><span class="chosen-perks-number" data-chosen-perks="Conjuration">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Destruction"><img src="/SCB/assets/destruction-DkR__sbN.webp" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Destruction">Destruction</span><span class="chosen-perks-number" data-chosen-perks="Destruction">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Restoration"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Restoration">Restoration</span><span class="chosen-perks-number" data-chosen-perks="Restoration">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Alteration"><img src="/SCB/assets/alteration-Bn74HBzL.webp" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Alteration">Alteration</span><span class="chosen-perks-number" data-chosen-perks="Alteration">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Enchanting"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Enchanting">Enchanting</span><span class="chosen-perks-number" data-chosen-perks="Enchanting">0</span></button>
+					</section>
+					<section class="icons icons--warrior" role="group" aria-label="Warrior skill trees">
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Smithing"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Smithing">Smithing</span><span class="chosen-perks-number" data-chosen-perks="Smithing">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Heavy Armor"><img src="/SCB/assets/heavy-armor-2iUhsKZs.webp" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Heavy Armor">Heavy Armor</span><span class="chosen-perks-number" data-chosen-perks="Heavy Armor">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Block"><img src="/SCB/assets/block-BuCxK2zr.webp" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Block">Block</span><span class="chosen-perks-number" data-chosen-perks="Block">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Two-Handed"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Two-Handed">Two-Handed</span><span class="chosen-perks-number" data-chosen-perks="Two-Handed">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="One-Handed"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="One-Handed">One-Handed</span><span class="chosen-perks-number" data-chosen-perks="One-Handed">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Archery"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Archery">Archery</span><span class="chosen-perks-number" data-chosen-perks="Archery">0</span></button>
+					</section>
+					<section class="icons icons--thief" role="group" aria-label="Thief skill trees">
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Light Armor"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Light Armor">Light Armor</span><span class="chosen-perks-number" data-chosen-perks="Light Armor">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Sneak"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Sneak">Sneak</span><span class="chosen-perks-number" data-chosen-perks="Sneak">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Lockpicking"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Lockpicking">Lockpicking</span><span class="chosen-perks-number" data-chosen-perks="Lockpicking">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Pickpocket"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Pickpocket">Pickpocket</span><span class="chosen-perks-number" data-chosen-perks="Pickpocket">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Speech"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Speech">Speech</span><span class="chosen-perks-number" data-chosen-perks="Speech">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Alchemy"><img src="data:image/webp;base64,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" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Alchemy">Alchemy</span><span class="chosen-perks-number" data-chosen-perks="Alchemy">0</span></button>
+					</section>
+				</div>
+				<div class="skills__tree-wrapper">
+					<section class="tree-header">
+						<h2 class="tree-header__skill-tree-name">Illusion</h2>
+						<dl>
+							<dt>Active Perks:</dt>
+							<dd><span class="tree-header__active-perks">0</span> of <span class="tree-header__max-active-perks">13</span></dd>
+							<dt>Skill Level:</dt>
+							<dd class="tree-header__skill-level">0</dd>
+						</dl>
+					</section>
+					<svg style="position:absolute" width="0" height="0">
+						<defs>
+							<filter id="perk-filter" x="-100%" y="-100%" width="300%" height="300%">
+								<feGaussianBlur stdDeviation="2"/>
+							</filter>
+							<radialGradient id="selected-perk-gradient" cx="50%" cy="50%" r="80%" fx="50%" fy="50%">
+								<stop offset="20%" stop-color="#fff"/>
+								<stop offset="70%" stop-color="gold"/>
+							</radialGradient>
+							<radialGradient id="available-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+								<stop offset="20%" stop-color="#fff"/>
+								<stop offset="70%" stop-color="rgb(36, 183, 255)"/>
+							</radialGradient>
+							<radialGradient id="unavailable-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+								<stop offset="20%" stop-color="#fff"/>
+								<stop offset="70%" stop-color="violet"/>
+							</radialGradient>
+							<radialGradient id="hover-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+								<stop offset="20%" stop-color="#fff"/>
+								<stop offset="70%" stop-color="red"/>
+							</radialGradient>
+						</defs>
+					</svg>
+					<section class="perk-info invisible">
+						<div>
+							<div>
+								<h3><span class="perk-info__perk-name">Novice Illusion</span> <span class="perk-info__perk-rank hidden">(<span class="perk-info__perk-rank-current">0</span>/<span class="perk-info__perk-rank-max">5</span>)</span></h3>
+								<p class="perk-info__perk-requirement">Requires Skill: <span class="perk-info__perk-skill">20</span></p>
+							</div>
+							<p class="perk-info__perk-description">Cast Novice level Illusion spells for half magicka.</p>
+							<p class="perk-info__next-rank invisible"><span class="perk-info__next-rank-description"></span><span class="perk-info__next-skill">30</span></p>
+						</div>
+					</section>
+				</div>
+			</section>
+		</main>
+		<div id="overlay" class="hidden" data-close-modal="#overlay #searchWindow .create-character .skills .boons .items-window" data-remove-validation="#character-name #races"></div>
+		<footer>
+			<a href="https://github.com/VZhHub/SCB.git" target="_blank" rel="noopener">GitHub Project</a>
+			<p>&copy; 2026 by Vladislav Zharov</p>
+			<p>All assets from <strong>The Elder Scrolls V: Skyrim</strong> are property of <a href="https://bethesda.net" target="_blank" rel="noopener">Bethesda Softworks</a>. This is a non-commercial project.</p>
+		</footer>
+		<script src="./js/SVGs.js"></script>
+	</body>
+</html>

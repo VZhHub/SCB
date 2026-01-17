@@ -36,3 +36,4 @@ function fillResistances(ctx, value, param) {
 	ctx.fillRect(2, 2, res, 18);
 	drawRect(ctx);
 }
+export {resistancesKeys, fillArmor, fillResistances, mapCanvases, resistancesParams};

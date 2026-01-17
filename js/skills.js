@@ -1,491 +1,15 @@
-const domm = {
-	svgSkillTrees: document.querySelectorAll(".skill-tree"),
-	skillLinesLine: document.querySelectorAll(".skill-lines__line"),
-	skillTrees: document.querySelectorAll(".skill-tree"),
-	skillTreeWrapper: document.querySelector(".skills__tree-wrapper"),
-	skillIconsWrapper: document.querySelector(".skills__icons-wrapper"),
-	skillIcons: document.querySelectorAll(".icons__skill-icon"),
-	skillTreeName: document.querySelector(".tree-header__skill-tree-name"),
-	skillTreeRace: document.querySelector(".skill-tree-race"),
-	treeMaxActivePerks: document.querySelector(".tree-header__max-active-perks"),
-	treeSkillLevel: document.querySelector(".tree-header__skill-level"),
-	treeActivePerks: document.querySelector(".tree-header__active-perks"),
-	iconNames: document.querySelectorAll("[data-icon-name]"),
-	skillIconsPerksNumber: document.querySelectorAll("[data-chosen-perks]"),
-	currentPerkRank: document.querySelectorAll(".perk-rank__rank"),
-	saveBuild: document.querySelector("#saveBuild"),
-	selectedRace: document.querySelector("#races"),
-	perkInfo: document.querySelector(".perk-info"),
-	perkName: document.querySelector(".perk-info__perk-name"),
-	perkDescription: document.querySelector(".perk-info__perk-description"),
-	perkInfoNextRank: document.querySelector(".perk-info__next-rank"),
-	perkInfoNextRankDes: document.querySelector(".perk-info__next-rank-description"),
-	perkInfoPerkSkill: document.querySelector(".perk-info__perk-skill"),
-	perkInfoNextSkill: document.querySelector(".perk-info__next-skill"),
-	clearTree: document.querySelector(".tree-header__clear-button--tree"),
-	clearAllPerks: document.querySelector(".tree-header__clear-button--all"),
-	categoryButton: document.querySelector(".category-button--skills"),
-};
-const lineClass = "skill-lines__line--selected";
-const perkClass = "skill-perks__perk--selected";
-const lineNodes = new Map();
-const perkNodes = new Map();
-const selectedPerks = new Map();
-const selectedLines = new Set();
-const parentPerks = new Map();
-const childrenPerks = new Map();
-const svgSkillTrees = new Map();
-const skillIconsButtons = new Map();
-const iconNames = new Map();
-const skillIconsPerksNumber = new Map();
-const currentPerkRank = new Map();
-(() => {
-	function getArray(map, key) {
-		let arr = map.get(key);
-		if (!arr) {
-			arr = [];
-			map.set(key, arr);
-		}
-		return arr;
-	}
-	for (let i of domm.skillLinesLine) {
-		const lineName = i.dataset.to + " " + i.dataset.from;
-		lineNodes.set(lineName, i);
-	}
-	for (let i of domm.skillTrees) {
-		const map = new Map();
-		for (let j of i.querySelectorAll(".skill-perks__perk")) {
-			map.set(j.dataset.perkName, j);
-		}
-		perkNodes.set(i.dataset.skillTree, map);
-	}
-	for (let i of domm.svgSkillTrees) {
-		const pp = new Map(), cp = new Map();
-		for (let j of i.querySelectorAll(".skill-lines__line")) {
-			const {to, from} = j.dataset;
-			getArray(pp, from).push(to);
-			getArray(cp, to).push(from);
-		}
-		const skillTree = i.dataset.skillTree;
-		svgSkillTrees.set(skillTree, i);
-		parentPerks.set(skillTree, pp);
-		childrenPerks.set(skillTree, cp);
-		selectedPerks.set(skillTree, new Set());
-	}
-	for (let i of domm.skillIcons) {
-		skillIconsButtons.set(i.dataset.skillIcon, i);
-	}
-	for (let i of domm.iconNames) {
-		iconNames.set(i.dataset.iconName, i);
-	}
-	for (let i of domm.skillIconsPerksNumber) {
-		skillIconsPerksNumber.set(i.dataset.chosenPerks, i);
-	}
-	for (let i of domm.currentPerkRank) {
-		currentPerkRank.set(i.dataset.perkRank, i);
-	}
-})();
-domm.saveBuild.addEventListener("click", () => {
-	const race = domm.selectedRace.value;
-	chosenRace = race;
-	//charSkills = {...raceSkills[race]};
-	for (let [key, value] of Object.entries(raceSkills[race])) {
-		charSkills[key].ownSkill = value;
-		charSkills[key].total = value;
-		calcWeaponSkillMod(key);
-		calcArmorSkillMod(key);
-	}
-	domm.treeSkillLevel.textContent = charSkills[currentSkillTree].total;
-	domm.skillTreeRace.textContent = race;
-	setMagicResistances(race, 1);
-	calcTotalValue();
-	setRaceAbilityDesc();
-});
-domm.categoryButton.addEventListener("click", () => {
-	currentSkillTree = currentSkillIcon = "Illusion";
-	for (let i of svgSkillTrees.values()) i.classList.add("hidden");
-	svgSkillTrees.get(currentSkillTree).classList.remove("hidden");
-	for (let i of skillIconsButtons.values()) i.classList.remove("icons__skill-icon--selected");
-	skillIconsButtons.get(currentSkillIcon).classList.add("icons__skill-icon--selected");
-	showTreeInfo(currentSkillTree);
-	showActivePerks();
-});
-domm.skillIconsWrapper.addEventListener("click", e => {
-	const skillIcon = e.target.closest(".icons__skill-icon"); // может быть null, если кликнуть мимо кнопки
-	if (!skillIcon) return;
-	const clickedSkillTree = skillIcon.dataset.skillIcon;
-	if (clickedSkillTree === currentSkillTree) return; // если кликнул на то же древо
-	svgSkillTrees.get(currentSkillTree).classList.add("hidden"); // скрываем древо которое было
-	svgSkillTrees.get(clickedSkillTree).classList.remove("hidden"); // показываем древо, которое выбрали
-	skillIconsButtons.get(currentSkillIcon).classList.remove("icons__skill-icon--selected");
-	skillIconsButtons.get(clickedSkillTree).classList.add("icons__skill-icon--selected");
-	currentSkillTree = currentSkillIcon = clickedSkillTree;
-	showTreeInfo(currentSkillTree);
-	showActivePerks();
-});
-domm.skillTreeWrapper.addEventListener("click", e => {
-	const targetClass = e.target.classList;
-	if (!targetClass.contains("skill-perks__perk")) return;
-	const perkName = e.target.dataset.perkName;
-	const perk = perksOverall[currentSkillTree][perkName];
-	const ranked = perk.isRanked;
-	if (targetClass.contains(perkClass) && !ranked) return; // выбран и не ранговый
-	if (ranked && (perk.rankNow === perk.maxRank)) return; // ранговый и на максимальном ранге
-	highlightSkillName();
-	if (sumOfChosenPerks === 0) toggleTitle(".character-skills-wrapper");
-	selectPerks(perkName);
-	showActivePerks();
-	//updateSkillLevelOnSelect(perkName);
-	showPerksOnButton();
-	updateRankDescription(perk);
-	displayUnarmedDamage();
-	displayPhysValues();
-	calcSumOfPerks();
-});
-domm.skillTreeWrapper.addEventListener("contextmenu", e => {
-	e.preventDefault();
-	const targetClass = e.target.classList;
-	if (!targetClass.contains("skill-perks__perk")) return;
-	if (targetClass.contains("skill-perks__perk") && !targetClass.contains(perkClass)) return;
-	const perkName = e.target.dataset.perkName;
-	const perk = perksOverall[currentSkillTree][perkName];
-	deselectPerks(perkName);
-	highlightSkillName();
-	showActivePerks();
-	showPerksOnButton();
-	updateRankDescription(perk);
-	displayUnarmedDamage();
-	displayPhysValues();
-	calcSumOfPerks();
-	if (sumOfChosenPerks === 0) toggleTitle(".character-skills-wrapper");
-});
-domm.skillTreeWrapper.addEventListener("mouseenter", e => {
-	const el = e.target;
-	if (el.classList.contains("skill-perks__perk")) {
-		const perkName = el.dataset.perkName;
-		domm.perkName.textContent = perkName;
-		const perk = perksOverall[currentSkillTree][perkName];
-		if (perk.isRanked) {
-			updateRankDescription(perk);
-		} else {
-			domm.perkDescription.textContent = perk.description;
-			domm.perkInfoPerkSkill.textContent = perk.skill;
-		}
-		domm.perkInfo.classList.remove("invisible");
-	}
-}, true);
-domm.skillTreeWrapper.addEventListener("mouseleave", e => {
-	if (!e.target.classList.contains("skill-perks__perk")) {
-		domm.perkInfo.classList.add("invisible");
-		domm.perkInfoNextRank.classList.add("invisible");
-	}
-}, true);
-domm.clearTree.addEventListener("click", () => clearTree());
-domm.clearAllPerks.addEventListener("click", clearAllTrees);
-function selectPerks(clickedPerk) {
-	const initPerk = clickedPerk;
-	const perk = perksOverall[currentSkillTree][clickedPerk];
-	if (perk.isRanked && perk.rankNow !== 0) {
-		numberOfChosenPerks[currentSkillTree]++;
-		updatePerkRank(clickedPerk, true);
-		updateTextPerk(clickedPerk, perk);
-		setMagicResistances(clickedPerk, 1);
-		setRankedPerks(clickedPerk, 1);
-	} else {
-		drawLineToParentPerk(clickedPerk, currentSkillTree);
-		setMagicResistances(clickedPerk, 1);
-		if (!skills.get(currentSkillTree)) addPerkSection();
-		const perks = selectedPerks.get(currentSkillTree);
-		const ul = skills.get(currentSkillTree).querySelector("ul");
-		const frag = document.createDocumentFragment();
-		while (true) {
-			setBonusForSameType(clickedPerk, 1);
-			checkMatchingSetPerk(clickedPerk, true, currentSkillTree);
-			numberOfChosenPerks[currentSkillTree]++;
-			const newPerk = perksOverall[currentSkillTree][clickedPerk];
-			if (newPerk.isRanked) updatePerkRank(clickedPerk, true);
-			setRankedPerks(clickedPerk, 1);
-			const li = returnLi(clickedPerk, newPerk);
-			frag.appendChild(li);
-			addLiPerks(clickedPerk, li);
-			const [childPerkA, childPerkB] = childrenPerks.get(currentSkillTree).get(clickedPerk) ?? [];
-			const [firstSelected, secondSelected] = [perks.has(childPerkA), perks.has(childPerkB)];
-			drawLinesToChildrenPerks(clickedPerk, childPerkA, childPerkB, firstSelected, secondSelected);
-			perkNodes.get(currentSkillTree).get(clickedPerk).classList.add(perkClass);
-			perks.add(clickedPerk);
-			if (firstSelected || secondSelected || !childPerkA) {
-				break;
-			} else {
-				clickedPerk = childPerkA;
-			}
-		}
-		ul.appendChild(frag);
-	}
-	updateSkillLevelOnSelect(initPerk);
-	updateTextSkill();
-}
-function deselectPerks(clickedPerk, skillTree) {
-	const tree = skillTree ?? currentSkillTree;
-	const skill = selectedPerks.get(tree);
-	const chP = childrenPerks.get(tree);
-	const perk = perksOverall[tree][clickedPerk];
-	const ranked = perk.isRanked;
-	numberOfChosenPerks[tree]--;
-	if (ranked) {
-		updatePerkRank(clickedPerk, false, tree);
-		updateSkillLevelOnDeselect(tree);
-		setMagicResistances(clickedPerk, -1);
-		setRankedPerks(clickedPerk, -1);
-	}
-	if (perk.rankNow === 0 || perk.rankNow === undefined) {
-		deselectPerkNode(clickedPerk);
-		const anyChP = chP.get(clickedPerk);
-		if (anyChP) {
-			for (let i of anyChP) {
-				const lineName = clickedPerk + " " + i;
-				deselectLineNode(lineName);
-			}
-		}
-		deselectPP(clickedPerk);
-	}
-	function deselectPP(clickedPerk) {
-		const anyPP = parentPerks.get(tree).get(clickedPerk);
-		if (anyPP) {
-			for (let i of anyPP) {
-				if (skill.has(i)) {
-					const lineName = i + " " + clickedPerk;
-					deselectLineNode(lineName);
-					if (chP.get(i).some(e => skill.has(e))) continue;
-					const perk = perksOverall[tree][i];
-					const ranked = perk.isRanked;
-					if (ranked) {
-						for (let j = 0, len = perk.rankNow; j < len; j++) {
-							numberOfChosenPerks[tree]--;
-							updatePerkRank(i, false, tree);
-							setMagicResistances(i, -1);
-							setRankedPerks(i, -1);
-						}
-					} else {
-						numberOfChosenPerks[tree]--;
-						setBonusForSameType(i, -1);
-						checkMatchingSetPerk(i, false, tree);
-					}
-					deselectPerkNode(i);
-					deselectPP(i);
-				}
-			}
-		}
-	}
-	function deselectLineNode(lineName) {
-		lineNodes.get(lineName).classList.remove(lineClass);
-		selectedLines.delete(lineName);
-	}
-	function deselectPerkNode(clickedPerk) {
-		perkNodes.get(tree).get(clickedPerk).classList.remove(perkClass);
-		skill.delete(clickedPerk);
-		updateSkillLevelOnDeselect(tree);
-		deleteLiPerks(clickedPerk, tree);
-	}
-	updateTextSkill(tree);
-	deletePerkSection(tree);
-}
-function drawLineToParentPerk(clickedPerk, skillTree) {
-	const pp = parentPerks.get(skillTree).get(clickedPerk);
-	if (!pp) return;
-	for (let i of pp) {
-		if (selectedPerks.get(skillTree).has(i)) {
-			const lineName = i + " " + clickedPerk;
-			lineNodes.get(lineName).classList.add(lineClass);
-			selectedLines.add(lineName);
-			break;
-		}
-	}
-}
-function drawLinesToChildrenPerks(clickedPerk, perkA, perkB, perkASelected, perkBSelected) {
-	if (!perkA && !perkB) return;
-	const [lineAName, lineBName] = [clickedPerk + " " + perkA, clickedPerk + " " + perkB];
-	if (perkASelected && perkBSelected) {
-		lineNodes.get(lineAName).classList.add(lineClass);
-		lineNodes.get(lineBName).classList.add(lineClass);
-		selectedLines.add(lineAName);
-		selectedLines.add(lineBName);
-	} else if (perkBSelected) {
-		lineNodes.get(lineBName).classList.add(lineClass);
-		selectedLines.add(lineBName);
-	} else {
-		lineNodes.get(lineAName).classList.add(lineClass);
-		selectedLines.add(lineAName);
-	}
-}
-function updatePerkRank(clickedPerk, bool, x) {
-	const tree = x ?? currentSkillTree;
-	const perk = perksOverall[tree][clickedPerk], {rankNow, maxRank} = perk;
-	if (!bool && rankNow === 0 || bool && rankNow === maxRank) return;
-	const newRank = bool ? perk.rankNow += 1 : perk.rankNow -= 1;
-	updateCurrentPerkRankText(clickedPerk, newRank);
-}
-function showActivePerks(x) {
-	const tree = x ?? currentSkillTree;
-	domm.treeActivePerks.textContent = numberOfChosenPerks[tree];
-}
-function highlightSkillName(x) {
-	const tree = x ?? currentSkillTree;
-	if (numberOfChosenPerks[tree] === 0) iconNames.get(tree).classList.toggle("icon-name--selected");
-}
-function updateCurrentPerkRankText(clickedPerk, rank) {
-	currentPerkRank.get(clickedPerk).textContent = rank;
-}
-function updateSkillLevelOnSelect(perkName) {
-	const perk = perksOverall[currentSkillTree][perkName];
-	const skill = perk.isRanked ? perk.rankSkill[perk.rankNow] : perk.skill;
-	const charSkill = charSkills[currentSkillTree];
-	if (skill > charSkill.ownSkill) {
-		//domm.treeSkillLevel.textContent = skill;
-		charSkill.ownSkill = skill;
-		domm.treeSkillLevel.textContent = charSkill.total = charSkill.ownSkill + charSkill.otherSource;
-		calcCharLevel(currentSkillTree, true);
-		//calcArmorBase(currentSkillTree);
-		calcArmorSkillMod(currentSkillTree);
-		//calcWeaponBase(currentSkillTree);
-		calcWeaponSkillMod(currentSkillTree);
-		//applyModifiers();
-		calcTotalValue();
-	}
-}
-function updateSkillLevelOnDeselect(x) {
-	const tree = x ?? currentSkillTree;
-	const perks = selectedPerks.get(tree);
-	const baseSkill = raceSkills[chosenRace][tree];
-	const arr = [...perks];
-	const skills = arr.map(e => {
-		const perk = perksOverall[tree][e];
-		if (perk.isRanked) {
-			return perk.rankSkill[perk.rankNow];
-		} else {
-			return perk.skill;
-		}
-	});
-	const highestSkill = Math.max(...skills);
-	const charSkill = charSkills[tree];
-	if (perks.size === 0 || highestSkill < baseSkill) {
-		charSkill.ownSkill = baseSkill;
-		domm.treeSkillLevel.textContent = charSkill.total = charSkill.otherSource + baseSkill;
-		calcCharLevel(tree, false);
-		//calcArmorBase(tree);
-		calcArmorSkillMod(tree);
-		//calcWeaponBase(tree);
-		calcWeaponSkillMod(tree);
-		//applyModifiers();
-		calcTotalValue();
-		return;
-	}
-	if (charSkill.ownSkill > highestSkill) {
-		charSkill.ownSkill = highestSkill;
-		domm.treeSkillLevel.textContent = charSkill.total = charSkill.otherSource + highestSkill;
-		calcCharLevel(tree, false);
-		//calcArmorBase(tree);
-		calcArmorSkillMod(tree);
-		//calcWeaponBase(tree);
-		calcWeaponSkillMod(tree);
-		//applyModifiers();
-		calcTotalValue();
-	}
-}
-function showPerksOnButton(x) {
-	const tree = x ?? currentSkillTree;
-	skillIconsPerksNumber.get(tree).textContent = numberOfChosenPerks[currentSkillTree];
-}
-function updateRankDescription(perk) {
-	if (!perk.isRanked) return;
-	const rank = perk.rankNow;
-	const nextRank = rank + 1;
-	if (rank === 0 || nextRank > perk.maxRank) {
-		domm.perkInfoNextRank.classList.add("invisible");
-	} else {
-		domm.perkInfoNextRankDes.textContent = perk.rankDesc[nextRank];
-		domm.perkInfoNextSkill.textContent = perk.rankSkill[nextRank];
-		domm.perkInfoNextRank.classList.remove("invisible");
-	}
-	domm.perkInfoPerkSkill.textContent = rank === 0 ? perk.skill : perk.rankSkill[rank];
-	domm.perkDescription.textContent = rank === 0 ? perk.description : perk.rankDesc[rank];
-}
-function clearTree(key) {
-	const tree = key ?? currentSkillTree;
-	if (numberOfChosenPerks[tree] === 0) return;
-	const perkName = startingPerks.get(tree);
-	const perkInfo = perksOverall[tree][perkName];
-	if (perkInfo.isRanked) {
-		const iter = perkInfo.rankNow;
-		for (let i = 0; i < iter; i++) {
-			deselectPerks(perkName, tree);
-		}
-	} else {
-		deselectPerks(perkName, tree);
-	}
-	showActivePerks(tree);
-	showPerksOnButton(tree);
-	highlightSkillName(tree);
-	calcSumOfPerks();
-	if (sumOfChosenPerks === 0) toggleTitle(".character-skills-wrapper");
-}
-function clearAllTrees() {
-	for (let i of startingPerks) {
-		clearTree(i[0]);
-	}
-}
-function showTreeInfo(tree) {
-	console.log(tree)
-	domm.skillTreeName.textContent = tree;
-	domm.treeMaxActivePerks.textContent = maxPerksByTree[tree];
-	domm.treeSkillLevel.textContent = charSkills[tree].total;
-}
-function calcSumOfPerks() {
-	sumOfChosenPerks = Object.values(numberOfChosenPerks).reduce((t, e) => t + e);
-}
-function setMagicResistances(name, sign) {
-	const r = resistances[name];
-	console.log(name, r)
-	if (!r) return;
-	if (r.magic) {
-		currentRes.magic += sign * r.magic;
-		currentRes.fireTotal += sign * r.magic;
-		currentRes.frostTotal += sign * r.magic;
-		currentRes.shockTotal += sign * r.magic;
-	}
-	if (r.fire) {
-		currentRes.fire += sign * r.fire;
-		currentRes.fireTotal += sign * r.fire;
-	}
-	if (r.frost) {
-		currentRes.frost += sign * r.frost;
-		currentRes.frostTotal += sign * r.frost;
-	}
-	if (r.shock) {
-		currentRes.shock += sign * r.shock;
-		currentRes.shockTotal += sign * r.shock;
-	}
-	if (r.poison) currentRes.poison += sign * r.poison;
-	if (r.disease) currentRes.disease += sign * r.disease;
-	for (const i of resistancesKeys) {
-		fillResistances(mapCanvases.get(i), currentRes[i], resistancesParams[i]);
-	}
-	displayResistances();
-	displayUnarmedDamage();
-	console.log(currentRes)
-}
-function setRankedPerks(perk, sign) { // name = perk, key = skill
-	if (!perksModifiers[perk]) return;
-	//const [key, value] = Object.entries(perksModifiers[perk])[0];
-	//console.log(key, value)
-	//sumOfModifiers[key] *= value**sign;
-	const skill = Object.keys(perksModifiers[perk])[0];
-	console.log(skill, perk, perksOverall[skill][perk].rankNow)
-	sumOfModifiers[skill].perks = perksOverall[skill][perk].rankNow * perksModifiers[perk][skill];
-	//applyModifiers();
-	calcTotalValue();
-	//displayPhysValues();
-}
-let currentSkillTree = "Illusion", currentSkillIcon = "Illusion", chosenRace, sumOfChosenPerks = 0;
+import {isDesktop, raceSkills} from "./other.js";
+import {dom} from "./dom.js";
+import {menuToDefaultView} from "./items_menu.js";
+import {toggleMenu, chosenRace} from "./main_win.js";
+import {toggleTitle} from "./info_tabs.js";
+import {setMagicResistances} from "./magic_resistances.js";
+import {displayUnarmedDamage} from "./unarmed_damage.js";
+import {skills, addPerkSection, returnLi, addLiPerks, updateTextSkill, deleteLiPerks, deletePerkSection, updateTextPerk} from "./add_skills.js";
+import {setBonusForSameType} from "./same_type.js";
+import {checkMatchingSetPerk} from "./same_set.js";
+import {calcCharLevel} from "./calc_char_level.js";
+import {calcArmorSkillMod, calcWeaponSkillMod, calcTotalValue, displayPhysValues, sumOfModifiers} from "./calc_items_values.js";
 const charSkills = {
 	Alchemy: {
 		ownSkill: 0,
@@ -578,156 +102,6 @@ const charSkills = {
 		total: 0,
 	},
 };
-const resistances = {
-	Argonian: {
-		disease: 50,
-	},
-	Breton: {
-		magic: 25,
-	},
-	"Dark Elf": {
-		fire: 50,
-	},
-	Nord: {
-		frost: 50,
-	},
-	Redguard: {
-		poison: 50,
-	},
-	"Wood Elf": {
-		poison: 50,
-		disease: 50,
-	},
-	"Shield of Ysgramor": {
-		magic: 20,
-	},
-	"Shield of Solitude": {
-		magic: 30,
-	},
-	"Storm-Bear Shield": {
-		frost: 10,
-	},
-	"Imperial Dragon Shield": {
-		fire: 10,
-	},
-	"Shrouded Armor": {
-		poison: 50,
-	},
-	"Savior's Hide": {
-		magic: 15,
-		poison: 50,
-	},
-	"Nightingale Armor": {
-		frost: 50,
-	},
-	"Ancient Shrouded Armor": {
-		poison: 100,
-	},
-	"Reforged Gauntlets of the Crusader": {
-		disease: 50,
-	},
-	Zahkriisos: {
-		shock: 50,
-	},
-	Otar: {
-		fire: 30,
-		fire: 30,
-		shock: 30,
-	},
-	Hevnoraak: {
-		disease: 100,
-		poison: 100,
-	},
-	"Helm of Yngol": {
-		frost: 30,
-	},
-	Dukaan: {
-		frost: 50,
-	},
-	Ahzidal: {
-		fire: 50,
-	},
-	Wraithguard: {
-		shock: 10,
-		fire: 10,
-		frost: 10,
-		magic: 10,
-		disease: 10,
-		poison: 10,
-	},
-	"Storm-Bear Boots": {
-		frost: 20,
-	},
-	"Storm-Bear Armor": {
-		frost: 20,
-	},
-	"Lord’s Mail": {
-		poison: 75,
-		magic: 17,
-	},
-	"Imperial Dragon Boots": {
-		fire: 20,
-	},
-	"Imperial Dragon Armor": {
-		fire: 30,
-		frost: 30,
-		shock: 30,
-	},
-	"Gauntlets of the Crusader": {
-		disease: 50,
-	},
-	"Ancient Helmet of the Unburned": {
-		fire: 40,
-	},
-	"Telvanni Shoes": {
-		shock: 70,
-	},
-	"Archmage's Boots": {
-		shock: 40,
-	},
-	"Denstagmer's Ring": {
-		fire: 20,
-		frost: 20,
-		shock: 20,
-	},
-	"Ring of Phynaster": {
-		magic: 20,
-		shock: 20,
-		poison: 20,
-	},
-	"Nightingale Armor": {
-		frost: 50,
-	},
-	"Ancient Shrouded Armor": {
-		poison: 100,
-	},
-	"Shrouded Armor": {
-		poison: 50,
-	},
-	"Magic Resistance": {
-		magic: 10,
-	},
-	"The Apprentice Stone": {
-		magic: -100,
-	},
-	"The Lord Stone": {
-		magic: 25,
-	},
-	"Agent of Mara": {
-		magic: 15,
-	},
-};
-const currentRes = {
-	magic: 0,
-	fire: 0,
-	fireTotal: 0,
-	frost: 0,
-	frostTotal: 0,
-	shock: 0,
-	shockTotal: 0,
-	poison: 0,
-	disease: 0,
-};
 const perksModifiers = {
 	Overdraw: {
 		Archery: .2,
@@ -806,208 +180,6 @@ const startingPerks = new Map([
 	["Speech", "Haggling"],
 	["Alchemy", "Alchemist"]
 ]);
-const raceSkills = {
-	Argonian: {
-		Alchemy: 15,
-		Alteration: 20,
-		Archery: 15,
-		Block: 15,
-		Conjuration: 15,
-		Destruction: 15,
-		Enchanting: 15,
-		"Heavy Armor": 15,
-		Illusion: 15,
-		"Light Armor": 20,
-		Lockpicking: 25,
-		"One-Handed": 15,
-		Pickpocket: 20,
-		Restoration: 20,
-		Smithing: 15,
-		Sneak: 20,
-		Speech: 15,
-		"Two-Handed": 15,
-	},
-	Breton: {
-		Alchemy: 20,
-		Alteration: 20,
-		Archery: 15,
-		Block: 15,
-		Conjuration: 25,
-		Destruction: 15,
-		Enchanting: 15,
-		"Heavy Armor": 15,
-		Illusion: 20,
-		"Light Armor": 15,
-		Lockpicking: 15,
-		"One-Handed": 15,
-		Pickpocket: 15,
-		Restoration: 20,
-		Smithing: 15,
-		Sneak: 15,
-		Speech: 20,
-		"Two-Handed": 20,
-	},
-	"Dark Elf": {
-		Alchemy: 20,
-		Alteration: 20,
-		Archery: 15,
-		Block: 15,
-		Conjuration: 15,
-		Destruction: 25,
-		Enchanting: 15,
-		"Heavy Armor": 15,
-		Illusion: 20,
-		"Light Armor": 20,
-		Lockpicking: 15,
-		"One-Handed": 15,
-		Pickpocket: 15,
-		Restoration: 15,
-		Smithing: 15,
-		Sneak: 20,
-		Speech: 15,
-		"Two-Handed": 15,
-	},
-	"High Elf": {
-		Alchemy: 15,
-		Alteration: 20,
-		Archery: 15,
-		Block: 15,
-		Conjuration: 20,
-		Destruction: 20,
-		Enchanting: 20,
-		"Heavy Armor": 15,
-		Illusion: 25,
-		"Light Armor": 15,
-		Lockpicking: 15,
-		"One-Handed": 15,
-		Pickpocket: 15,
-		Restoration: 20,
-		Smithing: 15,
-		Sneak: 15,
-		Speech: 15,
-		"Two-Handed": 15,
-	},
-	Imperial: {
-		Alchemy: 15,
-		Alteration: 15,
-		Archery: 15,
-		Block: 20,
-		Conjuration: 15,
-		Destruction: 20,
-		Enchanting: 20,
-		"Heavy Armor": 20,
-		Illusion: 15,
-		"Light Armor": 15,
-		Lockpicking: 15,
-		"One-Handed": 20,
-		Pickpocket: 15,
-		Restoration: 25,
-		Smithing: 15,
-		Sneak: 15,
-		Speech: 15,
-		"Two-Handed": 15,
-	},
-	Khajiit: {
-		Alchemy: 20,
-		Alteration: 15,
-		Archery: 20,
-		Block: 15,
-		Conjuration: 15,
-		Destruction: 15,
-		Enchanting: 15,
-		"Heavy Armor": 15,
-		Illusion: 15,
-		"Light Armor": 15,
-		Lockpicking: 20,
-		"One-Handed": 20,
-		Pickpocket: 20,
-		Restoration: 15,
-		Smithing: 15,
-		Sneak: 25,
-		Speech: 15,
-		"Two-Handed": 15,
-	},
-	Nord: {
-		Alchemy: 15,
-		Alteration: 15,
-		Archery: 15,
-		Block: 20,
-		Conjuration: 15,
-		Destruction: 15,
-		Enchanting: 15,
-		"Heavy Armor": 15,
-		Illusion: 15,
-		"Light Armor": 20,
-		Lockpicking: 15,
-		"One-Handed": 20,
-		Pickpocket: 15,
-		Restoration: 15,
-		Smithing: 20,
-		Sneak: 15,
-		Speech: 20,
-		"Two-Handed": 25,
-	},
-	Orc: {
-		Alchemy: 15,
-		Alteration: 15,
-		Archery: 15,
-		Block: 20,
-		Conjuration: 15,
-		Destruction: 15,
-		Enchanting: 20,
-		"Heavy Armor": 25,
-		Illusion: 15,
-		"Light Armor": 15,
-		Lockpicking: 15,
-		"One-Handed": 20,
-		Pickpocket: 15,
-		Restoration: 15,
-		Smithing: 20,
-		Sneak: 15,
-		Speech: 15,
-		"Two-Handed": 20,
-	},
-	Redguard: {
-		Alchemy: 15,
-		Alteration: 20,
-		Archery: 20,
-		Block: 20,
-		Conjuration: 15,
-		Destruction: 20,
-		Enchanting: 15,
-		"Heavy Armor": 15,
-		Illusion: 15,
-		"Light Armor": 15,
-		Lockpicking: 15,
-		"One-Handed": 25,
-		Pickpocket: 15,
-		Restoration: 15,
-		Smithing: 20,
-		Sneak: 15,
-		Speech: 15,
-		"Two-Handed": 15,
-	},
-	"Wood Elf": {
-		Alchemy: 20,
-		Alteration: 15,
-		Archery: 25,
-		Block: 15,
-		Conjuration: 15,
-		Destruction: 15,
-		Enchanting: 15,
-		"Heavy Armor": 15,
-		Illusion: 15,
-		"Light Armor": 20,
-		Lockpicking: 20,
-		"One-Handed": 15,
-		Pickpocket: 20,
-		Restoration: 15,
-		Smithing: 15,
-		Sneak: 20,
-		Speech: 15,
-		"Two-Handed": 15,
-	},
-};
 const perksOverall = {
 	Alteration: {
 		maxPerks: 14,
@@ -2196,3 +1368,446 @@ const perksOverall = {
 		},
 	},
 };
+const lineClass = "skill-lines__line--selected";
+const perkClass = "skill-perks__perk--selected";
+const lineNodes = new Map();
+const perkNodes = new Map();
+const selectedPerks = new Map();
+const selectedLines = new Set();
+const parentPerks = new Map();
+const childrenPerks = new Map();
+const svgSkillTrees = new Map();
+const skillIconsButtons = new Map();
+const iconNames = new Map();
+const skillIconsPerksNumber = new Map();
+const currentPerkRank = new Map();
+let currentSkillTree = "Illusion";
+let currentSkillIcon = "Illusion";
+let sumOfChosenPerks = 0;
+(() => {
+	function getArray(map, key) {
+		let arr = map.get(key);
+		if (!arr) {
+			arr = [];
+			map.set(key, arr);
+		}
+		return arr;
+	}
+	for (const i of dom.svgSkillLines) {
+		const lineName = i.dataset.to + " " + i.dataset.from;
+		lineNodes.set(lineName, i);
+	}
+	for (const i of dom.svgSkillTrees) {
+		const pp = new Map(), cp = new Map(), map = new Map();
+		for (const j of i.querySelectorAll(".skill-lines__line")) {
+			const {to, from} = j.dataset;
+			getArray(pp, from).push(to);
+			getArray(cp, to).push(from);
+		}
+		for (const j of i.querySelectorAll(".skill-perks__perk")) map.set(j.dataset.perkName, j);
+		const skillTree = i.dataset.skillTree;
+		perkNodes.set(skillTree, map);
+		svgSkillTrees.set(skillTree, i);
+		parentPerks.set(skillTree, pp);
+		childrenPerks.set(skillTree, cp);
+		selectedPerks.set(skillTree, new Set());
+	}
+	for (const i of dom.skillIcons) skillIconsButtons.set(i.dataset.skillIcon, i);
+	for (const i of dom.iconNames) iconNames.set(i.dataset.iconName, i);
+	for (const i of dom.skillIconsPerksNumber) skillIconsPerksNumber.set(i.dataset.chosenPerks, i);
+	for (const i of dom.currentPerkRank) currentPerkRank.set(i.dataset.perkRank, i);
+})();
+dom.skillsButton.addEventListener("click", () => {
+	currentSkillTree = currentSkillIcon = "Illusion";
+	for (const i of svgSkillTrees.values()) i.classList.add("hidden");
+	svgSkillTrees.get(currentSkillTree).classList.remove("hidden");
+	for (const i of skillIconsButtons.values()) i.classList.remove("icons__skill-icon--selected");
+	dom.overlay.classList.remove("hidden");
+	dom.skills.classList.remove("hidden");
+	skillIconsButtons.get(currentSkillIcon).classList.add("icons__skill-icon--selected");
+	showTreeInfo(currentSkillTree);
+	showActivePerks();
+	menuToDefaultView();
+	toggleMenu();
+});
+dom.boonsButton.addEventListener("click", () => {
+	menuToDefaultView();
+	toggleMenu();
+});
+dom.skillIconsWrapper.addEventListener("click", e => {
+	const skillIcon = e.target.closest(".icons__skill-icon");
+	if (!skillIcon) return;
+	const clickedSkillTree = skillIcon.dataset.skillIcon;
+	if (clickedSkillTree === currentSkillTree) return;
+	svgSkillTrees.get(currentSkillTree).classList.add("hidden");
+	svgSkillTrees.get(clickedSkillTree).classList.remove("hidden");
+	skillIconsButtons.get(currentSkillIcon).classList.remove("icons__skill-icon--selected");
+	skillIconsButtons.get(clickedSkillTree).classList.add("icons__skill-icon--selected");
+	currentSkillTree = currentSkillIcon = clickedSkillTree;
+	showTreeInfo(currentSkillTree);
+	showActivePerks();
+});
+if (isDesktop) {
+	dom.skillTreeWrapper.addEventListener("click", e => {
+		const data = checkPerk(e);
+		if (!data) return;
+		const {clickedPerk, perkName, perk, ranked} = data;
+		if (clickedPerk.classList.contains(perkClass) && !ranked) return;
+		if (ranked && (perk.rankNow === perk.maxRank)) return;
+		highlightSkillName();
+		if (sumOfChosenPerks === 0) toggleTitle(".info-win__character-skills-section");
+		selectPerks(perkName);
+		bundleFuncs(perk);
+	});
+	dom.skillTreeWrapper.addEventListener("contextmenu", e => {
+		e.preventDefault();
+		const targetClass = e.target.classList;
+		if (!targetClass.contains("skill-perks__perk")) return;
+		if (targetClass.contains("skill-perks__perk") && !targetClass.contains(perkClass)) return;
+		const perkName = e.target.dataset.perkName;
+		const perk = perksOverall[currentSkillTree][perkName];
+		deselectPerks(perkName);
+		highlightSkillName();
+		bundleFuncs(perk);
+		if (sumOfChosenPerks === 0) toggleTitle(".info-win__character-skills-section");
+	});
+	dom.skillTreeWrapper.addEventListener("mouseenter", e => {showPerkDes(e);}, true);
+	dom.skillTreeWrapper.addEventListener("mouseleave", e => {
+		if (!e.target.classList.contains("skill-perks__perk")) {
+			dom.perkInfo.classList.add("invisible");
+			dom.perkInfoNextRank.classList.add("invisible");
+		}
+	}, true);
+} else {
+	dom.skillsButton.addEventListener("click", () => {dom.skillIconsWrapper.scrollLeft = 0;});
+	dom.perkInfo.classList.add("non-PC");
+	document.querySelector(".perk-info > div").classList.add("decoration");
+	dom.perkInfoNextRank.classList.remove("invisible");
+	dom.perkInfoNextRank.style.display = "none";
+	let blockClick = false, longTapTimer;
+	dom.skillTreeWrapper.addEventListener("click", e => {
+		if (!blockClick) cyclePerks(e);
+		blockClick = true;
+		setTimeout(() => {blockClick = false;}, 300);
+	});
+	dom.skillTreeWrapper.addEventListener("contextmenu", e => {e.preventDefault();});
+	dom.skillTreeWrapper.addEventListener("pointerdown", function(e) {
+		longTapTimer = setTimeout(() => {showPerkDes(e)}, 1000);
+	});
+	dom.skillTreeWrapper.addEventListener("pointerup", () => {clearTimeout(longTapTimer);});
+	dom.skillTreeWrapper.addEventListener("pointerancel", () => {clearTimeout(longTapTimer);});
+	dom.perkInfo.addEventListener("click", () => {
+		dom.perkInfo.classList.add("invisible");
+		dom.perkInfoNextRank.style.display = "none";
+	});
+}
+dom.clearTree.addEventListener("click", () => clearTree());
+dom.clearAllPerks.addEventListener("click", clearAllTrees);
+function checkPerk(e) {
+	const clickedPerk = e.target;
+	if (!clickedPerk.classList.contains("skill-perks__perk")) return false;
+	const perkName = e.target.dataset.perkName;
+	const perk = perksOverall[currentSkillTree][perkName];
+	const ranked = perk.isRanked;
+	return {clickedPerk, perk, perkName, ranked: perk.isRanked};
+}
+function showPerkDes(e) {
+	const data = checkPerk(e);
+	if (!data) return;
+	const {clickedPerk, perkName, perk, ranked} = data;
+	dom.perkName.textContent = perkName;
+	if (perk.isRanked) {
+		updateRankDescription(perk);
+		if (!isDesktop && perk.rankNow !== 0 && perk.rankNow < perk.maxRank) dom.perkInfoNextRank.style.display = "block";
+	} else {
+		dom.perkDescription.textContent = perk.description;
+		dom.perkInfoPerkSkill.textContent = perk.skill;
+	}
+	dom.perkInfo.classList.remove("invisible");
+}
+function cyclePerks(e) {
+	const data = checkPerk(e);
+	if (!data) return;
+	const {clickedPerk, perkName, perk, ranked} = data;
+	if (clickedPerk.classList.contains(perkClass) && !ranked) {
+		deselectPerks(perkName);
+		if (sumOfChosenPerks === 0) toggleTitle(".info-win__character-skills-section");
+		highlightSkillName();
+	} else if (ranked && (perk.rankNow === perk.maxRank)) {
+		for (let i = 0; i < perk.maxRank; i++) deselectPerks(perkName);
+		if (sumOfChosenPerks === 0) toggleTitle(".info-win__character-skills-section");
+		highlightSkillName();
+	} else {
+		if (sumOfChosenPerks === 0) toggleTitle(".info-win__character-skills-section");
+		highlightSkillName();
+		selectPerks(perkName);
+	}
+	bundleFuncs(perk);
+}
+function bundleFuncs(x) {
+	showActivePerks();
+	showPerksOnButton();
+	updateRankDescription(x);
+	displayUnarmedDamage();
+	displayPhysValues();
+	calcSumOfPerks();
+}
+function selectPerks(clickedPerk) {
+	const initPerk = clickedPerk;
+	const perk = perksOverall[currentSkillTree][clickedPerk];
+	if (perk.isRanked && perk.rankNow !== 0) {
+		numberOfChosenPerks[currentSkillTree]++;
+		updatePerkRank(clickedPerk, true);
+		updateTextPerk(clickedPerk, perk);
+		setMagicResistances(clickedPerk, 1);
+		displayUnarmedDamage();
+		setRankedPerks(clickedPerk, 1);
+	} else {
+		drawLineToParentPerk(clickedPerk, currentSkillTree);
+		setMagicResistances(clickedPerk, 1);
+		displayUnarmedDamage();
+		if (!skills.get(currentSkillTree)) addPerkSection();
+		const perks = selectedPerks.get(currentSkillTree);
+		const ul = skills.get(currentSkillTree).querySelector("ul");
+		const frag = document.createDocumentFragment();
+		while (true) {
+			setBonusForSameType(clickedPerk, 1);
+			checkMatchingSetPerk(clickedPerk, true, currentSkillTree);
+			numberOfChosenPerks[currentSkillTree]++;
+			const newPerk = perksOverall[currentSkillTree][clickedPerk];
+			if (newPerk.isRanked) updatePerkRank(clickedPerk, true);
+			setRankedPerks(clickedPerk, 1);
+			const li = returnLi(clickedPerk, newPerk);
+			frag.appendChild(li);
+			addLiPerks(clickedPerk, li);
+			const [childPerkA, childPerkB] = childrenPerks.get(currentSkillTree).get(clickedPerk) ?? [];
+			const [firstSelected, secondSelected] = [perks.has(childPerkA), perks.has(childPerkB)];
+			drawLinesToChildrenPerks(clickedPerk, childPerkA, childPerkB, firstSelected, secondSelected);
+			perkNodes.get(currentSkillTree).get(clickedPerk).classList.add(perkClass);
+			perks.add(clickedPerk);
+			if (firstSelected || secondSelected || !childPerkA) {
+				break;
+			} else {
+				clickedPerk = childPerkA;
+			}
+		}
+		ul.appendChild(frag);
+	}
+	updateSkillLevelOnSelect(initPerk);
+	updateTextSkill();
+}
+function deselectPerks(clickedPerk, skillTree) {
+	const tree = skillTree ?? currentSkillTree;
+	const skill = selectedPerks.get(tree);
+	const chP = childrenPerks.get(tree);
+	const perk = perksOverall[tree][clickedPerk];
+	const ranked = perk.isRanked;
+	numberOfChosenPerks[tree]--;
+	if (ranked) {
+		updatePerkRank(clickedPerk, false, tree);
+		updateSkillLevelOnDeselect(tree);
+		setMagicResistances(clickedPerk, -1);
+		displayUnarmedDamage();
+		setRankedPerks(clickedPerk, -1);
+	}
+	if (perk.rankNow === 0 || perk.rankNow === undefined) {
+		deselectPerkNode(clickedPerk);
+		const anyChP = chP.get(clickedPerk);
+		if (anyChP) {
+			for (const i of anyChP) {
+				const lineName = clickedPerk + " " + i;
+				deselectLineNode(lineName);
+			}
+		}
+		deselectPP(clickedPerk);
+	}
+	function deselectPP(clickedPerk) {
+		const anyPP = parentPerks.get(tree).get(clickedPerk);
+		if (anyPP) {
+			for (const i of anyPP) {
+				if (skill.has(i)) {
+					const lineName = i + " " + clickedPerk;
+					deselectLineNode(lineName);
+					if (chP.get(i).some(e => skill.has(e))) continue;
+					const perk = perksOverall[tree][i];
+					const ranked = perk.isRanked;
+					if (ranked) {
+						for (let j = 0, len = perk.rankNow; j < len; j++) {
+							numberOfChosenPerks[tree]--;
+							updatePerkRank(i, false, tree);
+							setMagicResistances(i, -1);
+							displayUnarmedDamage();
+							setRankedPerks(i, -1);
+						}
+					} else {
+						numberOfChosenPerks[tree]--;
+						setBonusForSameType(i, -1);
+						checkMatchingSetPerk(i, false, tree);
+					}
+					deselectPerkNode(i);
+					deselectPP(i);
+				}
+			}
+		}
+	}
+	function deselectLineNode(lineName) {
+		lineNodes.get(lineName).classList.remove(lineClass);
+		selectedLines.delete(lineName);
+	}
+	function deselectPerkNode(clickedPerk) {
+		perkNodes.get(tree).get(clickedPerk).classList.remove(perkClass);
+		skill.delete(clickedPerk);
+		updateSkillLevelOnDeselect(tree);
+		deleteLiPerks(clickedPerk, tree);
+	}
+	updateTextSkill(tree);
+	deletePerkSection(tree);
+}
+function drawLineToParentPerk(clickedPerk, skillTree) {
+	const pp = parentPerks.get(skillTree).get(clickedPerk);
+	if (!pp) return;
+	for (const i of pp) {
+		if (selectedPerks.get(skillTree).has(i)) {
+			const lineName = i + " " + clickedPerk;
+			lineNodes.get(lineName).classList.add(lineClass);
+			selectedLines.add(lineName);
+			break;
+		}
+	}
+}
+function drawLinesToChildrenPerks(clickedPerk, perkA, perkB, perkASelected, perkBSelected) {
+	if (!perkA && !perkB) return;
+	const [lineAName, lineBName] = [clickedPerk + " " + perkA, clickedPerk + " " + perkB];
+	if (perkASelected && perkBSelected) {
+		lineNodes.get(lineAName).classList.add(lineClass);
+		lineNodes.get(lineBName).classList.add(lineClass);
+		selectedLines.add(lineAName);
+		selectedLines.add(lineBName);
+	} else if (perkBSelected) {
+		lineNodes.get(lineBName).classList.add(lineClass);
+		selectedLines.add(lineBName);
+	} else {
+		lineNodes.get(lineAName).classList.add(lineClass);
+		selectedLines.add(lineAName);
+	}
+}
+function updatePerkRank(clickedPerk, bool, x) {
+	const tree = x ?? currentSkillTree;
+	const perk = perksOverall[tree][clickedPerk], {rankNow, maxRank} = perk;
+	if (!bool && rankNow === 0 || bool && rankNow === maxRank) return;
+	const newRank = bool ? perk.rankNow += 1 : perk.rankNow -= 1;
+	updateCurrentPerkRankText(clickedPerk, newRank);
+}
+function showActivePerks(x) {
+	const tree = x ?? currentSkillTree;
+	dom.treeActivePerks.textContent = numberOfChosenPerks[tree];
+}
+function highlightSkillName(x) {
+	const tree = x ?? currentSkillTree;
+	if (numberOfChosenPerks[tree] === 0) iconNames.get(tree).classList.toggle("icon-name--selected");
+}
+function updateCurrentPerkRankText(clickedPerk, rank) {
+	currentPerkRank.get(clickedPerk).textContent = rank;
+}
+function updateSkillLevelOnSelect(perkName) {
+	const perk = perksOverall[currentSkillTree][perkName];
+	const skill = perk.isRanked ? perk.rankSkill[perk.rankNow] : perk.skill;
+	const charSkill = charSkills[currentSkillTree];
+	if (skill > charSkill.ownSkill) {
+		charSkill.ownSkill = skill;
+		dom.treeSkillLevel.textContent = charSkill.total = charSkill.ownSkill + charSkill.otherSource;
+		calcCharLevel(currentSkillTree, true);
+		calcArmorSkillMod(currentSkillTree);
+		calcWeaponSkillMod(currentSkillTree);
+		calcTotalValue();
+	}
+}
+function updateSkillLevelOnDeselect(x) {
+	const tree = x ?? currentSkillTree;
+	const perks = selectedPerks.get(tree);
+	const baseSkill = raceSkills[chosenRace][tree];
+	const arr = [...perks];
+	const skills = arr.map(e => {
+		const perk = perksOverall[tree][e];
+		if (perk.isRanked) {
+			return perk.rankSkill[perk.rankNow];
+		} else {
+			return perk.skill;
+		}
+	});
+	const highestSkill = Math.max(...skills);
+	const charSkill = charSkills[tree];
+	if (perks.size === 0 || highestSkill < baseSkill) {
+		charSkill.ownSkill = baseSkill;
+		dom.treeSkillLevel.textContent = charSkill.total = charSkill.otherSource + baseSkill;
+		calcCharLevel(tree, false);
+		calcArmorSkillMod(tree);
+		calcWeaponSkillMod(tree);
+		calcTotalValue();
+		return;
+	}
+	if (charSkill.ownSkill > highestSkill) {
+		charSkill.ownSkill = highestSkill;
+		dom.treeSkillLevel.textContent = charSkill.total = charSkill.otherSource + highestSkill;
+		calcCharLevel(tree, false);
+		calcArmorSkillMod(tree);
+		calcWeaponSkillMod(tree);
+		calcTotalValue();
+	}
+}
+function showPerksOnButton(x) {
+	if (window.matchMedia("(max-width: 769px)").matches) return;
+	const tree = x ?? currentSkillTree;
+	skillIconsPerksNumber.get(tree).textContent = numberOfChosenPerks[currentSkillTree];
+}
+function updateRankDescription(perk) {
+	if (!perk.isRanked) return;
+	const rank = perk.rankNow;
+	const nextRank = rank + 1;
+	if (rank === 0 || nextRank > perk.maxRank) {
+		dom.perkInfoNextRank.classList.add("invisible");
+	} else {
+		dom.perkInfoNextRankDes.textContent = "Next Rank: " + perk.rankDesc[nextRank];
+		dom.perkInfoNextSkill.textContent = "Requires Skill: " + perk.rankSkill[nextRank];
+		dom.perkInfoNextRank.classList.remove("invisible");
+	}
+	dom.perkInfoPerkSkill.textContent = rank === 0 ? perk.skill : perk.rankSkill[rank];
+	dom.perkDescription.textContent = rank === 0 ? perk.description : perk.rankDesc[rank];
+}
+function clearTree(key) {
+	const tree = key ?? currentSkillTree;
+	if (numberOfChosenPerks[tree] === 0) return;
+	const perkName = startingPerks.get(tree);
+	const perkInfo = perksOverall[tree][perkName];
+	if (perkInfo.isRanked) {
+		const iter = perkInfo.rankNow;
+		for (let i = 0; i < iter; i++) {
+			deselectPerks(perkName, tree);
+		}
+	} else {
+		deselectPerks(perkName, tree);
+	}
+	showActivePerks(tree);
+	showPerksOnButton(tree);
+	highlightSkillName(tree);
+	calcSumOfPerks();
+	if (sumOfChosenPerks === 0) toggleTitle(".info-win__character-skills-section");
+}
+function clearAllTrees() {
+	for (const i of startingPerks) clearTree(i[0]);
+}
+function showTreeInfo(tree) {
+	dom.skillTreeName.textContent = tree;
+	dom.treeMaxActivePerks.textContent = maxPerksByTree[tree];
+	dom.treeSkillLevel.textContent = charSkills[tree].total;
+}
+function calcSumOfPerks() {
+	sumOfChosenPerks = Object.values(numberOfChosenPerks).reduce((t, e) => t + e);
+}
+function setRankedPerks(perk, sign) {
+	if (!perksModifiers[perk]) return;
+	const skill = Object.keys(perksModifiers[perk])[0];
+	sumOfModifiers[skill].perks = perksOverall[skill][perk].rankNow * perksModifiers[perk][skill];
+	calcTotalValue();
+}
+export {currentSkillTree, charSkills, selectedPerks};

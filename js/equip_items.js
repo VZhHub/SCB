@@ -1,94 +1,67 @@
-"use strict";
-const dom4 = {
-	// на главном экране
-	equippedItemsContainer: document.querySelector("#equippedItemsContainer"),
-	unequipMiniatureContainer: document.querySelector(".unequip-miniature-container"),
-	unequipMiniatureName: document.querySelector(".unequip-miniature span"),
-	//-----
-	// контейнер с картами
-	itemCards: document.querySelector(".items-window__cards-list"),
-	// контейнер с вариантами одевания - преименуй!!
-	equipOptionsContainer: document.querySelector(".equip-options-window"),
-	// для заблюривания
-	itemsWindowWrapper: document.querySelector(".items-window__wrapper"),
-	// снятие предметов из меню -- функция ещё не установлена
-	unequipItemFromMenu: document.querySelector(".unequip-item-from-menu"),
-	unequipItemFromMenuBtns: document.querySelectorAll(".unequip-item-from-menu button"),
-	unequipItemFromMenuName: document.querySelector(".unequip-item-from-menu span"),
-	// обёртка для надетых предметов в меню
-	equippedCardsWrapper: document.querySelector(".equipped-items__wrapper"),
-	// выбор руки
-	selectHand: document.querySelector(".choose-hand"),
-	itemReplacement: document.querySelector(".item-replacement"),
-	//equip2H: document.querySelector(".equip-2H"),
-	sameItem: document.querySelector(".same-item"),
-	sameItemButton: document.querySelector(".same-item__button"),
-	// видимо, описание предметов на гл.экране
-	descriptionContainer: document.querySelector("#descriptionContainer"),
-	// экипированные карточки
-	equippedCards: document.querySelector(".equipped-items"),
-	/*totalDamage: document.querySelector(".total__damage"),
-	totalMagRes: document.querySelector(".total__mag-res"),
-	totalArmor: document.querySelector(".total__armor"),
-	totalWeight: document.querySelector(".total__weight"),*/
-	// использовалось в removeCard, видимо, связано с категорией предметов
-	itemsWindow: document.querySelector(".items-window"),
-	// используется в функции getSortingDirection в removeCard - ненужно
-	selectedSortingBtns: document.querySelectorAll("[data-sorting-selected]"),
-	// используется в removeCard для вставки карточек обратно - убрать
-	cardsList: document.querySelector(".items-window__cards-list"),
-	// новое
-	itemReplacement: document.querySelector(".item-replacement"),
-	itemReplacementFirstItem: document.querySelector(".item-replacement__first-item"),
-	itemReplacementUnequipFirst: document.querySelector(".item-replacement__unequip-first"),
-	itemReplacementUnequipSecond: document.querySelector(".item-replacement__unequip-second"),
-	itemReplacementUnequipBody: document.querySelector(".item-replacement__unequip-body"),
-	itemReplacementUnequipHead: document.querySelector(".item-replacement__unequip-head"),
-	itemReplacementUnequipBoth: document.querySelector(".item-replacement__unequip-both"),
-	placeForCards: document.querySelector(".card-info-wrapper"),
-	card: document.querySelector(".card-info-template"),
-	details: document.querySelector(".item-details-template"),
-};
-dom4.itemCards.addEventListener("click", e => {
+import {dom} from "./dom.js";
+import {isDesktop} from "./other.js";
+import {cachedItems, properties} from "./items_menu.js";
+import {toggleTitle} from "./info_tabs.js";
+import {equipAetherialCrown, unequipAetherialCrown} from "./boons.js";
+import {setMagicResistances} from "./magic_resistances.js";
+import {displayUnarmedDamage} from "./unarmed_damage.js";
+import {setPhysStats} from "./calc_items_values.js";
+import {addBonusForSameTypeArmor, cancelBonusForSameTypeArmor} from "./same_type.js";
+import {checkMatchingSetArmor} from "./same_set.js";
+if (isDesktop) {
+	dom.showcaseSlotWrapper.addEventListener("mouseover", e => {
+		const slot = e.target.closest(".occupied");
+		if (slot) slot.querySelector("button").classList.add("show");
+	});
+	dom.showcaseSlotWrapper.addEventListener("mouseout", e => {
+		const slot = e.target.closest(".occupied");
+		if (slot) slot.querySelector("button").classList.remove("show");
+	});
+	dom.showcaseSlotWrapper.addEventListener("mouseover", e => highlightCard(e));
+	dom.showcaseSlotWrapper.addEventListener("mouseout", e => highlightCard(e));
+	dom.placeForCards.addEventListener("mouseover", e => highlightSlot(e));
+	dom.placeForCards.addEventListener("mouseout", e => highlightSlot(e));
+} else {
+	dom.showcaseSlotWrapper.addEventListener("click", e => {
+		const slot = e.target.closest(".occupied");
+		if (slot) slot.querySelector("button").classList.toggle("show");
+	});
+}
+dom.cardsList.addEventListener("click", e => {
 	if (e.target.closest(".item-card__equip-button")) {
 		equipItem(e.target);
 	}
 });
-dom4.selectHand.querySelectorAll("button").forEach(button => button.addEventListener("click", e => chooseHand(e.target)));
-dom4.itemReplacement.querySelectorAll("button").forEach(button => button.addEventListener("click", e => replaceOrKeepItem(e.target)));
-dom4.equippedCardsWrapper.addEventListener("click", toggleItemDetails);
-dom4.sameItemButton.addEventListener("click", confirmSameItem);
-dom4.equippedCardsWrapper.addEventListener("click", e => {
+dom.selectHand.querySelectorAll("button").forEach(button => button.addEventListener("click", e => chooseHand(e.target)));
+dom.itemReplacement.querySelectorAll("button").forEach(button => button.addEventListener("click", e => replaceOrKeepItem(e.target)));
+dom.equippedCardsWrapper.addEventListener("click", toggleItemDetails);
+dom.sameItemButton.addEventListener("click", confirmSameItem);
+dom.equippedCardsWrapper.addEventListener("click", e => {
 	if (e.target.closest(".equipped-item__unequip-button")) unequipFromItemMenu(e.target.dataset.unequipButton);
 });
-dom4.unequipItemFromMenuBtns.forEach(button => button.addEventListener("click", e => replaceOrKeepItem(e.target)));
-dom4.equippedItemsContainer.addEventListener("mouseover", e => {
-	const slot = e.target.closest(".occupied");
-	if (slot) slot.querySelector("button").classList.add("show");
-});
-dom4.equippedItemsContainer.addEventListener("mouseout", e => {
-	const slot = e.target.closest(".occupied");
-	if (slot) slot.querySelector("button").classList.remove("show");
-});
-dom4.equippedItemsContainer.addEventListener("click", e => {
+dom.unequipItemFromMenuBtns.forEach(button => button.addEventListener("click", e => replaceOrKeepItem(e.target)));
+dom.showcaseSlotWrapper.addEventListener("click", e => {
 	const button = e.target;
-	if (button.classList.contains("inventory__button")) unequipFromMainWindow(button.dataset.slot);
+	if (button.classList.contains("showcase__slot-button")) {
+		unequipFromMainWindow(button.dataset.slot);
+		if (window.matchMedia("(max-width: 1279px").matches) modalToCenter();
+		button.classList.remove("show");
+	}
 });
-dom4.unequipMiniatureContainer.querySelectorAll("button").forEach(button => button.addEventListener("click", e => replaceOrKeepItem(e.target)));
-dom4.equippedItemsContainer.addEventListener("mouseover", e => highlightCard(e));
-dom4.equippedItemsContainer.addEventListener("mouseout", e => highlightCard(e));
-dom4.placeForCards.addEventListener("mouseover", e => highlightSlot(e));
-dom4.placeForCards.addEventListener("mouseout", e => highlightSlot(e));
+dom.unequipMiniatureContainer.querySelectorAll("button").forEach(button => button.addEventListener("click", e => replaceOrKeepItem(e.target)));
+dom.menuInventoryButton.addEventListener("click", toggleEquippedCardsPanel);
+dom.closeMenuInventory.addEventListener("click", toggleEquippedCardsPanel);
+if (window.matchMedia("(max-width: 1279px)").matches) addEventListener("scroll", modalToCenter, {passive: true});
 const slot = {
-	Neck: document.querySelector("#neckSlot"),
-	Head: document.querySelector("#headSlot"),
-	Back: document.querySelector("#backSlot"),
-	Arms: document.querySelector("#armsSlot"),
-	Right: document.querySelector("#rightSlot"),
-	Left: document.querySelector("#leftSlot"),
-	Body: document.querySelector("#bodySlot"),
-	Finger: document.querySelector("#fingerSlot"),
-	Legs: document.querySelector("#legsSlot"),
+	Neck: document.querySelector('[data-showcase-slot="neckSlot"]'),
+	Head: document.querySelector('[data-showcase-slot="headSlot"]'),
+	Back: document.querySelector('[data-showcase-slot="backSlot"]'),
+	Arms: document.querySelector('[data-showcase-slot="armsSlot"]'),
+	Right: document.querySelector('[data-showcase-slot="rightSlot"]'),
+	Left: document.querySelector('[data-showcase-slot="leftSlot"]'),
+	Body: document.querySelector('[data-showcase-slot="bodySlot"]'),
+	Finger: document.querySelector('[data-showcase-slot="fingerSlot"]'),
+	Legs: document.querySelector('[data-showcase-slot="legsSlot"]'),
 };
 const itemMenuEquipSlots = Object.fromEntries([...document.querySelectorAll(".equipped-item")].map(e => [e.dataset.itemMenuSlot, {
 	itemSlot: e,
@@ -99,6 +72,7 @@ const itemMenuEquipSlots = Object.fromEntries([...document.querySelectorAll(".eq
 	weightValue: e.querySelector(".equipped-item__stat-weight-value"),
 	description: e.querySelector(".equipped-item__text"),
 	img: e.querySelector(".equipped-item__img"),
+	isOpen: false,
 }]));
 const slotContent = {
 	Neck: null,
@@ -177,7 +151,7 @@ async function slotChecker(param, name, item) {
 				replacer(name, hand, hand, false);
 			}
 		}
-	} else if (param === "Two") { //двуручка
+	} else if (param === "Two") {
 		if (!slotContent.Left && !slotContent.Right && !slotContent.Both) {
 			resolution.get("First").resolve("Both");
 		} else {
@@ -308,12 +282,12 @@ function unequipItem(slotName, hideSlot = false, menuIsOpen) {
 		adjustSlot(slotName, false);
 	}
 	countEquippedItems(false);
-	toggleEquippedCardsPanel();
+	if (itemsEquipped === 0) toggleTitle(".info-win__item-info-section");
 	deleteCardsWithDescr(item, slotName);
 	setMagicResistances(item.name, -1);
-	setPhysStats(slotName, item, item.name, -1);
 	cancelBonusForSameTypeArmor(slotName);
 	checkMatchingSetArmor(item.name, slotName, item.type, -1);
+	setPhysStats(slotName, item, item.name, -1);
 }
 function adjustCardByCommonness(item, bool, menuIsOpen = true) {
 	const meth = bool ? "add" : "remove";
@@ -352,15 +326,15 @@ function bundleFunc(result, item, name) {
 	makeImg(result, item, name);
 	setSlotContent(result, item);
 	adjustSlot(result, true);
-	toggleEquippedCardsPanel();
+	if (itemsEquipped === 0) toggleTitle(".info-win__item-info-section");
 	equipAetherialCrown(name);
 	makeCardsWithDescr(item, name, result);
 	countEquippedItems(true);
 	setMagicResistances(name, 1);
-	setPhysStats(result, item, name, 1);
+	displayUnarmedDamage();
 	addBonusForSameTypeArmor(result);
 	checkMatchingSetArmor(name, result, item.type, 1);
-	//getItemDescription(item, true);
+	setPhysStats(result, item, name, 1);
 }
 function equipItemInItemWindowSlot(item, slotName) {
 	const slot = itemMenuEquipSlots[slotName];
@@ -380,6 +354,7 @@ function equipItemInItemWindowSlot(item, slotName) {
 	slot.description.textContent = item.description;
 	const imgCopy = item.img.cloneNode(true);
 	slot.img.appendChild(imgCopy);
+	if (slot.isOpen) slot.details.style.maxHeight = slot.details.scrollHeight + "px";
 }
 function makeImg(slotName, item, name) {
 	if (!cachedImages.has(name)) {
@@ -387,22 +362,27 @@ function makeImg(slotName, item, name) {
 		img.src = item.pathM;
 		img.alt = name;
 		img.title = name;
-		switch (slotName) {
-			case "Body":
-				img.width = 200;
-				img.height = 200;
-				break;
-			case "Head":
-			case "Left":
-			case "Right":
-			case "Legs":
-			case "Both":
-				img.width = 160;
-				img.height = 160;
-				break;
-			default:
-				img.width = 140;
-				img.height = 140;
+		if (window.matchMedia("(max-width: 639px").matches) {
+			img.width = 160;
+			img.height = 160;
+		} else {
+			switch (slotName) {
+				case "Body":
+					img.width = 200;
+					img.height = 200;
+					break;
+				case "Head":
+				case "Left":
+				case "Right":
+				case "Legs":
+				case "Both":
+					img.width = 160;
+					img.height = 160;
+					break;
+				default:
+					img.width = 140;
+					img.height = 140;
+			}
 		}
 		img.style.display = "block";
 		cachedImages.set(name, img);
@@ -438,34 +418,37 @@ function countEquippedItems(x) {
 	x ? itemsEquipped++ : itemsEquipped--;
 }
 function toggleEquippedCardsPanel() {
-	if (itemsEquipped === 0) {
-		dom4.equippedCards.classList.toggle("showEquipped");
-		toggleTitle(".card-info-wrapper");
-	}
+	dom.equippedCards.classList.toggle("showEquipped");
+	dom.equippedCards.scrollTop = 0;
+	dom.menuInventoryButton.classList.toggle("inventory-active");
+}
+function closeInventory() {
+	dom.equippedCards.classList.remove("showEquipped");
+	dom.menuInventoryButton.classList.remove("inventory-active");
 }
 function chooseHand(e) {
 	resolution.get("Second").resolve(e.textContent);
 }
 function replaceOrKeepItem(e) {
-	resolution.get("Third").resolve(e.textContent);
+	resolution.get("Third")?.resolve(e.textContent);
 }
 function openEquipOptionsContainer() {
-	dom4.equipOptionsContainer.classList.remove("hidden");
-	dom4.itemsWindowWrapper.classList.add("blurred");
+	dom.chooseHandContainer.classList.remove("hidden");
+	dom.itemsWrapper.classList.add("blurred");
 }
 function closeEquipOptionsContainer() {
-	dom4.equipOptionsContainer.classList.add("hidden");
-	dom4.itemsWindowWrapper.classList.remove("blurred");
+	dom.chooseHandContainer.classList.add("hidden");
+	dom.itemsWrapper.classList.remove("blurred");
 }
 function openSelectHandWindow(name) {
-	dom4.selectHand.classList.remove("hidden");
-	dom4.selectHand.querySelector(".first-item").textContent = name; // не забыть исправить классы в html
+	dom.selectHand.classList.remove("hidden");
+	dom.selectHand.querySelector(".first-item").textContent = name;
 }
 function closeSelectHandWindow() {
-	dom4.selectHand.classList.add("hidden");
+	dom.selectHand.classList.add("hidden");
 }
 function toggleSameItemWindow() {
-	dom4.sameItem.classList.toggle("hidden");
+	dom.sameItem.classList.toggle("hidden");
 }
 function confirmSameItem() {
 	resolution.get("Second").reject("Same item");
@@ -474,12 +457,13 @@ function confirmSameItem() {
 function toggleItemDetails(e) {
 	const button = e.target.closest(".equipped-item__info-button");
 	if (button) {
-		const details = itemMenuEquipSlots[button.dataset.toggleDetails].details;
+		const slot = itemMenuEquipSlots[button.dataset.toggleDetails], details = slot.details, state = slot.isOpen;
 		if (!details.style.maxHeight) {
 			details.style.maxHeight = details.scrollHeight + "px";
 		} else {
 			details.style.maxHeight = null;
 		}
+		slot.isOpen = !state;
 		button.classList.toggle("equipped-item__info-button--turn");
 	}
 }
@@ -494,12 +478,12 @@ function closeAllItemsDetails() {
 	}
 }
 function openReplaceItemWindow(slotName, name, isHooded) {
-	dom4.itemReplacement.classList.remove("hidden");
-	dom4.itemReplacementFirstItem.textContent = name;
-	const firstP = dom4.itemReplacementUnequipFirst;
+	dom.itemReplacement.classList.remove("hidden");
+	dom.itemReplacementFirstItem.textContent = name;
+	const firstP = dom.itemReplacementUnequipFirst;
 	if (isHooded) {
 		const bodyName = slotContent.Body.name, headName = slotContent.Head.name;
-		const unequipBody = dom4.itemReplacementUnequipBody, unequipHead = dom4.itemReplacementUnequipHead, unequipBoth = dom4.itemReplacementUnequipBoth;
+		const unequipBody = dom.itemReplacementUnequipBody, unequipHead = dom.itemReplacementUnequipHead, unequipBoth = dom.itemReplacementUnequipBoth;
 		switch(slotName) {
 			case "Body":
 				unequipBody.classList.remove("hidden");
@@ -516,7 +500,7 @@ function openReplaceItemWindow(slotName, name, isHooded) {
 				break;
 		}
 	} else if (slotName === "Both") {
-		const left = slotContent.Left, right = slotContent.Right, both = slotContent.Both, secondP = dom4.itemReplacementUnequipSecond;
+		const left = slotContent.Left, right = slotContent.Right, both = slotContent.Both, secondP = dom.itemReplacementUnequipSecond;
 		if (both) {
 			firstP.classList.remove("hidden");
 			firstP.querySelector(".item-replacement__second-item").textContent = both.name;
@@ -536,27 +520,28 @@ function openReplaceItemWindow(slotName, name, isHooded) {
 	}
 }
 function closeReplaceItemWindow() {
-	[dom4.itemReplacement, dom4.itemReplacementUnequipFirst, dom4.itemReplacementUnequipSecond, dom4.itemReplacementUnequipBody, dom4.itemReplacementUnequipHead, dom4.itemReplacementUnequipBoth].forEach(e => e.classList.add("hidden"));
+	[dom.itemReplacement, dom.itemReplacementUnequipFirst, dom.itemReplacementUnequipSecond, dom.itemReplacementUnequipBody, dom.itemReplacementUnequipHead, dom.itemReplacementUnequipBoth].forEach(e => e.classList.add("hidden"));
 }
 async function unequipFromItemMenu(slotName) {
 	openEquipOptionsContainer();
 	toggleUnequipItemFromItemMenu();
-	await unequipConditions(slotName, dom4.unequipItemFromMenuName, true);
+	await unequipConditions(slotName, dom.unequipItemFromMenuName, true);
 	toggleUnequipItemFromItemMenu();
 	closeEquipOptionsContainer();
 	closeItemDetailsOnUnequip(slotName);
+	dom.showcaseSlotWrapper.querySelector(`[data-slot=${slotName}]`).classList.remove("show");
 }
 function toggleUnequipItemFromItemMenu() {
-	dom4.unequipItemFromMenu.classList.toggle("hidden");
+	dom.unequipItemFromMenu.classList.toggle("hidden");
 }
 async function unequipFromMainWindow(slotName) {
 	toggleUnequipFromMainWindow();
-	await unequipConditions(slotName, dom4.unequipMiniatureName, false);
+	await unequipConditions(slotName, dom.unequipMiniatureName, false);
 	toggleUnequipFromMainWindow();
 }
 function toggleUnequipFromMainWindow() {
-	dom4.unequipMiniatureContainer.classList.toggle("hidden");
-	dom4.equippedItemsContainer.classList.toggle("blurred");
+	dom.unequipMiniatureContainer.classList.toggle("hidden");
+	dom.showcaseSlotWrapper.classList.toggle("blurred");
 }
 async function unequipConditions(slotName, nameField, menuIsOpen) {
 	const defSlot = (slotName === "Left" || slotName === "Right") && slotContent.Both ? "Both" : slotName;
@@ -566,19 +551,19 @@ async function unequipConditions(slotName, nameField, menuIsOpen) {
 	resolution.clear();
 }
 function makeCardsWithDescr(item, name, result) {
-	const node = dom4.card.content.cloneNode(true);
+	const node = dom.card.content.cloneNode(true);
 	const returnNode = (string) => node.querySelector(string);
-	const article = returnNode(".card-info");
-	const forDetails = returnNode(".card-info__details-wrapper");
-	returnNode(".card-info__name").textContent = name;
-	returnNode(".card-info__slot").textContent = `(${result})`;
-	returnNode(".card-info__weight-value").textContent = item.weight;
+	const article = returnNode(".item-info");
+	const forDetails = returnNode(".item-info__details-wrapper");
+	returnNode(".item-info__name").textContent = name;
+	returnNode(".item-info__slot").textContent = `(${result})`;
+	returnNode(".item-info__weight-value").textContent = item.weight;
 	const arRat = item.armorRating, isArmor = arRat !== undefined;
-	returnNode(".card-info__other-param").textContent = isArmor ? "Armor" : "Damage";
-	returnNode(".card-info__other-value").textContent = isArmor ? arRat : item.damage;
-	returnNode(".card-info__ench").textContent = item.description;
+	returnNode(".item-info__other-param").textContent = isArmor ? "Armor" : "Damage";
+	returnNode(".item-info__other-value").textContent = isArmor ? arRat : item.damage;
+	returnNode(".item-info__ench").textContent = item.description;
 	function f(summ, desc) {
-		const node = dom4.details.content.cloneNode(true);
+		const node = dom.details.content.cloneNode(true);
 		node.querySelector(".item-details__summary").textContent = summ;
 		node.querySelector(".item-details__p").textContent = desc;
 		forDetails.appendChild(node.querySelector(".item-details"));
@@ -604,7 +589,7 @@ function makeCardsWithDescr(item, name, result) {
 	if (uses) f(`Uses: ${uses}`, "How long enchantment lasts.");
 	const key = `${name} ${result}`;
 	article.dataset.lightSlot = result;
-	dom4.placeForCards.appendChild(article);
+	dom.placeForCards.appendChild(article);
 	cardsWithDescr.set(key, article);
 	addLightData(key, result);
 }
@@ -631,8 +616,8 @@ function clearLightData(slotName) {
 	}
 }
 function highlightSlot(e) {
-	const card = e.target.closest(".card-info")?.dataset?.lightSlot;
-	const cl = "inventory__slot--highlight";
+	const card = e.target.closest(".item-info")?.dataset?.lightSlot;
+	const cl = "showcase__slot--highlight";
 	if (card) {
 		if (card === "Both") {
 			slot.Left.classList.toggle(cl);
@@ -643,6 +628,37 @@ function highlightSlot(e) {
 	}
 }
 function highlightCard(e) {
-	const name = e.target.closest(".slot")?.dataset?.lightCard;
-	name && cardsWithDescr.get(name).classList.toggle("card-info--highlight");
+	const name = e.target.closest(".showcase__slot")?.dataset?.lightCard;
+	name && cardsWithDescr.get(name).classList.toggle("item-info--highlight");
 }
+function modalToCenter() {
+	const a = dom.unequipMiniatureContainer, b = dom.unequipMiniatureModal, c = document.documentElement;
+	const winHeight = c.clientHeight;
+	const winMidLine = winHeight / 2;
+	const conTop = a.getBoundingClientRect().top;
+	const conBottom = a.getBoundingClientRect().bottom;
+	const conBorder = a.clientTop;
+	const modalHeight = b.offsetHeight;
+	const modalHalf = modalHeight / 2;
+	if (conTop >= 0) {
+		const freeSpace = winMidLine - (conTop + conBorder);
+		if (modalHalf <= freeSpace) {
+			const newPos = freeSpace - modalHalf;
+			b.style.top = newPos + "px";
+		} else {
+			b.style.top = "0px";
+		}
+	} else if (conBottom >= winHeight) {
+		const newPos = Math.abs(conTop + conBorder) + winMidLine - modalHalf;
+		b.style.top = newPos + "px";
+	} else {
+		const freeSpace = (conBottom - conBorder) - winMidLine;
+		if (modalHalf <= freeSpace) {
+			const newPos = Math.abs(conTop) - conBorder + winMidLine - modalHalf;
+			b.style.top = newPos + "px";
+		} else {
+			b.style.top = a.clientHeight - modalHeight + "px";
+		}
+	}
+}
+export {replaceOrKeepItem, slotContent, closeAllItemsDetails, closeInventory};

@@ -1,4 +1,4 @@
 *.odt
 *.ods
-*.png
 *.txt
+node_modules

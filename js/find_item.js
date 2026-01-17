@@ -1,23 +1,22 @@
-const searchField = document.querySelector(".items-window__search");
-const clearSearchButton = document.querySelector(".items-window__clear-search");
+import {dom} from "./dom.js";
+import {cachedItems, properties} from "./items_menu.js";
 let timer;
-searchField.addEventListener("input", e => {
+dom.searchField.addEventListener("input", e => {
 	clearTimeout(timer);
 	timer = setTimeout(() => searchItem(e), 300);
 });
-clearSearchButton.addEventListener("click", () => clearSearch());
+dom.clearSearchButton.addEventListener("click", () => clearSearch());
 function clearSearch(justClear = false) {
-	searchField.value = "";
+	dom.searchField.value = "";
 	if (justClear) return;
-	const arr = Object.values(cachedItems[properties.category][properties.type]);
 	const show = [];
-	for (let i of arr) {
+	for (const i of Object.values(cachedItems[properties.category][properties.type])) {
 		if (!i.inFilter && !i.equipped) {
 			show.push(i.card);
 		}
 	}
 	requestAnimationFrame(() => {
-		for (let c of show) c.classList.remove("hidden");
+		for (const c of show) c.classList.remove("hidden");
 	});
 }
 function searchItem(event) {
@@ -25,19 +24,19 @@ function searchItem(event) {
 	const arr = Object.values(cachedItems[properties.category][properties.type]);
 	const hide = [], show = [];
 	if (guess === "") {
-		for (let i of arr) {
+		for (const i of arr) {
 			if (!i.inFilter && !i.equipped) {
 				show.push(i.card);
 			}
 		}
 		requestAnimationFrame(() => {
-			for (let c of show) c.classList.remove("hidden");
+			for (const c of show) c.classList.remove("hidden");
 		});
 		return;
 	}
 	const pattern = /\S+/g;
 	const result = guess.toUpperCase().match(pattern);
-	for (let i of arr) {
+	for (const i of arr) {
 		if (!i.inFilter && !i.equipped) {
 			if (result.every(e => i.name.toUpperCase().includes(e))) {
 				show.push(i.card);
@@ -47,7 +46,8 @@ function searchItem(event) {
 		}
 	}
 	requestAnimationFrame(() => {
-		for (let c of hide) c.classList.add("hidden");
-		for (let c of show) c.classList.remove("hidden");
+		for (const c of hide) c.classList.add("hidden");
+		for (const c of show) c.classList.remove("hidden");
 	});
 }
+export {clearSearch};

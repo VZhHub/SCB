@@ -1,41 +1,7 @@
-const mapPassiveEffects = new Map();
-const dlPassEff = document.querySelector(".passive-effects-dl");
-const passEffTemp = document.querySelector(".passive-effects-template");
-let passEffcounter = 0, racialPassive = false;
-function setBoonDescription(boon, bool) {
-	const boonDesc = standingStones[boon] ?? blessings[boon];
-	if (bool) {
-		const fragment = passEffTemp.content.cloneNode(true);
-		const term = fragment.querySelector(".passive-effects-term");
-		const desc = fragment.querySelector(".passive-effects-desc");
-		term.textContent = boon;
-		desc.textContent = boonDesc;
-		dlPassEff.appendChild(fragment);
-		mapPassiveEffects.set(boon, [term, desc]);
-		if (passEffcounter === 0 && !racialPassive) toggleTitle(".passive-effects-wrapper");
-		++passEffcounter;
-		document.querySelector(".passive-effects-wrapper .nothing-there-yet").classList.add("hidden");
-	} else {
-		for (const i of mapPassiveEffects.get(boon)) i.remove();
-		mapPassiveEffects.delete(boon);
-		--passEffcounter;
-		if (passEffcounter === 0 && !racialPassive) toggleTitle(".passive-effects-wrapper");
-	}
-}
-function setRaceAbilityDesc() {
-	console.log(chosenRace)
-	if (!racialBonuses[chosenRace]) return;
-	for (const [key, value] of Object.entries(racialBonuses[chosenRace])) {
-		const fragment = passEffTemp.content.cloneNode(true);
-		const term = fragment.querySelector(".passive-effects-term");
-		const desc = fragment.querySelector(".passive-effects-desc");
-		term.textContent = key;
-		desc.textContent = value;
-		dlPassEff.appendChild(fragment);
-	}
-	racialPassive = true;
-	document.querySelector(".passive-effects-wrapper .nothing-there-yet").classList.add("hidden");
-}
+import {dom} from "./dom.js";
+import {chosenRace} from "./main_win.js";
+import {standingStones, blessings} from "./boons.js";
+import {toggleTitle} from "./info_tabs.js";
 const racialBonuses = {
 	Argonian: {
 		"Resist Disease": "Your Argonian blood gives you 50% resistant to disease.",
@@ -67,3 +33,39 @@ const racialBonuses = {
 		"Resist Poison": "Your Wood Elf blood gives you 50% resistance to poison.",
 	},
 };
+const mapPassiveEffects = new Map();
+let passEffcounter = 0, racialPassive = false;
+function setBoonDescription(boon, bool) {
+	const boonDesc = standingStones[boon] ?? blessings[boon];
+	if (bool) {
+		const fragment = dom.passEffTemp.content.cloneNode(true);
+		const term = fragment.querySelector(".passive-effects__term");
+		const desc = fragment.querySelector(".passive-effects__desc");
+		term.textContent = boon;
+		desc.textContent = boonDesc;
+		dom.dlPassEff.appendChild(fragment);
+		mapPassiveEffects.set(boon, [term, desc]);
+		if (passEffcounter === 0 && !racialPassive) toggleTitle(".info-win__passive-effects-section");
+		++passEffcounter;
+		dom.passEffNothing.classList.add("hidden");
+	} else {
+		for (const i of mapPassiveEffects.get(boon)) i.remove();
+		mapPassiveEffects.delete(boon);
+		--passEffcounter;
+		if (passEffcounter === 0 && !racialPassive) toggleTitle(".info-win__passive-effects-section");
+	}
+}
+function setRaceAbilityDesc() {
+	if (!racialBonuses[chosenRace]) return;
+	for (const [key, value] of Object.entries(racialBonuses[chosenRace])) {
+		const fragment = dom.passEffTemp.content.cloneNode(true);
+		const term = fragment.querySelector(".passive-effects__term");
+		const desc = fragment.querySelector(".passive-effects__desc");
+		term.textContent = key;
+		desc.textContent = value;
+		dom.dlPassEff.appendChild(fragment);
+	}
+	racialPassive = true;
+	dom.passEffNothing.classList.add("hidden");
+}
+export {setRaceAbilityDesc, setBoonDescription};

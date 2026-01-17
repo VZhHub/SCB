@@ -1,4 +1,9 @@
-const unarmedDamageDom = document.querySelector("[data-unarmed-damage]");
+import {dom} from "./dom.js";
+import {chosenRace} from "./main_win.js";
+import {slotContent} from "./equip_items.js";
+import {selectedBlessings} from "./boons.js";
+import {selectedPerks} from "./skills.js"
+import {cachedItems} from "./items_menu.js";
 const unarmedBaseDam = {
 	Argonian: 10,
 	Breton: 4,
@@ -46,5 +51,6 @@ function displayUnarmedDamage() {
 	}
 	if (selectedBlessings.has("Seeker of Might")) totalUnarmedDam *= 1.1;
 	totalUnarmedDam = Math.round(totalUnarmedDam);
-	unarmedDamageDom.textContent = totalUnarmedDam;
+	dom.unarmedDamageDom.textContent = totalUnarmedDam;
 }
+export {displayUnarmedDamage};

@@ -1,3 +1,5 @@
+import {slotContent} from "./equip_items.js";
+import {sumOfModifiers, calcTotalValue} from "./calc_items_values.js";
 const bonusPerks = ["Well Fitted", "Custom Fit"];
 const sameTypeBonus = {
 	"Well Fitted": {
@@ -20,7 +22,6 @@ function setBonusForSameType(perk, sign) {
 			if (sameT) {
 				p.applied = true;
 				sumOfModifiers[ar].sameType += sign * .25;
-				//applyModifiers();
 				calcTotalValue();
 			}
 		} else if (sign === -1) {
@@ -28,7 +29,6 @@ function setBonusForSameType(perk, sign) {
 			if (sameT) {
 				p.applied = false;
 				sumOfModifiers[ar].sameType += sign * .25;
-				//applyModifiers();
 				calcTotalValue();
 			}
 		}
@@ -36,13 +36,12 @@ function setBonusForSameType(perk, sign) {
 }
 function cancelBonusForSameTypeArmor(slot) {
 	if (slot === "Body" || slot === "Head" || slot === "Legs" || slot === "Arms") {
-		for (let i of bonusPerks) {
+		for (const i of bonusPerks) {
 			const obj = sameTypeBonus[i];
 			if (obj.chosen && obj.applied) {
 				const ar = i === "Well Fitted" ? "Heavy Armor" : "Light Armor";
 				obj.applied = false;
 				sumOfModifiers[ar].sameType -= .25;
-				//applyModifiers();
 				calcTotalValue();
 				return;
 			}
@@ -51,7 +50,7 @@ function cancelBonusForSameTypeArmor(slot) {
 }
 function addBonusForSameTypeArmor(slot) {
 	if (slot === "Body" || slot === "Head" || slot === "Legs" || slot === "Arms") {
-		for (let i of bonusPerks) {
+		for (const i of bonusPerks) {
 			const obj = sameTypeBonus[i];
 			if (obj.chosen && !obj.applied) {
 				const t = i === "Well Fitted" ? "Heavy" : "Light";
@@ -59,7 +58,6 @@ function addBonusForSameTypeArmor(slot) {
 				if ([slotContent.Head?.type, slotContent.Body?.type, slotContent.Arms?.type, slotContent.Legs?.type].every(e => e === t)) {
 					obj.applied = true;
 					sumOfModifiers[ar].sameType += .25;
-					//applyModifiers();
 					calcTotalValue();
 					return;
 				}
@@ -67,3 +65,4 @@ function addBonusForSameTypeArmor(slot) {
 		}
 	}
 }
+export {addBonusForSameTypeArmor, cancelBonusForSameTypeArmor, setBonusForSameType};

@@ -1,0 +1,428 @@
+@charset "UTF-8";
+.skills {
+	display: grid;
+	grid-template-columns: auto auto;
+	position: fixed;
+	gap: 5px;
+	height: min-content;
+	padding: 5px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 100;
+}
+.skills__header {
+	display: grid;
+	grid-template-columns: min-content auto min-content min-content max-content min-content;
+	gap: 0 30px;
+	align-items: center;
+	grid-area: 1/1/2/3;
+}
+.skills__header .close-window {
+	grid-area: 1/6/2;
+}
+.skills-header__clear-button--tree {
+	grid-area: 1/3/2;
+}
+.skills-header__clear-button--all {
+	grid-area: 1/4/2;
+}
+.skills-header__buttons {
+	display: flex;
+	grid-area: 1/5/2;
+	gap: 0 5px;
+}
+.skills-header__p {
+	font-size: 1.5rem;
+	margin-right: 10px;
+}
+.skills-header__button {
+	width: 50px;
+	color: #fff;
+	font-size: 1.5rem;
+	transition: border-color .15s ease;
+}
+@media (hover: hover) {
+	.skills-header__button:hover {
+		border-color: orangered;
+	}
+}
+.skills-header__button:active {
+	border-color: red;
+	background-color: #12151a;
+}
+.skills-header__button--add, .skills-header__button--subtract {
+	border-radius: 4px;
+}
+.skills-header__clear-button {
+	height: min-content;
+	font-size: 1.5rem;
+	width: 140px;
+	letter-spacing: 1px;
+	transition: letter-spacing .15s ease, border-color .15s ease;
+}
+@media (hover: hover) {
+	.skills-header__clear-button:hover {
+		border-color: orangered;
+	}
+}
+.skills-header__clear-button:active {
+	border-color: red;
+	background-color: #12151a;
+}
+.skills__header .submenu-title {
+	min-width: 370px;
+	height: auto;
+	font-size: 1.9rem;
+	text-transform: uppercase;
+}
+.skill-tree-race {
+	font-size: 1.9rem;
+	font-family: "Futura Bold";
+	color: var(--color-menu-heading);
+}
+.skills__icons-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 5px 0;
+	height: 100%;
+	justify-content: space-between;
+	grid-area: 2/1/3/2;
+}
+.skills__tree-wrapper {
+	display: grid;
+	height: 100%;
+	width: 700px;
+	padding: 5px;
+	background-color: #000;
+	border-radius: 4px;
+	grid-area: 2/2;
+}
+.icons {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	grid-template-rows: auto auto;
+	gap: 5px 5px;
+}
+.icons--warrior .icons__skill-icon {
+	background-color: #49020278;
+}
+.icons--mage .icons__skill-icon {
+	background-color: #0c0c5685;
+}
+.icons--thief .icons__skill-icon {
+	background-color: #09560996;
+}
+.icons__skill-icon {
+	display: grid;
+	grid-template-columns: auto auto;
+	padding: 2px;
+	width: 180px;
+	opacity: .5;
+	transition: opacity .15s ease-in-out;
+}
+@media (hover: hover) {
+	.icons__skill-icon:hover {
+		opacity: 1;
+	}
+}
+.icons__skill-icon img {
+	grid-area: 1/1/3/2;
+}
+.icons__skill-icon--selected {
+	opacity: 1;
+	border-color: orange;
+}
+.icon-name {
+	grid-area: 1/2;
+	font-size: 1.5rem;
+	text-align: start;
+	justify-self: end;
+	white-space: nowrap;
+}
+.icon-name--selected {
+	color: yellow;
+}
+.chosen-perks-number {
+	justify-self: end;
+	align-self: end;
+	font-size: 2.5rem;
+}
+.tree-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: min-content;
+}
+.tree-header h2 {
+	font-size: 2rem;
+}
+.tree-header dl {
+	display: grid;
+	grid-template-columns: 90px 80px 90px 50px;
+	gap: 0 8px;
+}
+.tree-header dt {
+	justify-self: end;
+}
+.tree-header dt, .tree-header dd, .tree-header span, .tree-header p {
+	font-size: 1.5rem;
+}
+.perk-info.non-PC {
+	display: flex;
+	justify-content: center;
+	align-items: end;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, .8);
+}
+@supports (backdrop-filter: blur(5px)) {
+	.perk-info.non-PC {
+		background-color: rgba(0, 0, 0, 0);
+		backdrop-filter: blur(5px);
+	}
+}
+.perk-info.non-PC:not(> div) {
+	filter: blur(5px);
+}
+.perk-info.non-PC > div {
+	height: min-content;
+	width: 340px;
+	padding: 10px;
+	border-radius: 20px;
+	margin-bottom: 30px;
+}
+.perk-info > div > div {
+	display: flex;
+	align-items: center;
+	gap: 0 20px;
+}
+.perk-info__perk-name {
+	font-size: 1.5rem;
+}
+.perk-info__perk-rank, .perk-info__perk-rank-current, .perk-info__perk-rank-max {
+	font-size: 1.3rem;
+}
+.perk-info__perk-description, .perk-info__perk-requirement, .perk-info__perk-skill, .perk-info__next-rank, .perk-info__next-rank-description, .perk-info__next-skill {
+	font-size: 1.3rem;
+}
+.perk-info__next-rank-description {
+	margin-right: 20px;
+}
+.perk-info.non-PC .perk-info__next-rank-description {
+	margin-right: 0;
+	display: block;
+}
+.skill-tree {
+	justify-self: center;
+}
+.skill-lines {
+	fill: none;
+	stroke: rgb(0, 62, 128);
+	stroke-width: 3;
+	filter: url(#perk-filter);
+}
+.skill-lines__line--selected {
+	stroke: rgb(36, 183, 255);
+	stroke-width: 6;
+}
+.skill-perks__perk {
+	fill: url(#unavailable-perk-gradient);
+	stroke: transparent;
+	stroke-width: 10;
+	filter: url(#perk-filter);
+}
+@media (hover: hover) {
+	.skill-perks__perk {
+		cursor: pointer;
+	}
+	.skill-perks__perk:hover {
+		fill: url(#hover-perk-gradient);
+	}
+}
+.skill-perks__perk--available {
+	fill: url(#available-perk-gradient);
+}
+.skill-perks__perk--selected {
+	fill: url(#selected-perk-gradient);
+	stroke: url(#selected-perk-gradient);
+}
+@media (hover: hover) {
+	.skill-perks__perk--selected:hover {
+		fill: url(#hover-perk-gradient);
+		stroke: url(#hover-perk-gradient);
+	}
+}
+.perks-names__name, .perk-rank__rank {
+	letter-spacing: 1px;
+	fill: #fff;
+	pointer-events: none;
+}
+.perks-names__name--middle {
+	text-anchor: middle;
+}
+.perks-names__name--end {
+	text-anchor: end;
+}
+.perks-names__name--start {
+	text-anchor: start;
+}
+@media screen and (max-width: 1279px) {
+	.skills {
+		height: 100vh;
+		width: 100vw;
+		border-radius: 0;
+		top: 0;
+		left: 0;
+		transform: translate(0);
+	}
+	.skills__icons-wrapper {
+		overflow-y: auto;
+	}
+	.icons {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+}
+@media screen and (min-width: 620px) {
+	.perks-names__name, .perk-rank__rank {
+		font-size: 1.5rem;
+	}
+}
+@media screen and (max-width: 1209px) {
+	.skills__header {
+		grid-template-columns: min-content auto auto min-content;
+		gap: 5px 30px;
+	}
+	.skills-header__clear-button--tree {
+		grid-area: 1/2;
+		justify-self: end;
+	}
+	.skills-header__clear-button--all {
+		grid-area: 1/3;
+	}
+	.skills-header__buttons {
+		grid-area: 2/1;
+	}
+	.skills__header .close-window {
+		grid-area: 1/4;
+	}
+}
+@media screen and (max-width: 900px) {
+	.icons__skill-icon img {
+		display: none;
+	}
+	.icon-name {
+		grid-area: 1/1;
+		align-self: center;
+		justify-self: start;
+	}
+}
+@media screen and (max-width: 849px) {
+	.skills__tree-wrapper {
+		width: auto;
+	}
+	.icons__skill-icon {
+		min-width: 140px;
+		width: 100%;
+	}
+}
+@media screen and (max-width: 799px) {
+	.skills__header {
+		grid-template-columns: min-content min-content auto min-content;
+		gap: 5px;
+	}
+	.skills__header h2 {
+		display: none;
+	}
+	.skills-header__clear-button--tree {
+		grid-area: 1/1;
+	}
+	.skills-header__clear-button--all {
+		grid-area: 2/1;
+	}
+	.skills__header .close-window {
+		grid-area: 1/4;
+	}
+	.skills-header__buttons {
+		grid-area: 1/2/2/4;
+	}
+}
+@media screen and (max-width: 769px) {
+	.icons__skill-icon {
+		grid-template-columns: auto;
+		justify-content: center;
+		min-width: 110px;
+	}
+	.chosen-perks-number {
+		display: none;
+	}
+}
+@media screen and (max-width: 739px) {
+	.skills-header__p, .skills-header__button, .skills-header__clear-button, .icon-name, .tree-header dt, .tree-header dd, .tree-header span, .tree-header p {
+		font-size: 1.2rem;
+	}
+	.tree-header h2 {
+		font-size: 1.6rem;
+	}
+	.skills-header__button, .skills-header__clear-button {
+		padding: 0 3px;
+		white-space: nowrap;
+	}
+	.skills {
+		grid-template-columns: auto;
+		gap: 5px 0;
+	}
+	.skills__header {
+		grid-area: 1/1;
+		height: min-content;
+	}
+	.skills__icons-wrapper {
+		flex-direction: row;
+		overflow-x: auto;
+		gap: 0 5px;
+		grid-area: 2/1;
+		height: min-content;
+	}
+	.skills__tree-wrapper {
+		grid-area: 3/1;
+		overflow-y: auto;
+	}
+	.icons__skill-icon {
+		width: 110px;
+	}
+	.skills-header__clear-button--tree {
+		grid-area: 2/1;
+	}
+	.skills-header__clear-button--all {
+		grid-area: 2/2;
+	}
+	.skills-header__buttons {
+		grid-area: 1/1/2/4;
+	}
+	.icons {
+		flex-wrap: nowrap;
+	}
+	.tree-header {
+		flex-wrap: wrap;
+	}
+}
+@media screen and (max-width: 390px) {
+	.skills-header__clear-button--tree {
+		grid-area: 1/1;
+	}
+	.skills-header__clear-button--all {
+		grid-area: 1/2;
+	}
+	.skills-header__buttons {
+		grid-area: 2/1/3/5;
+	}
+	.skills__tree-wrapper {
+		padding-left: 3px;
+		padding-right: 3px;
+	}
+}

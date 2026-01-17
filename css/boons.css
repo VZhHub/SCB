@@ -1,6 +1,10 @@
 @charset "UTF-8";
 .boons {
+	display: flex;
 	position: fixed;
+	flex-direction: column;
+	flex: 1;
+	gap: 10px 0;
 	width: 850px;
 	padding: 5px;
 	top: 50%;
@@ -12,7 +16,6 @@
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	margin-bottom: 15px;
 }
 .boons__header h2 {
 	width: 200px;
@@ -21,12 +24,15 @@
 	all: revert;
 }
 .boons__fieldset {
+	border: 2px solid #4c658c;
+	border-radius: 4px;
+	margin: 0;
+}
+.boons__fieldset > div {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: 0 10px;
-	border: 2px solid #4c658c;
-	border-radius: 4px;
-	margin-bottom: 15px;
+	padding-top: 5px;
 }
 .boons__legend {
 	font-variant-caps: all-small-caps;
@@ -37,16 +43,21 @@
 .boons__label {
 	display: flex;
 	font-size: 1.5rem;
+	transition: color .15s ease;
 }
-.boons__label:hover {
-	cursor: pointer;
-	color: gold;
+@media (hover: hover) {
+	.boons__label:hover {
+		cursor: pointer;
+		color: gold;
+	}
 }
 .boons__checkbox {
 	margin-right: 5px;
 }
-.boons__checkbox:hover {
-	cursor: pointer;
+@media (hover: hover) {
+	.boons__checkbox:hover {
+		cursor: pointer;
+	}
 }
 .boons__checkbox:focus {
 	outline: transparent;
@@ -56,9 +67,38 @@
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	background: #000;
+	background-color: #000;
 	padding: 5px;
-	margin-top: 10px;
 	font-size: 1.5rem;
 	height: 100px;
+	flex-shrink: 0;
+}
+@media screen and (max-width: 919px) {
+	.boons {
+		width: 100vw;
+		height: 100vh;
+		border-radius: 0;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		transform: translate(0);
+	}
+}
+@media screen and (max-width: 639px) {
+	.boons__fieldset > div {
+		grid-template-columns: 1fr 1fr;
+		max-height: 220px;
+		overflow-y: auto;
+	}
+}
+@media screen and (max-height: 729px) {
+	.boons__fieldset > div {
+		height: calc(calc(100vh - 280px) / 2);
+	}
+}
+@media screen and (max-width: 439px) {
+	.boons__fieldset > div {
+		grid-template-columns: 1fr;
+	}
 }

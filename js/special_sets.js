@@ -1,3 +1,5 @@
+import {setItemSkillBonus, basicValues, sumOfModifiers} from "./calc_items_values.js";
+import {slotContent} from "./equip_items.js";
 const partsOfSet = new Set();
 const armorSets = {
 	Nightingale: ["Nightingale Armor", "Nightingale Boots", "Nightingale Gloves", "Nightingale Hood"],
@@ -32,16 +34,15 @@ const deathbrandParts = {
 	},
 };
 function checkForSet(name, sign) {
-	//console.log(typeof name, name)
 	let setName = ["Ahzidal", "Deathbrand", "Nightingale", "Shrouded", "Tumblerbane"].find(e => name.includes(e));
 	if (!setName) return;
 	if (setName === "Tumblerbane") setName = "Shrouded";
 	let counter = 0;
 	if (sign === 1) {
 		partsOfSet.add(name);
-		for (let i of armorSets[setName]) partsOfSet.has(i) && counter++;
+		for (const i of armorSets[setName]) partsOfSet.has(i) && counter++;
 	} else if (sign === -1) {
-		for (let i of armorSets[setName]) partsOfSet.has(i) && counter++;
+		for (const i of armorSets[setName]) partsOfSet.has(i) && counter++;
 		partsOfSet.delete(name);
 	}
 	if (counter === 4) {
@@ -54,7 +55,7 @@ function checkForSet(name, sign) {
 }
 function setDeathbrand(slot, name, sign) {
 	const cancelBonus = () => {
-		for (let i of Object.values(deathbrandParts)) {
+		for (const i of Object.values(deathbrandParts)) {
 			if (i.isOn) {
 				i.counted = false;
 				sumOfModifiers["One-Handed"].items += sign * .1;
@@ -64,11 +65,10 @@ function setDeathbrand(slot, name, sign) {
 	if (sign === 1) {
 		if (name.includes("Deathbrand")) deathbrandParts[name].isOn = true;
 		if (deathbrandParts["Deathbrand Gauntlets"].isOn && slotContent.Left && slotContent.Right) {
-			for (let i of Object.values(deathbrandParts)) {
+			for (const i of Object.values(deathbrandParts)) {
 				if (i.isOn && !i.counted) {
 					i.counted = true;
 					sumOfModifiers["One-Handed"].items += sign * .1;
-					console.log(sumOfModifiers["One-Handed"].items)
 				}
 			}
 		}
@@ -85,3 +85,4 @@ function setDeathbrand(slot, name, sign) {
 		}
 	}
 }
+export {setDeathbrand, checkForSet};
