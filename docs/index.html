@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="keywords" content="Skyrim, calculator, builder, planner, perks, skills, weapons, armor">
+		<meta name="description" content="Skyrim character builder and equipment calculator">
+		<meta name="author" content="Vladislav Zharov">
+		<meta name="theme-color" content="#121212">
+		
+		<meta property="og:title" content="Skyrim Character Builder">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="https://vzhhub.github.io/SCB/preview.png">
+		<meta property="og:url" content="https://vzhhub.github.io/SCB/">
+		
+		<link type="image/x-icon" rel="icon" href="/SCB/assets/favicon-Crsc1IHB.ico" sizes="16x16">
+		<title>SCB - Skyrim Character Builder</title>
+
+		<script type="module" crossorigin src="/SCB/assets/index-B2d9_V7i.js"></script>
+		<link rel="stylesheet" crossorigin href="/SCB/assets/index-wZDPdwkD.css">
+	</head>
+	
+	<body>
+		<noscript>Your browser does not support JavaScript!</noscript>
+		<header>
+			<img src="data:image/png;base64,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" alt="Dovahkiin logo" width="25" height="35">
+			<h1>SKYRIM CHARACTER BUILDER</h1>
+			<div class="main-buttons">
+				<div>
+					<button class="main-buttons__character decoration" type="button" title="Create your character">CHARACTER</button>
+					<p class="warning hidden">Create a Character first!</p>
+				</div>
+				<div>
+					<button class="main-buttons__menu decoration" type="button" title="Assign skills, equipment and bonuses">MENU</button>
+				</div>
+			</div>
+		</header>
+		<main>
+			<section class="build-information">
+				<article class="current-character decoration">
+					<dl class="current-character__dl current-character__dl--left">
+						<dt class="minor-text">Character Name</dt>
+						<dd class="current-character__name">Unknown Adventurer</dd>
+					</dl>
+					<dl class="current-character__dl current-character__dl--middle">
+						<dt class="minor-text">Character Race</dt>
+						<dd class="current-character__race">Unknown Race</dd>
+					</dl>
+					<dl class="current-character__dl current-character__dl--right">
+						<dt class="minor-text">Character Level</dt>
+						<dd class="current-character__level">1</dd>
+					</dl>
+				</article>
+				<article class="info-win decoration">
+					<div class="info-win__wrapper">
+						<section class="info-win__item-info-section">
+							<h3 class="nothing-there-yet">No items have been equipped yet...</h3>
+							<template id="item-info-template">
+								<article class="item-info">
+									<h3 class="item-info__h3">
+										<span class="item-info__name"></span>
+										<span class="item-info__slot"></span>
+									</h3>
+									<dl class="item-info__params">
+										<div role="group">
+											<dt class="item-info__other-param"></dt>
+											<dd class="item-info__other-value"></dd>
+										</div>
+										<div role="group">
+											<dt class="item-info__weight">Weight</dt>
+											<dd class="item-info__weight-value"></dd>
+										</div>
+									</dl>
+									<p class="item-info__ench"></p>
+									<div class="item-info__details-wrapper"></div>
+								</article>	
+							</template>
+							<template id="item-details-template">
+								<details class="item-details">
+									<summary class="item-details__summary"></summary>
+									<p class="item-details__p"></p>
+								</details>
+							</template>
+						</section>
+						<section class="info-win__character-skills-section hidden">
+							<h3 class="nothing-there-yet">No perks have been chosen yet...</h3>
+							<template id="character-skills-template">
+								<section class="character-skills">
+									<h3 class="character-skills__skill"></h3>
+									<ul class="character-skills__perk"></ul>
+								</section>
+							</template>
+						</section>
+						<section class="info-win__passive-effects-section hidden">
+							<h3 class="nothing-there-yet">You have no passive effects...</h3>
+							<section class="passive-effects">
+								<dl class="passive-effects__dl">
+									<template id="passive-effects-template">
+										<dt class="passive-effects__term"></dt>
+										<dd class="passive-effects__desc"></dd>
+									</template>
+								</dl>
+							</section>
+						</section>
+						<section class="info-win__statistics-section hidden">
+							<h3 class="nothing-there-yet">No data for statistics yet...</h3>
+							<section class="statistics hidden">
+								<h3>Resistances</h3>
+								<hr>
+								<p>You can reach 85% Resist Poison or Magic, but by combining Resist Magic with Elemental Resistances, you can reach 97.75% resistance to a specific element, except for Disease Resistance, which can reach 100%.</p>
+								<dl>
+									<dt>Magic</dt>
+									<dd data-resistances="magic">0 %</dd>
+									<dt>Fire</dt>
+									<dd data-resistances="fire">0 %</dd>
+									<dt>Total Fire</dt>
+									<dd data-resistances="fireTotal">0 %</dd>
+									<dt>Poison</dt>
+									<dd data-resistances="poison">0 %</dd>
+									<dt>Frost</dt>
+									<dd data-resistances="frost">0 %</dd>
+									<dt>Total Frost</dt>
+									<dd data-resistances="frostTotal">0 %</dd>
+									<dt>Disease</dt>
+									<dd data-resistances="disease">0 %</dd>
+									<dt>Shock</dt>
+									<dd data-resistances="shock">0 %</dd>
+									<dt>Total Shock</dt>
+									<dd data-resistances="shockTotal">0 %</dd>
+								</dl>
+							</section>
+							<section class="statistics hidden">
+								<h3>Armor & Damage</h3>
+								<hr>
+								<p>Armor provides a maximum of 80% physical damage reduction. You need 667 points of armor for this. For each piece of armor, including a shield, this value is reduced by 25 points. So, for 4 pieces of armor plus a shield, you need 542 points of armor to reach armor cap.</p>
+								<dl>
+									<dt>Unarmed Damage</dt>
+									<dd data-unarmed-damage>0</dd>
+									<dt>Physical Weapon Damage</dt>
+									<dd data-phys-values="totalDamage">0</dd>
+									<dt>Total Armor</dt>
+									<dd data-phys-values="totalArmor">0</dd>
+									<dt>Physical Protection</dt>
+									<dd data-phys-values="physProtection">0 %</dd>
+									<dt>Total Weight</dt>
+									<dd data-phys-values="totalWeight">0</dd>
+								</dl>
+							</section>
+							<section class="statistics hidden">
+								<h3>Magical & Physical Caps</h3>
+								<hr>
+								<h4>Armor Cap</h4>
+								<canvas data-canvas="totalArmor"></canvas>
+								<h4>Magic Cap</h4>
+								<canvas data-canvas="magic"></canvas>
+								<h4>Fire Cap</h4>
+								<canvas data-canvas="fireTotal"></canvas>
+								<h4>Frost Cap</h4>
+								<canvas data-canvas="frostTotal"></canvas>
+								<h4>Shock Cap</h4>
+								<canvas data-canvas="shockTotal"></canvas>
+								<h4>Poison Cap</h4>
+								<canvas data-canvas="poison"></canvas>
+								<h4>Disease Cap</h4>
+								<canvas data-canvas="disease"></canvas>
+							</section>
+						</section>
+					</div>
+				</article>
+				<section class="info-win-tabs">
+					<button class="info-win-tabs__tab decoration" type="button" data-info-tab=".info-win__item-info-section">Equipped Items</button>
+					<button class="info-win-tabs__tab decoration" type="button" data-info-tab=".info-win__character-skills-section">Skills & Perks</button>
+					<button class="info-win-tabs__tab decoration" type="button" data-info-tab=".info-win__passive-effects-section">Passive Effects</button>
+					<button class="info-win-tabs__tab decoration" type="button" data-info-tab=".info-win__statistics-section">Statistics</button>
+				</section>
+			</section>
+			<section class="showcase decoration">
+				<div class="showcase__unequip-item-wrapper hidden">
+					<section class="unequip-item-from-showcase decoration">
+						<div>
+							<p>Do you want to unequip <span></span>?</p>
+						</div>
+						<div>
+							<button type="button">Yes</button><button type="button">No</button>
+						</div>
+					</section>
+				</div>
+				<div class="showcase__slot-wrapper inventory">
+					<div class="showcase__slot" data-showcase-slot="headSlot">
+						<p>Head</p>
+						<button class="showcase__slot-button" type="button" data-slot="Head">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="bodySlot">
+						<p>Body</p>
+						<button class="showcase__slot-button" type="button" data-slot="Body">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="armsSlot">
+						<p>Armguards</p>
+						<button class="showcase__slot-button" type="button" data-slot="Arms">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="legsSlot">
+						<p>Legs</p>
+						<button class="showcase__slot-button" type="button" data-slot="Legs">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="rightSlot">
+						<p>Right Arm</p>
+						<button class="showcase__slot-button" type="button" data-slot="Right">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="leftSlot">
+						<p>Left Arm</p>
+						<button class="showcase__slot-button" type="button" data-slot="Left">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="neckSlot">
+						<p>Neck</p>
+						<button class="showcase__slot-button" type="button" data-slot="Neck">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="fingerSlot">
+						<p>Finger</p>
+						<button class="showcase__slot-button" type="button" data-slot="Finger">UNEQUIP</button>
+					</div>
+					<div class="showcase__slot" data-showcase-slot="backSlot">
+						<p>Back</p>
+						<button class="showcase__slot-button" type="button" data-slot="Back">UNEQUIP</button>
+					</div>
+				</div>
+			</section>
+			<section class="create-character decoration hidden">
+				<label class="create-character__label-name" for="character-name">Name Your Character</label>
+				<input id="character-name" class="decoration" type="text" value="" required autocomplete="off">
+				<label class="create-character__label-race" for="races">Choose Race</label>
+				<select id="races" class="decoration" required autocomplete="off">
+					<option value="" selected hidden>---</option>
+					<option value="Argonian">Argonian</option>
+					<option value="Breton">Breton</option>
+					<option value="Dark Elf">Dark Elf</option>
+					<option value="High Elf">High Elf</option>
+					<option value="Imperial">Imperial</option>
+					<option value="Khajiit">Khajiit</option>
+					<option value="Nord">Nord</option>
+					<option value="Orc">Orc</option>
+					<option value="Redguard">Redguard</option>
+					<option value="Wood Elf">Wood Elf</option>
+				</select>
+				<button class="cancel-build" type="button" data-close-modal="#overlay .create-character" data-remove-validation="#character-name #races">Cancel</button>
+				<button class="save-character" type="button" data-close-modal="#overlay .create-character" data-remove-validation="#character-name #races">SAVE</button>
+			</section>
+			<section class="menu decoration">
+				<div class="header">
+					<h2 class="submenu-title">MENU</h2>
+					<button class="close-button" type="button">Close</button>
+				</div>
+				<div class="menu-options">
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Armor</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Heavy</button>
+							<button type="button" data-open-items>Light</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Weapons</button>
+						<div class="hidden">
+							<h3 class="menu-options__h3">One-Handed Weapons</h3>
+							<button type="button" data-open-items>Axes</button>
+							<button type="button" data-open-items>Daggers</button>
+							<button type="button" data-open-items>Maces</button>
+							<button type="button" data-open-items>Other</button>
+							<button type="button" data-open-items>Swords</button>
+							<h3 class="menu-options__h3">Two-Handed Weapons</h3>
+							<button type="button" data-open-items>Battleaxes</button>
+							<button type="button" data-open-items>Bows</button>
+							<button type="button" data-open-items>Crossbows</button>
+							<button type="button" data-open-items>Greatswords</button>
+							<button type="button" data-open-items>Warhammers</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Shields</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Heavy</button>
+							<button type="button" data-open-items>Light</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Staves</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Craftable</button>
+							<button type="button" data-open-items>Uncraftable</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Jewelry</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Amulets</button>
+							<button type="button" data-open-items>Circlets</button>
+							<button type="button" data-open-items>Rings</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--items decoration">Clothing</button>
+						<div class="hidden">
+							<button type="button" data-open-items>Backpacks</button>
+							<button type="button" data-open-items>Clothes</button>
+						</div>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--skills decoration">Skills & Perks</button>
+					</div>
+					<div>
+						<button type="button" class="category-button category-button--boons decoration">Boons</button>
+					</div>
+				</div>
+			</section>
+			<section class="items-window hidden">
+				<div class="items-window__wrapper">
+					<div class="items-window__bigger-img"></div>
+					<section class="filter-window decoration">
+						<button class="close-window" type="button">
+							<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+						</button>
+						<div class="filter-window__fieldset-wrapper" aria-label="Item filters">
+							<fieldset class="filter-window__fieldset filter-window__fieldset--artifact">
+								<legend class="filter-window__legend">Artifact</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Artifact" autocomplete="off">Artifact</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="notArtifact" autocomplete="off">Not artifact</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--body-part hidden">
+								<legend class="filter-window__legend">Body part</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Arms" autocomplete="off">Arms</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Back" autocomplete="off">Back</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Body" autocomplete="off">Body</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Finger" autocomplete="off">Finger</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Head" autocomplete="off">Head</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Legs" autocomplete="off">Legs</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Neck" autocomplete="off">Neck</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--enchantable">
+								<legend class="filter-window__legend">Can be enchanted</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Enchantable" autocomplete="off">Can be enchanted</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unenchantable" autocomplete="off">Cannot be enchanted</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--helmet hidden">
+								<legend class="filter-window__legend">Can wear with helmet</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="canWearHelmet" autocomplete="off">Can wear</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="cannotWearHelmet" autocomplete="off">Cannot wear</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--enchanted">
+								<legend class="filter-window__legend">Enchantment</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Enchanted" autocomplete="off">Enchanted</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unenchanted" autocomplete="off">Not enchanted</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--magic-school hidden">
+								<legend class="filter-window__legend">Magic school</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Alteration" autocomplete="off">Alteration</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Conjuration" autocomplete="off">Conjuration</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Destruction" autocomplete="off">Destruction</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Illusion" autocomplete="off">Illusion</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Restoration" autocomplete="off">Restoration</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--smithing hidden">
+								<legend class="filter-window__legend">Smithing perks</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Steel" autocomplete="off">Steel</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Elven" autocomplete="off">Elven</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Advanced" autocomplete="off">Advanced</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Glass" autocomplete="off">Glass</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Dragon" autocomplete="off">Dragon</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Arcane" autocomplete="off">Arcane</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Dwarven" autocomplete="off">Dwarven</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Orcish" autocomplete="off">Orcish</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Ebony" autocomplete="off">Ebony</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Daedric" autocomplete="off">Daedric</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="noPerks" autocomplete="off">None</label>
+							</fieldset>
+							<fieldset class="filter-window__fieldset filter-window__fieldset--tempering hidden">
+								<legend class="filter-window__legend">Tempering</legend>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Smithable" autocomplete="off">Can be tempered</label>
+								<label class="filter-window__label"><input type="checkbox" class="filter-window__checkbox" value="Unsmithable" autocomplete="off">Cannot be tempered</label>
+							</fieldset>
+						</div>
+					</section>
+					<section class="items-window__items decoration">
+						<div class="items-window__header">
+							<h2 class="items-window__title submenu-title"></h2>
+							<button class="items-window__filter-button" data-filter-open="false">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" alt="Filter" stroke="#fff" stroke-width="3" viewBox="0 0 64 64"><path d="M50.69 32h5.63M7.68 32h31.01M26.54 15.97h29.78M7.68 15.97h6.88M35 48.03h21.32M7.68 48.03H23"/><circle cx="20.55" cy="15.66" r="6"/><circle cx="44.69" cy="32" r="6"/><circle cx="29" cy="48.03" r="6"/></svg>
+								<span>Filter</span>
+							</button>
+							<button class="items-window__equipped-button" data-inventory-open="false">
+								<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" alt="Equipped Items" fill="#fff" viewBox="132 133 734 722"><path d="M846 502 609 644q-6 3-6 15v180q0 8 6.5 11t12.5-1l240-182q4-3 4-9V514q0-7-7-11t-13-1M563 841V654q0-8-8-13l-126-70q-7-4-14 .5t-7 12.5v34q0 6-4 10t-10 4l-61-1q-6 0-10-5l-47-52q-4-4-4-10l-1-66q0-8-7-12l-110-65q-7-4-14 0t-7 12l1 165q0 8 6 12l401 243q7 4 14.5 0t7.5-12m42-259q-1 5 3 7t8 0q100-60 185-110l64-38q-5-75-35.5-107.5T753 323q-61 29-101 96-42 71-47 163M139 369q94 50 406 216 6 4 12 .5t7-10.5q2-50 18-100 17-57 48-100 35-49 84-72 8-3 7.5-11.5T714 280Q346 133 343 133q-72 0-122 37-43 31-67 86-20 47-22 101 0 8 7 12"/></svg>
+								<span>Inventory</span>
+							</button>
+							<div class="items-window__search-wrapper" role="search">
+								<label class="items-window__label" for="items-search">Find Item:</label>
+								<input id="items-search" class="items-window__search decoration" type="search" autocomplete="off">
+								<button class="items-window__clear-search" type="button" aria-label="Clear Search" title="Clear">&#9932;</button>
+							</div>
+							<button class="close-window" type="button" data-close-modal="#overlay .items-window">
+								<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+							</button>
+						</div>
+						<div class="items-window__sorting-panel">
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-name">
+								<button class="items-window__sort-button items-window__sort-button--by-name" data-sorting-selected="true" data-sorting-order="desc" data-sort-button-type="name">
+									<span>Name</span><span class="sorting-direction" data-sorting-order="desc">AZ</span><span class="hidden sorting-direction" data-sorting-order="asc">ZA</span>
+								</button>
+							</div>
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-weight">
+								<button class="items-window__sort-button items-window__sort-button--by-weight" data-sorting-selected="false" data-sorting-order="desc" data-sort-button-type="weight">
+									<span>Weight</span><span class="hidden sorting-direction" data-sorting-order="desc">↓</span><span class="hidden sorting-direction" data-sorting-order="asc">↑</span>
+								</button>
+							</div>
+							<div class="items-window__sorting-wrapper items-window__sorting-wrapper--by-other">
+								<button class="items-window__sort-button items-window__sort-button--by-other" data-sorting-selected="false" data-sorting-order="desc" data-sort-button-type="other">
+									<span></span><span class="hidden sorting-direction" data-sorting-order="desc">↓</span><span class="hidden sorting-direction" data-sorting-order="asc">↑</span>
+								</button>
+							</div>
+							<hr>
+						</div>
+						<template id="items-window-template">
+							<div class="item-card">
+								<img class="item-card__image" alt="" data-src="" width="100" height="100" loading="lazy">
+								<div class="item-card__info">
+									<h2 class="item-card__name"></h2>
+									<p class="item-card__description minor-text"></p>
+								</div>
+								<p class="item-card__rating"></p>
+								<p class="item-card__weight"></p>
+								<button class="item-card__equip-button" type="button">Equip</button>
+							</div>
+						</template>
+						<div class="items-window__cards">
+							<div class="items-window__cards-list"></div>
+						</div>
+					</section>
+					<section class="equipped-items decoration">
+						<div class="equipped-items__header">
+							<h2 class="equipped-items__title">Equipped Items</h2>
+							<button class="close-window" type="button">
+								<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+							</button>
+						</div>
+						<div class="equipped-items__wrapper">
+							<div class="equipped-item hidden" data-item-menu-slot="Left">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Left Arm</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Left">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Left">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Right">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Right Arm</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Right">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Right">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Both">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Both Arms</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Both">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Both">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Head">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Head</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Head">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Head">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Neck">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Neck</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Neck">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Neck">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Body">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Body</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Body">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Body">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Arms">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Armguards</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Arms">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Arms">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Finger">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Finger</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Finger">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Finger">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Legs">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Legs</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Legs">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Legs">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+							<div class="equipped-item hidden" data-item-menu-slot="Back">
+								<div class="equipped-item__slot">
+									<h3 class="equipped-item__slot-name">Back</h3>
+									<button class="equipped-item__unequip-button" type="button" data-unequip-button="Back">Unequip</button>
+								</div>
+								<div class="equipped-item__item-name">
+									<h3 class="equipped-item__name"></h3>
+									<button class="equipped-item__info-button" type="button" data-toggle-details="Back">
+										<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="#fff" width="20" height="20" viewBox="0 0 512.002 512.002"><path d="M498.837 65.628c-7.957-3.328-17.152-1.472-23.253 4.629L256 289.841 36.416 70.257a21.33 21.33 0 0 0-23.253-4.629C5.184 68.913 0 76.721 0 85.34v106.667a21.24 21.24 0 0 0 6.251 15.083l234.667 234.667a21.28 21.28 0 0 0 15.083 6.251 21.28 21.28 0 0 0 15.083-6.251L505.751 207.09a21.24 21.24 0 0 0 6.251-15.083V85.34c-.002-8.619-5.186-16.427-13.165-19.712"/></svg>
+									</button>
+								</div>
+								<div class="equipped-item__details">
+									<p class="equipped-item__stat-other"><span class="equipped-item__stat-other-text"></span> <span class="equipped-item__stat-other-value"></span></p>
+									<p class="equipped-item__stat-weight"><span class="equipped-item__stat-weight-text">Weight:</span> <span class="equipped-item__stat-weight-value"></span></p>
+									<p class="equipped-item__text minor-text"></p>
+									<div class="equipped-item__img"></div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="equip-options-window hidden">
+					<section class="choose-hand decoration hidden">
+						<div class="choose-hand__text">
+							<p>Which hand would you like to equip <span class="choose-hand__item first-item"></span> in?</p>
+						</div>
+						<div class="choose-hand__buttons">
+							<button type="button" class="choose-hand__button">Left</button><button type="button" class="choose-hand__button">Right</button>
+						</div>
+					</section>
+					<section class="same-item decoration hidden">
+						<div class="same-item__text same-text__buttons">
+							<p>This item is already equipped in this slot!</p>
+							<button type="button" class="same-item__button">OK</button>
+						</div>
+					</section>
+					<section class="item-replacement decoration hidden">
+						<div class="item-replacement__text">
+							<p class="item-replacement__equip">
+								Equip <span class="item-replacement__first-item"></span>?
+							</p>
+							<p class="item-replacement__unequip-first hidden">
+								<span class="item-replacement__second-item"></span> will be unequipped.
+							</p>
+							<p class="item-replacement__unequip-second hidden">
+								<span class="item-replacement__third-item"></span> will be unequipped.
+							</p>
+							<p class="item-replacement__unequip-body hidden">
+								It will unequip <span class="item-replacement__second-item"></span>, which occupies Body and Head slots.
+							</p>
+							<p class="item-replacement__unequip-head hidden">
+								It occupies both Body and Head slots and will unequip <span class="item-replacement__second-item"></span> from the Head slot.
+							</p>
+							<p class="item-replacement__unequip-both hidden">
+								It occupies both Body and Head slots and will unequip <span class="item-replacement__second-item"></span> and <span class="item-replacement__third-item"></span>.
+							</p>
+						</div>
+						<div class="item-replacement__buttons">
+							<button type="button" class="item-replacement__button">Yes</button>
+							<button type="button" class="item-replacement__button">No</button>
+						</div>
+					</section>
+					<section class="unequip-item-from-menu decoration hidden">
+						<div class="unequip-item-from-menu__text">
+							<p>Do you want to unequip <span></span>?</p>
+						</div>
+						<div class="unequip-item-from-menu__buttons">
+							<button type="button" class="unequip-item-from-menu__button">Yes</button><button type="button" class="unequip-item-from-menu__button">No</button>
+						</div>
+					</section>
+				</div>
+			</section>
+			<section class="boons decoration hidden">
+				<div class="boons__header">
+					<h2 class="submenu-title">BOONS</h2>
+					<button class="close-window" type="button" data-close-modal=".boons #overlay" aria-label="Close window">
+						<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+					</button>
+				</div>
+				<div class="boons__options">
+					<fieldset class="boons__fieldset">
+						<legend class="boons__legend">Standing Stones</legend>
+						<div>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Apprentice Stone" autocomplete="off">The Apprentice Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Atronach Stone" autocomplete="off">The Atronach Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Lady Stone" autocomplete="off">The Lady Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Lord Stone" autocomplete="off">The Lord Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Mage Stone" autocomplete="off">The Mage Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Ritual Stone" autocomplete="off">The Ritual Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Serpent Stone" autocomplete="off">The Serpent Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Shadow Stone" autocomplete="off">The Shadow Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Steed Stone" autocomplete="off">The Steed Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Thief Stone" autocomplete="off">The Thief Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Tower Stone" autocomplete="off">The Tower Stone</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Warrior Stone" autocomplete="off">The Warrior Stone</label>
+						</div>
+					</fieldset>
+					<fieldset class="boons__fieldset">
+						<legend class="boons__legend">Blessings</legend>
+						<div>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Agent of Dibella" autocomplete="off">Agent of Dibella</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Agent of Mara" autocomplete="off">Agent of Mara</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Ancient Knowledge" autocomplete="off">Ancient Knowledge</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Companion's Insight" autocomplete="off">Companion's Insight</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragon Infusion" autocomplete="off">Dragon Infusion</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Flame" autocomplete="off">Dragonborn Flame</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Force" autocomplete="off">Dragonborn Force</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Dragonborn Frost" autocomplete="off">Dragonborn Frost</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Eternal Spirit" autocomplete="off">Eternal Spirit</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="The Fire Within" autocomplete="off">The Fire Within</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Force Without Effort" autocomplete="off">Force Without Effort</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Lover's Insight" autocomplete="off">Lover's Insight</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Prowler's Profit" autocomplete="off">Prowler's Profit</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Sailor's Repose" autocomplete="off">Sailor's Repose</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Scholar's Insight" autocomplete="off">Scholar's Insight</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Might" autocomplete="off">Seeker of Might</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Shadows" autocomplete="off">Seeker of Shadows</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Seeker of Sorcery" autocomplete="off">Seeker of Sorcery</label>
+							<label class="boons__label"><input class="boons__checkbox" type="checkbox" value="Sinderion's Serendipity" autocomplete="off">Sinderion's Serendipity</label>
+						</div>
+					</fieldset>
+				</div>
+				<p class="boons__p decoration"></p>
+			</section>
+			<section class="skills decoration hidden">
+				<div class="skills__header">
+					<h2 class="submenu-title">Skills & Perks:<span class="skill-tree-race"></span></h2>
+					<button class="skills-header__clear-button skills-header__clear-button--tree decoration" type="button">Clear Tree</button>
+					<button class="skills-header__clear-button skills-header__clear-button--all decoration" type="button">Clear All Perks</button>
+					<div class="skills-header__buttons">
+						<p class="skills-header__p">Modify Skill Level:</p>
+						<button class="skills-header__button skills-header__button--add skills-header__button--tens decoration" type="button" data-change-skill="10">+10</button>
+						<button class="skills-header__button skills-header__button--subtract skills-header__button--tens decoration" type="button" data-change-skill="-10">-10</button>
+						<button class="skills-header__button skills-header__button--add skills-header__button--ones decoration" type="button" data-change-skill="1">+1</button>
+						<button class="skills-header__button skills-header__button--subtract skills-header__button--ones decoration" type="button" data-change-skill="-1">-1</button>
+					</div>
+					<button class="close-window" type="button" data-close-modal=".skills #overlay">
+						<svg alt="Close" xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="none" viewBox="1 1 22 22"><path fill="#bbb" d="M8.002 9.416a1 1 0 1 1 1.414-1.414l2.59 2.59 2.584-2.584a1 1 0 1 1 1.414 1.414l-2.584 2.584 2.584 2.584a1 1 0 0 1-1.414 1.414l-2.584-2.584-2.584 2.584a1 1 0 0 1-1.414-1.414l2.584-2.584z"/><path fill="#bbb" fill-rule="evenodd" d="M23 4a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3zm-2 0a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1z" clip-rule="evenodd"/></svg>
+					</button>
+				</div>
+				<div class="skills__icons-wrapper">
+					<section class="icons icons--mage" role="group" aria-label="Mage skill trees">
+						<button type="button" class="icons__skill-icon icons__skill-icon--selected decoration" data-skill-icon="Illusion"><img src="/SCB/assets/illusion-PJIHQxCm.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Illusion">Illusion</span><span class="chosen-perks-number" data-chosen-perks="Illusion">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Conjuration"><img src="/SCB/assets/conjuration-Ct8Blza3.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Conjuration">Conjuration</span><span class="chosen-perks-number" data-chosen-perks="Conjuration">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Destruction"><img src="/SCB/assets/destruction-66tcN7Ov.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Destruction">Destruction</span><span class="chosen-perks-number" data-chosen-perks="Destruction">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Restoration"><img src="/SCB/assets/restoration-WnKy-6xH.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Restoration">Restoration</span><span class="chosen-perks-number" data-chosen-perks="Restoration">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Alteration"><img src="/SCB/assets/alteration-Ch7S73P1.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Alteration">Alteration</span><span class="chosen-perks-number" data-chosen-perks="Alteration">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Enchanting"><img src="/SCB/assets/enchanting-bqV1kjcX.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Enchanting">Enchanting</span><span class="chosen-perks-number" data-chosen-perks="Enchanting">0</span></button>
+					</section>
+					<section class="icons icons--warrior" role="group" aria-label="Warrior skill trees">
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Smithing"><img src="/SCB/assets/smithing-Drtc_2YT.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Smithing">Smithing</span><span class="chosen-perks-number" data-chosen-perks="Smithing">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Heavy Armor"><img src="/SCB/assets/heavy-armor-xfKxNRXm.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Heavy Armor">Heavy Armor</span><span class="chosen-perks-number" data-chosen-perks="Heavy Armor">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Block"><img src="/SCB/assets/block-BNGSyYUM.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Block">Block</span><span class="chosen-perks-number" data-chosen-perks="Block">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Two-Handed"><img src="/SCB/assets/two-handed-CSQX1Uve.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Two-Handed">Two-Handed</span><span class="chosen-perks-number" data-chosen-perks="Two-Handed">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="One-Handed"><img src="/SCB/assets/one-handed-CwXuWXX3.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="One-Handed">One-Handed</span><span class="chosen-perks-number" data-chosen-perks="One-Handed">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Archery"><img src="/SCB/assets/archery-pncw82qP.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Archery">Archery</span><span class="chosen-perks-number" data-chosen-perks="Archery">0</span></button>
+					</section>
+					<section class="icons icons--thief" role="group" aria-label="Thief skill trees">
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Light Armor"><img src="/SCB/assets/light-armor-BP-XJdyr.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Light Armor">Light Armor</span><span class="chosen-perks-number" data-chosen-perks="Light Armor">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Sneak"><img src="/SCB/assets/sneak-BfyM4Vdd.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Sneak">Sneak</span><span class="chosen-perks-number" data-chosen-perks="Sneak">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Lockpicking"><img src="/SCB/assets/lockpicking-CImMF4tJ.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Lockpicking">Lockpicking</span><span class="chosen-perks-number" data-chosen-perks="Lockpicking">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Pickpocket"><img src="/SCB/assets/pickpocket-Bgvi5aMz.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Pickpocket">Pickpocket</span><span class="chosen-perks-number" data-chosen-perks="Pickpocket">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Speech"><img src="/SCB/assets/speech-Czy6wvPC.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Speech">Speech</span><span class="chosen-perks-number" data-chosen-perks="Speech">0</span></button>
+						<button type="button" class="icons__skill-icon decoration" data-skill-icon="Alchemy"><img src="/SCB/assets/alchemy-BAEZxQ5v.png" alt="" width="80" height="80" loading="lazy"><span class="icon-name" data-icon-name="Alchemy">Alchemy</span><span class="chosen-perks-number" data-chosen-perks="Alchemy">0</span></button>
+					</section>
+				</div>
+				<div class="skills__tree-wrapper">
+					<section class="tree-header">
+						<h2 class="tree-header__skill-tree-name">Illusion</h2>
+						<dl>
+							<dt>Active Perks:</dt>
+							<dd><span class="tree-header__active-perks">0</span> of <span class="tree-header__max-active-perks">13</span></dd>
+							<dt>Skill Level:</dt>
+							<dd class="tree-header__skill-level">0</dd>
+						</dl>
+					</section>
+					<svg style="position:absolute" width="0" height="0">
+						<defs>
+							<filter id="perk-filter" x="-100%" y="-100%" width="300%" height="300%">
+								<feGaussianBlur stdDeviation="2"/>
+							</filter>
+							<radialGradient id="selected-perk-gradient" cx="50%" cy="50%" r="80%" fx="50%" fy="50%">
+								<stop offset="20%" stop-color="#fff"/>
+								<stop offset="70%" stop-color="gold"/>
+							</radialGradient>
+							<radialGradient id="available-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+								<stop offset="20%" stop-color="#fff"/>
+								<stop offset="70%" stop-color="rgb(36, 183, 255)"/>
+							</radialGradient>
+							<radialGradient id="unavailable-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+								<stop offset="20%" stop-color="#fff"/>
+								<stop offset="70%" stop-color="violet"/>
+							</radialGradient>
+							<radialGradient id="hover-perk-gradient" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+								<stop offset="20%" stop-color="#fff"/>
+								<stop offset="70%" stop-color="red"/>
+							</radialGradient>
+						</defs>
+					</svg>
+					<section class="perk-info invisible">
+						<div>
+							<div>
+								<h3><span class="perk-info__perk-name">Novice Illusion</span> <span class="perk-info__perk-rank hidden">(<span class="perk-info__perk-rank-current">0</span>/<span class="perk-info__perk-rank-max">5</span>)</span></h3>
+								<p class="perk-info__perk-requirement">Requires Skill: <span class="perk-info__perk-skill">20</span></p>
+							</div>
+							<p class="perk-info__perk-description">Cast Novice level Illusion spells for half magicka.</p>
+							<p class="perk-info__next-rank invisible"><span class="perk-info__next-rank-description"></span><span class="perk-info__next-skill">30</span></p>
+						</div>
+					</section>
+				</div>
+			</section>
+		</main>
+		<div id="overlay" class="hidden" data-close-modal="#overlay #searchWindow .create-character .skills .boons .items-window" data-remove-validation="#character-name #races"></div>
+		<footer>
+			<a href="https://github.com/VZhHub/SCB.git" target="_blank" rel="noopener">GitHub Project</a>
+			<p>&copy; 2026 by Vladislav Zharov</p>
+			<p>All assets from <strong>The Elder Scrolls V: Skyrim</strong> are property of <a href="https://bethesda.net" target="_blank" rel="noopener">Bethesda Softworks</a>. This is a non-commercial project.</p>
+		</footer>
+		<script src="./js/SVGs.js"></script>
+	</body>
+</html>
