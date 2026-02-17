@@ -1490,9 +1490,11 @@ if (isDesktop) {
 		blockClick = true;
 		setTimeout(() => {blockClick = false;}, 300);
 	});
-	dom.skillTreeWrapper.addEventListener("contextmenu", e => {e.preventDefault();});
+	dom.skillTreeWrapper.addEventListener("contextmenu", e => {
+		e.preventDefault();
+	}, {passive: false});
 	dom.skillTreeWrapper.addEventListener("pointerdown", function(e) {
-		longTapTimer = setTimeout(() => {showPerkDes(e)}, 1000);
+		longTapTimer = setTimeout(() => {showPerkDes(e)}, 800);
 	});
 	dom.skillTreeWrapper.addEventListener("pointerup", () => {clearTimeout(longTapTimer);});
 	dom.skillTreeWrapper.addEventListener("pointerancel", () => {clearTimeout(longTapTimer);});

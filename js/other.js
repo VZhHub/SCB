@@ -1,3 +1,7 @@
+if (!CSS.supports("height", "100dvh")) {
+	window.addEventListener("resize", setVh);
+	setVh();
+}
 export const isDesktop = checkForDesktop();
 function checkForDesktop() {
 	const ua = navigator.userAgent.toLowerCase();
@@ -5,6 +9,9 @@ function checkForDesktop() {
 	if (/android/.test(ua) && !/mobile/.test(ua)) return false;
 	if (/ipad|tablet/.test(ua)) return false;
 	return true;
+}
+function setVh() {
+	document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
 }
 export const raceSkills = {
 	Argonian: {

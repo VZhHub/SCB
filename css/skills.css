@@ -277,7 +277,7 @@
 		border-radius: 0;
 		top: 0;
 		left: 0;
-		transform: translate(0);
+		transform: translate(0, 0);
 	}
 	.skills__icons-wrapper {
 		overflow-y: auto;
@@ -286,6 +286,14 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
+	}
+}
+@media screen and (max-width: 1024px) {
+	.perks-names__name, .perk-rank__rank {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select:none;
 	}
 }
 @media screen and (min-width: 620px) {
@@ -310,6 +318,17 @@
 	}
 	.skills__header .close-window {
 		grid-area: 1/4;
+	}
+}
+@media screen and (max-width: 1024px) {
+	.skills {
+		height: 100vh;
+		height: calc(var(--vh, 1vh) * 100);
+	}
+	@supports (height: 100dvh) {
+		.skills {
+			height: 100dvh;
+		}
 	}
 }
 @media screen and (max-width: 900px) {
