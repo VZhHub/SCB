@@ -19,6 +19,7 @@ export const dom = {
 	perkInfoNextRank: document.querySelector(".perk-info__next-rank"),
 	perkInfoNextRankDes: document.querySelector(".perk-info__next-rank-description"),
 	perkInfoPerkSkill: document.querySelector(".perk-info__perk-skill"),
+	perkInfoNextSkill: document.querySelector(".perk-info__next-skill"),
 	clearTree: document.querySelector(".skills-header__clear-button--tree"),
 	clearAllPerks: document.querySelector(".skills-header__clear-button--all"),
 	skillsButton: document.querySelector(".category-button--skills"),
