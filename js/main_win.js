@@ -19,6 +19,7 @@ matchQuery.addEventListener("change", e => {
 		dom.H1.textContent = "SKYRIM CHARACTER BUILDER";
 	}
 })
+updateYear();
 dom.saveCharacter.addEventListener("click", saveYourBuild);
 for (const button of dom.closeModal) button.addEventListener("click", () => closeModal(button));
 dom.closeMenu.addEventListener("click", toggleMenu);
@@ -132,4 +133,8 @@ function isVisible(el) {
 document.addEventListener("keydown", e => {
 	if (e.key === "Enter" && isVisible(dom.createCharacter)) saveYourBuild(e) && closeOnKey();
 });
+function updateYear() {
+	const y = new Date().getFullYear();
+	dom.currentYear.textContent = y;
+}
 export {chosenRace, toggleMenu};

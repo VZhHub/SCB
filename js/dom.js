@@ -116,4 +116,5 @@ export const dom = {
 	menuInventoryButton: document.querySelector(".items-window__equipped-button"),
 	closeMenuInventory: document.querySelector(".equipped-items .close-window"),
 	unarmedDamageDom: document.querySelector("[data-unarmed-damage]"),
+	currentYear: document.getElementById("current-year"),
 };
